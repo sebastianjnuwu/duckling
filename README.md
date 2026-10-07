@@ -8,9 +8,8 @@ opções (3 idiomas, música/SFX separados) e loading com música.
 - Requer Go 1.26.
 
 ## Build (`make ...`)
-- `build-win64`, `build-win32`, `web`, `android` (pede gomobile
-  + SDK/NDK), `pack` (UPX), `size`, `clean`
+- `run vet build-win64 build-win32 web pack size clean`
 - Saída em `tmp/`.
 
-## Controles
-- Mouse nos botões, `L` troca idioma, `ESC`/`X` fecha modal.
+## Suporte
+- Windows 10/11, 32/64-bit (`build-win64`).

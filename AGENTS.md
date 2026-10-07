@@ -38,4 +38,3 @@ Idle 2D em Go 1.26 + Ebiten v2. Lógico 1280x720, fullscreen.
 - Build win32: `go build -ldflags="-s -w" -o tmp/duckling-win32.exe .` (toolchain padrão é 386)
 - Pack (UPX, ~-45%): `tmp/upxbin/upx.exe --best tmp/duckling-win*.exe`
 - Build web: `GOOS=js GOARCH=wasm go build -ldflags="-s -w" -o tmp/web/duckling.wasm .` + servir `tmp/web/`
-- Build android (APK, via gomobile): `make android` (pede SDK+NDK, ver `Makefile`)

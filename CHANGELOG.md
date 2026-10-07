@@ -1,5 +1,14 @@
 # Changelog — Duckling
 
+## [Unreleased]
+### Fixed
+- Android: APK instala do 7 ao 16 (minSdk 24, targetSdk 35
+  via gomobile patchado, assinatura v2/v3, ícone `assets/icon.png`,
+  landscape travado, `make android` faz tudo)
+### Removed
+- Suporte Android (só Windows + web): saíram `platform/`,
+  `assets/icon.png` e os alvos `android*` do Makefile
+
 ## [0.1.0] - 2026-10-07
 ### Added
 - Menu: título, patão animado na grama, JOGAR/LOJA/OPÇÕES/SAIR

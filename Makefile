@@ -1,8 +1,13 @@
+# Makefile — Duckling (Go + Ebiten, só Windows + web)
+# Uso: mingw32-make <alvo> (ou make no MSYS/Linux).
+# Builds magros: -trimpath corta paths locais, -s -w tira
+# símbolos/debug. UPX depois (~-45%).
+
 APP := duckling
 TMP := tmp
 FLAGS := -trimpath -ldflags="-s -w"
 
-.PHONY: run vet build-win64 build-win32 web android android-install pack size clean
+.PHONY: run vet build-win64 build-win32 web pack size clean
 
 run:
 	go run .
@@ -18,12 +23,6 @@ build-win32: vet
 
 web: vet
 	GOOS=js GOARCH=wasm go build $(FLAGS) -o $(TMP)/web/$(APP).wasm .
-
-android: vet
-	~/go/bin/windows_amd64/gomobile-duckling build -androidapi 24 -o $(TMP)/$(APP).apk .
-
-android-install:
-	adb install -r $(TMP)/$(APP).apk
 
 pack:
 	$(TMP)/upxbin/upx.exe --best $(TMP)/$(APP)-win*.exe
