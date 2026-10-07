@@ -1,0 +1,16 @@
+# Changelog — Duckling
+
+## [0.1.0] - 2026-10-07
+### Added
+- Menu: título, patão animado na grama, JOGAR/LOJA/OPÇÕES/SAIR
+  com botões e ícones pixel (hover ouro, clique afunda)
+- Loading com barra, título e música em loop
+- Loja (placeholder com volta)
+- Opções em páginas: idioma (BR/US/ES em botões-bandeira),
+  música e SFX com liga/desliga + volume próprio de arrastar
+- i18n PT/EN/ES embutido (`embed`), troca com L ou bandeiras
+- Áudio em 2 canais: música (loop) e sfx (tiro único)
+- Builds: win64, win32, web (wasm) e Android (APK minSdk 24,
+  targetSdk 35, landscape)
+- Makefile (`run`, `vet`, `build-*`, `web`, `android`, `pack`,
+  `size`, `clean`) e AGENTS.md

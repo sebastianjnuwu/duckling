@@ -1,0 +1,8 @@
+root = "."
+tmp_dir = "tmp"
+
+[build]
+cmd = "go build -o ./tmp/main.exe ."
+bin = "./tmp/main.exe"
+include_ext = ["go", "json", "tsx", "tmx", "png", "mp3", "ogg", "wav", "ttf"]
+exclude_dir = ["tmp", "vendor"]
