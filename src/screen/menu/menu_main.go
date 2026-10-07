@@ -1,6 +1,8 @@
 package menu
 
 import (
+	"image/color"
+
 	"duckling/src/audio"
 	"duckling/src/i18n"
 
@@ -14,6 +16,8 @@ import (
 func (m *Menu) click() { _ = audio.Play("click") }
 
 func (m *Menu) mainUpdate() {
+	m.toast.Update()
+	m.fx.Update()
 	if inpututil.IsKeyJustPressed(ebiten.KeyL) {
 		i18n.Toggle()
 	}
@@ -23,11 +27,15 @@ func (m *Menu) mainUpdate() {
 	}
 	if m.play.Update() {
 		m.click()
-		m.next("play") // no-op até existir a tela play
+		m.toast.Show()
 	}
 	if m.shop.Update() {
 		m.click()
-		m.next("shop")
+		m.toast.Show()
+		m.fx.Burst(940, 328, 24,
+			color.RGBA{232, 190, 72, 255},
+			color.RGBA{235, 240, 235, 255},
+			color.RGBA{110, 231, 200, 255})
 	}
 	if m.opt.Update() {
 		m.click()

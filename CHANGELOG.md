@@ -1,6 +1,9 @@
 # Changelog — Duckling
 
 ## [Unreleased]
+### Added
+- Toast `ui.Toast` reutilizável (JOGAR e LOJA avisam EM BREVE,
+  com quebra de linha responsiva) e faíscas no botão da loja
 ### Fixed
 - Loading abre com o fundo no frame 1 (`bg.png` junto da fonte,
   sem tela preta na espera ritmada)

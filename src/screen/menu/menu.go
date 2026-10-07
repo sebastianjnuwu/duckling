@@ -36,6 +36,8 @@ type Menu struct {
 	duck  *ui.Strip
 	ft    float64
 	bgm   bool
+	toast ui.Toast
+	fx    ui.Sparks
 }
 
 func btn(x, y, w, h float64, ic ui.Icon) ui.Btn { return ui.Btn{X: x, Y: y, W: w, H: h, Icon: ic} }
