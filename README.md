@@ -40,3 +40,7 @@ src/audio/           música (loop) e sfx em canais separados
 src/i18n/            PT/EN/ES embutido
 assets/              fonts, images, music, sprites (embed)
 ```
+
+<div align="center">
+  <img src="assets/images/screen_1.png" width="80%">
+</div>

@@ -34,6 +34,10 @@ func NewLoading(next func(string)) (*Loading, error) {
 	if err := assets.LoadOne("assets/fonts/PressStart2P.ttf"); err != nil {
 		return nil, err
 	}
+	// BG na hora: frame 1 já abre com fundo, sem preto.
+	if err := assets.LoadOne("assets/images/bg.png"); err != nil {
+		return nil, err
+	}
 	files, err := assets.Collect(
 		"assets/fonts",
 		"assets/images",

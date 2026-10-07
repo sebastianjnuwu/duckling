@@ -2,6 +2,8 @@
 
 ## [Unreleased]
 ### Fixed
+- Loading abre com o fundo no frame 1 (`bg.png` junto da fonte,
+  sem tela preta na espera ritmada)
 - Android: APK instala do 7 ao 16 (minSdk 24, targetSdk 35
   via gomobile patchado, assinatura v2/v3, ícone `assets/icon.png`,
   landscape travado, `make android` faz tudo)
