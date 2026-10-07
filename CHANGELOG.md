@@ -8,6 +8,8 @@
 ### Removed
 - Suporte Android (só Windows + web): saíram `platform/`,
   `assets/icon.png` e os alvos `android*` do Makefile
+### Docs
+- README reescrito (pitch, controles, builds, estrutura)
 
 ## [0.1.0] - 2026-10-07
 ### Added
