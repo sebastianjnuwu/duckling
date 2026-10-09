@@ -15,7 +15,7 @@ import (
 func (l *Loading) Draw(img *ebiten.Image) {
 	h := float64(img.Bounds().Dy())
 
-	if bg := assets.Images["bg"]; bg != nil {
+	if bg := assets.Images["images/bg"]; bg != nil {
 		drawCover(img, bg)
 	}
 

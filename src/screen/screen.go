@@ -6,6 +6,7 @@ import (
 	"duckling/src/audio"
 	"duckling/src/screen/loading"
 	"duckling/src/screen/menu"
+	"duckling/src/screen/play"
 	"duckling/src/screen/shop"
 
 	"github.com/hajimehoshi/ebiten/v2"
@@ -36,6 +37,11 @@ func UI() (*Game, error) {
 	g.Add("loading", ld)
 	mn := menu.NewMenu(ld.Font(), g.switchTo)
 	g.Add("menu", mn)
+	pl, err := play.NewPlay(g.switchTo)
+	if err != nil {
+		return nil, err
+	}
+	g.Add("play", pl)
 	g.Add("shop", shop.NewShop(ld.Font(), g.switchTo))
 
 	g.cur = "loading"

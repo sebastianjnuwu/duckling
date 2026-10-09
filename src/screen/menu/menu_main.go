@@ -27,7 +27,7 @@ func (m *Menu) mainUpdate() {
 	}
 	if m.play.Update() {
 		m.click()
-		m.toast.Show()
+		m.next("play")
 	}
 	if m.shop.Update() {
 		m.click()

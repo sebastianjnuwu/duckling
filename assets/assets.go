@@ -130,8 +130,10 @@ func loadImage(path string) error {
 		return err
 	}
 
+	// Chave = caminho relativo (sprites/duck/yellow/duck):
+	// basename colidiria entre pastas (red/ x yellow/).
 	name := strings.TrimSuffix(
-		filepath.Base(path),
+		noFS(path),
 		filepath.Ext(path),
 	)
 

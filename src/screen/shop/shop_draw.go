@@ -13,7 +13,7 @@ import (
 // shop_draw.go — fundo, título ouro, EM BREVE, botão voltar.
 
 func (s *Shop) Draw(img *ebiten.Image) {
-	if bg := assets.Images["bg"]; bg != nil {
+	if bg := assets.Images["images/bg"]; bg != nil {
 		ui.DrawCover(img, bg)
 	}
 	ui.DrawCenterColored(img, i18n.T("shop.title"), s.big, 120, color.RGBA{255, 215, 0, 255})

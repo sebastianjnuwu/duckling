@@ -70,8 +70,8 @@ func (m *Menu) Update() error {
 	}
 	// Pato carrega lazy: imagens só existem após o loading.
 	if m.duck == nil {
-		if img := assets.Images["duck"]; img != nil {
-			m.duck = ui.NewStrip(img, 32, 24, 24, 10, 8)
+		if img := assets.Images["sprites/duck/yellow/duck-4x"]; img != nil {
+			m.duck = ui.NewDuck(img, 1, 128, 24)
 		}
 	} else {
 		m.duck.Tick()

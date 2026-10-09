@@ -15,7 +15,7 @@ import (
 // patão na esquerda com sombra, 3 botões na direita.
 
 func (m *Menu) Draw(img *ebiten.Image) {
-	if bg := assets.Images["bg"]; bg != nil {
+	if bg := assets.Images["images/bg"]; bg != nil {
 		ui.DrawCover(img, bg)
 	}
 	ui.DrawCenterColored(img, i18n.T("app.title"), m.big, 47, shadow())
@@ -53,7 +53,7 @@ func (m *Menu) drawDuck(img *ebiten.Image) {
 	x := -220 + (340+220)*e
 	y := 370 + bob*10
 	m.drawGround(img, x, bob, p)
-	m.duck.Draw(img, x, y, 5+5*e, 1)
+	m.duck.Draw(img, x, y, 1.25+1.25*e, 1)
 }
 
 // drawBtn desliza o botão da direita com atraso, escalonado.
