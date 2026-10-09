@@ -12,9 +12,12 @@ configuração. Menu animado em pixel-art, 3 idiomas e
   música e SFX com liga/desliga + volume de arrastar.
 - **i18n** — PT/EN/ES embutido no binário.
 
-## Rodar
+## Requisitos
 
-Requer Go 1.26.
+- Golang v1.26
+- Windows 10 e 11
+- Tiled (mapeditor)
+- Piskel (piskelapp)
 
 ```sh
 go run .      # roda direto
@@ -42,5 +45,5 @@ assets/              fonts, images, music, sprites (embed)
 ```
 
 <div align="center">
-  <img src="assets/images/screen_1.png" width="80%">
+  <img src="assets/images/screen/home.png" width="80%">
 </div>
