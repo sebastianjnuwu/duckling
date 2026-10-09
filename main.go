@@ -7,6 +7,7 @@ import (
 
 	"duckling/assets"
 	"duckling/src/audio"
+	"duckling/src/save"
 	"duckling/src/screen"
 
 	"github.com/hajimehoshi/ebiten/v2"
@@ -20,6 +21,7 @@ func main() {
 	if err := audio.Init(); err != nil {
 		log.Fatal(err)
 	}
+	save.Apply(save.Load())
 
 	if f, err := assets.FS.Open("images/logo.png"); err == nil {
 		if icon, _, err := image.Decode(f); err == nil {

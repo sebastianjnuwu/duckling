@@ -85,10 +85,26 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
  </layer>
- <objectgroup id="4" name="collision">
-  <object id="22" x="0" y="-2" width="23" height="481"/>
-  <object id="23" x="6" y="440" width="523" height="38"/>
-  <object id="25" x="490" y="-3" width="40" height="477"/>
-  <object id="26" x="-24" y="-8" width="567" height="31"/>
+ <objectgroup id="4" name="collision" tintcolor="#ff0000">
+  <object id="22" name="limit" x="0" y="-2" width="23" height="481">
+   <properties>
+    <property name="h" type="float" value="100"/>
+   </properties>
+  </object>
+  <object id="23" name="limit" x="6" y="440" width="523" height="38">
+   <properties>
+    <property name="h" type="float" value="100"/>
+   </properties>
+  </object>
+  <object id="25" name="limit" x="490" y="-3" width="40" height="477">
+   <properties>
+    <property name="h" type="float" value="100"/>
+   </properties>
+  </object>
+  <object id="26" name="limit" x="-24" y="-8" width="567" height="31">
+   <properties>
+    <property name="h" type="float" value="100"/>
+   </properties>
+  </object>
  </objectgroup>
 </map>

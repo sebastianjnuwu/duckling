@@ -17,8 +17,12 @@ type Duck struct {
 	moving              bool
 	kx, ky              float64
 	z, vz               float64
-	flyT                float64
-	flying              bool
+	flyT, holdT          float64
+	flying, wantFly     bool
+	hx, hy              bool
+	flap                uint
+	slowT               float64
+	bumpT               float64
 	Px, Py              float64
 }
 
@@ -38,13 +42,16 @@ func (d *Duck) Load(img *ebiten.Image) {
 	d.side = ui.NewDuck(img, s, c, cs)
 	d.down = ui.NewDuck(img, dn, c, cs)
 	d.up = ui.NewDuck(img, up, c, cs)
-	d.fly = ui.NewDuck(img, d.def.Fly, c, cs)
+	d.fly = ui.NewFlap(img, d.def.Fly, d.def.FlapUp, c, cs, 6)
 }
 
 // Ok diz se o sprite já carregou.
 func (d *Duck) Ok() bool {
 	return d.side != nil && !d.side.Empty()
 }
+
+// Alt devolve a altura atual (px de mundo).
+func (d *Duck) Alt() float64 { return d.z }
 
 // Move anda sem colisão (portas, empurrões, testes).
 func (d *Duck) Move(dx, dy float64) {
@@ -54,19 +61,20 @@ func (d *Duck) Move(dx, dy float64) {
 }
 
 func (d *Duck) Draw(img *ebiten.Image, x, y, s float64) {
+	drawShadow(img, x, y, s, d.z)
 	st := d.cur()
 	f := d.face
 	if d.dir != 0 {
 		f = 1
 	}
 	if st != nil {
-		st.Draw(img, x, y-d.z, s*d.def.Scale, f)
+		st.Draw(img, x, y-d.z*s, s*d.def.Scale, f)
 	}
 }
 
-// cur devolve a tira da direção atual (voando usa a de voo).
+// cur devolve a tira da direção atual (voando de lado usa a de voo).
 func (d *Duck) cur() *ui.Strip {
-	if d.flying {
+	if d.flying && d.dir == 0 {
 		return d.fly
 	}
 	switch d.dir {

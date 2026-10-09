@@ -32,10 +32,15 @@ func (p *Play) follow() {
 	e := p.zT * p.zT * (3 - 2*p.zT)
 	z := p.zFrom + (world.Zoom-p.zFrom)*e
 	fx := float64(p.mp.W)/2 + (p.d.Px-float64(p.mp.W)/2)*e
-	fy := float64(p.mp.H)/2 + (p.d.Py-float64(p.mp.H)/2)*e
+	// Altitude amortecida: a câmera flutua atrás, sem tranco.
+	p.camZ += (p.d.Alt() - p.camZ) * 0.12
+	sy := p.d.Py - p.camZ
+	fy := float64(p.mp.H)/2 + (sy-float64(p.mp.H)/2)*e
 	vw, vh := 1280/z, 720/z
 	x0, y0, x1, y1 := p.bounds()
 	p.zoom = z
 	p.camX = clampCam(fx-vw/2, x0, x1, vw)
+	// Mira o sprite (não os pés); a trava continua dura na
+	// borda — quem cede é o pato (folga em move.go).
 	p.camY = clampCam(fy-vh/2, y0, y1, vh)
 }

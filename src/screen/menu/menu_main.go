@@ -5,6 +5,7 @@ import (
 
 	"duckling/src/audio"
 	"duckling/src/i18n"
+	"duckling/src/save"
 
 	"github.com/hajimehoshi/ebiten/v2"
 	"github.com/hajimehoshi/ebiten/v2/inpututil"
@@ -20,6 +21,7 @@ func (m *Menu) mainUpdate() {
 	m.fx.Update()
 	if inpututil.IsKeyJustPressed(ebiten.KeyL) {
 		i18n.Toggle()
+		save.Store()
 	}
 	if inpututil.IsKeyJustPressed(ebiten.KeyEscape) {
 		m.state = stQuit

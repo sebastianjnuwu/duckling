@@ -2,6 +2,33 @@
 
 ## [Unreleased]
 ### Added
+- Config local (`src/save/`: idioma, música/sfx on+vol em
+  `settings.json` versionado, carrega no boot e grava a cada
+  mudança — escrita atômica, só se mudou, corrompido vira backup)
+- Câmera mira o sprite (não os pés); no alto o pato ganha folga
+  na trava de cima pra cabeça não sair da tela (sem mostrar o vazio)
+- Colisão com altura (`world.Solid{H}`): objeto `collision` no
+  Tiled aceita propriedade custom `h` (cerca=12, muro=vazio=1000);
+  pulando acima de H o pato passa por cima; voando vale o mesmo
+  (cruzeiro a 34px: muro com H maior barra até o voo; colado
+  em paredão, nem levanta — o voo corta e ele escorrega no muro)
+- Voo com tato: decolagem que amortece no cruzeiro, flap forte
+  subindo e planeio no cruzeiro/queda, teto que desce no último
+  1s de fôlego (plana até o chão), queda com velocidade terminal,
+  quique só no 1º encosto e câmera com altitude amortecida
+- Voo direcional: voando mira pra onde vai (lado = fileira de
+  voo espelhada, frente/costas reaproveitadas com flap)
+- Sombra de voo no pato (`actor/shadow.go`: blob pixel arredondado
+  em 3 faixas perto/médio/alto + contato discreto no chão, flap 2x mais
+  rápido e cruzeiro em ~34px; altura do sprite agora escala com
+  o zoom; ESPAÇO pula, E/X segura ou alterna pra voar (1.3x))
+- Flap de verdade (`ui.NewFlap`: alterna fileira asa-baixa com
+  asa-erguida; `Def.FlapUp`; subindo rápido, cruzeiro devagar)
+- NPCs vermelhos (`actor.NPC`, `Cast["red"]`): 3 passeando perto
+  do spawn; trombou no chão, freia a meio passo por 1.2s (o NPC
+  é quem sai da frente, com 1.5s de carência anti-trava; NPC
+  que encosta no muro já vira (sem trimilique); trombada com
+  tropeço (pulinho), NPC foge 1s assustado e puff de pena)
 - Toast `ui.Toast` reutilizável (JOGAR e LOJA avisam EM BREVE,
   com quebra de linha responsiva) e faíscas no botão da loja
 - Mapa TMX do Tiled via `go-tiled` em `src/world/` (`Load` +

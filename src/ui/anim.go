@@ -27,6 +27,22 @@ func NewStrip(img *ebiten.Image, cell, cols, start, n, rate int) *Strip {
 	return s
 }
 
+// NewFlap monta o bater-asa: n frames da base (asa baixa) +
+// n da erguida, pra asa aparecer de verdade no voo.
+func NewFlap(img *ebiten.Image, base, up, cell, cols, n int) *Strip {
+	s := &Strip{rate: 8}
+	if img == nil {
+		return s
+	}
+	for _, row := range []int{base, up} {
+		for k := 0; k < n; k++ {
+			x, y := (k%cols)*cell, row*cell+(k/cols)*cell
+			s.frames = append(s.frames, img.SubImage(image.Rect(x, y, x+cell, y+cell)).(*ebiten.Image))
+		}
+	}
+	return s
+}
+
 // NewDuck monta o personagem da fileira row da sheet do pato
 // (24 amarelos, 10 laranjas, 8 brancos, 13 laranjas, 10 amarelos).
 // cell/cols descrevem a grade: 32/24 no normal, 128/24 no 4x.

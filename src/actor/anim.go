@@ -15,8 +15,27 @@ func (d *Duck) Anim(dx, dy float64) {
 		return
 	}
 	if d.flying {
-		d.dir = 0
-		d.Tick()
+		// Voando mira a direção (lado usa a fileira de voo,
+		// frente/costas reaproveitam com flap); parado planeia.
+		if dx != 0 || dy != 0 {
+			switch {
+			case dy < 0:
+				d.dir = 2
+			case dy > 0:
+				d.dir = 1
+			case dx < 0:
+				d.dir, d.face = 0, -1
+			case dx > 0:
+				d.dir, d.face = 0, 1
+			}
+		}
+		st := d.cur()
+		d.flap++
+		// Subindo bate rápido, no cruzeiro bate devagar.
+		st.Tick()
+		if d.z < flyH-1 || d.flap%2 == 0 {
+			st.Tick()
+		}
 		return
 	}
 	switch {

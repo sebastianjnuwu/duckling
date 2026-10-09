@@ -1,8 +1,11 @@
 package play
 
 import (
+	"image/color"
+
 	"duckling/assets"
 	"duckling/src/actor"
+	"duckling/src/ui"
 	"duckling/src/world"
 
 	"github.com/hajimehoshi/ebiten/v2"
@@ -16,10 +19,12 @@ type Play struct {
 	next func(string)
 	mp   *world.Map
 	d    *actor.Duck
+	npcs []*actor.NPC
 	area int
 	dbg  bool
 	zoom, zFrom, zT float64
-	camX, camY float64
+	camX, camY, camZ float64
+	puff ui.Sparks
 }
 
 func NewPlay(next func(string)) (*Play, error) {
@@ -30,6 +35,12 @@ func NewPlay(next func(string)) (*Play, error) {
 	p := &Play{next: next, mp: mp}
 	sx, sy := mp.Spawn()
 	p.d = actor.New(assets.Images["sprites/duck/yellow/duck-4x"], sx, sy, actor.Cast["duck"])
+	// Vermelhinhos passeando perto do spawn.
+	red := assets.Images["sprites/duck/red/duck-4x"]
+	for _, off := range [][2]float64{{60, 0}, {-50, 30}, {10, -60}} {
+		p.npcs = append(p.npcs, actor.NewNPC(red, sx+off[0], sy+off[1], actor.Cast["red"]))
+	}
+	p.npcs[2].Still = true
 	// Intro: nasce mostrando o mapa todo, desce até o pato.
 	p.zoom = min(1280/float64(mp.W), 720/float64(mp.H))
 	p.zFrom = p.zoom
@@ -44,6 +55,20 @@ func (p *Play) Update() error {
 	}
 	x0, y0, x1, y1 := p.bounds()
 	p.d.Update(x0, y0, x1, y1, p.mp.Solids)
+	red := assets.Images["sprites/duck/red/duck-4x"]
+	for _, n := range p.npcs {
+		if !n.D.Ok() {
+			n.D.Load(red)
+		}
+		n.Update(x0, y0, x1, y1, p.mp.Solids)
+		if n.Bump(p.d) {
+			mx, my := (p.d.Px+n.D.Px)/2, (p.d.Py+n.D.Py)/2
+			p.puff.Burst((mx-p.camX)*p.zoom, (my-p.camY)*p.zoom, 14,
+				color.RGBA{235, 240, 235, 255},
+				color.RGBA{250, 220, 120, 255})
+		}
+	}
+	p.puff.Update()
 	p.follow()
 	if inpututil.IsKeyJustPressed(ebiten.KeyEscape) {
 		p.next("menu")

@@ -16,7 +16,7 @@ import (
 type Map struct {
 	W, H   int
 	Areas  []Area
-	Solids []image.Rectangle
+	Solids []Solid
 	img    *ebiten.Image
 	view   image.Rectangle
 	sx, sy float64
@@ -55,7 +55,11 @@ func Load(p string) (*Map, error) {
 			// Grupo "collision": retângulos sólidos (cercas, paredes, água).
 			if g.Name == "collision" {
 				if sr, ok := objRect(o); ok {
-					m.Solids = append(m.Solids, sr)
+					h := o.Properties.GetFloat("h")
+					if h <= 0 {
+						h = 1000
+					}
+					m.Solids = append(m.Solids, Solid{Rect: sr, H: h})
 				}
 			}
 		}

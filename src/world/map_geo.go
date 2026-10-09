@@ -14,6 +14,14 @@ type Area struct {
 	Rect image.Rectangle
 }
 
+// Solid é um retângulo bloqueante com altura H (px de mundo):
+// o pato só colide se estiver abaixo dela (z < H).
+// H vem da propriedade custom `h` no Tiled (falta = 1000, muro).
+type Solid struct {
+	Rect image.Rectangle
+	H    float64
+}
+
 func (m *Map) Spawn() (float64, float64) {
 	return m.sx, m.sy
 }
