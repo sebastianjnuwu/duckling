@@ -14,7 +14,7 @@ import (
 // menu_main.go — estado principal: 3 botões, L troca idioma,
 // ESC abre confirmação de saída.
 
-func (m *Menu) click() { _ = audio.Play("click") }
+func (m *Menu) click() { _ = audio.Play("Click") }
 
 func (m *Menu) mainUpdate() {
 	m.toast.Update()

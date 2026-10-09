@@ -24,20 +24,20 @@ const (
 )
 
 type Menu struct {
-	next func(string)
-	font *text.GoTextFace
-	big  *text.GoTextFace
-	sml  *text.GoTextFace
+	next                  func(string)
+	font                  *text.GoTextFace
+	big                   *text.GoTextFace
+	sml                   *text.GoTextFace
 	play, shop, opt, quit ui.Btn
-	set Settings
+	set                   Settings
 	// quit
 	qYes, qNo, qX ui.Btn
-	state int
-	duck  *ui.Strip
-	ft    float64
-	bgm   bool
-	toast ui.Toast
-	fx    ui.Sparks
+	state         int
+	duck          *ui.Strip
+	ft            float64
+	bgm           bool
+	toast         ui.Toast
+	fx            ui.Sparks
 }
 
 func btn(x, y, w, h float64, ic ui.Icon) ui.Btn { return ui.Btn{X: x, Y: y, W: w, H: h, Icon: ic} }
@@ -55,10 +55,10 @@ func NewMenu(font *text.GoTextFace, next func(string)) *Menu {
 		shop: btn(740, 292, 400, 72, ui.IconShop),
 		opt:  btn(740, 376, 400, 72, ui.IconGear),
 		quit: btn(740, 460, 400, 72, ui.IconDoor),
-		set: newSettings(),
-		qYes:  btn(cx-260, 390, 240, 64, ui.IconNone),
-		qNo:   btn(cx+20, 390, 240, 64, ui.IconNone),
-		qX:    btn(860, 242, 48, 48, ui.IconNone),
+		set:  newSettings(),
+		qYes: btn(cx-260, 390, 240, 64, ui.IconNone),
+		qNo:  btn(cx+20, 390, 240, 64, ui.IconNone),
+		qX:   btn(860, 242, 48, 48, ui.IconNone),
 	}
 }
 
@@ -66,7 +66,7 @@ func (m *Menu) Update() error {
 	// Música entra no menu (lazy: garante loop de áudio rodando).
 	if !m.bgm {
 		m.bgm = true
-		_ = audio.PlayLoop("loop")
+		_ = audio.PlayLoop("Loop")
 	}
 	// Pato carrega lazy: imagens só existem após o loading.
 	if m.duck == nil {
