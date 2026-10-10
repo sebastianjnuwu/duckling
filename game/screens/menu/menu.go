@@ -1,8 +1,6 @@
 package menu
 
 import (
-	"duckling/content"
-	"duckling/engine/audio"
 	"duckling/engine/rendering"
 
 	"github.com/hajimehoshi/ebiten/v2/text/v2"
@@ -21,6 +19,7 @@ const (
 	stMain = iota
 	stSettings
 	stQuit
+	stMode
 )
 
 type Menu struct {
@@ -32,6 +31,8 @@ type Menu struct {
 	set                   Settings
 	// quit
 	qYes, qNo, qX ui.Btn
+	// mode (online/lan)
+	online, lan, modeX ui.Btn
 	state         int
 	duck          *ui.Strip
 	ft            float64
@@ -44,7 +45,7 @@ func btn(x, y, w, h float64, ic ui.Icon) ui.Btn { return ui.Btn{X: x, Y: y, W: w
 
 func NewMenu(font *text.GoTextFace, next func(string)) *Menu {
 	cx := viewW / 2
-	return &Menu{
+	m := &Menu{
 		next: next,
 		font: font,
 		big:  &text.GoTextFace{Source: font.Source, Size: 95},
@@ -58,24 +59,19 @@ func NewMenu(font *text.GoTextFace, next func(string)) *Menu {
 		set:  newSettings(),
 		qYes: btn(cx-260, 390, 240, 64, ui.IconNone),
 		qNo:  btn(cx+20, 390, 240, 64, ui.IconNone),
-		qX:   btn(860, 242, 48, 48, ui.IconNone),
+		qX:   btn(848, 248, 44, 44, ui.IconNone),
+		online: btn(400, 320, 200, 64, ui.IconGlobe),
+		lan:    btn(660, 320, 200, 64, ui.IconLan),
+		modeX:  btn(848, 248, 44, 44, ui.IconNone),
 	}
+	// Em breve: sem clique, apagados.
+	m.online.Disabled = true
+	m.shop.Disabled = true
+	return m
 }
 
 func (m *Menu) Update() error {
-	// Música entra no menu (lazy: garante loop de áudio rodando).
-	if !m.bgm {
-		m.bgm = true
-		_ = audio.PlayLoop("Loop")
-	}
-	// Pato carrega lazy: imagens só existem após o loading.
-	if m.duck == nil {
-		if img := assets.Images["sprites/duck/yellow/duck-4x"]; img != nil {
-			m.duck = ui.NewDuck(img, 1, 128, 24)
-		}
-	} else {
-		m.duck.Tick()
-	}
+	m.ensureMedia()
 	m.ft += 1.0 / 60.0
 
 	switch m.state {
@@ -83,6 +79,8 @@ func (m *Menu) Update() error {
 		m.settingsUpdate()
 	case stQuit:
 		m.quitUpdate()
+	case stMode:
+		m.modeUpdate()
 	default:
 		m.mainUpdate()
 	}

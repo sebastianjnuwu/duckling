@@ -3,6 +3,7 @@ package actor
 import (
 	"image"
 
+	"duckling/engine/audio"
 	"duckling/game/map"
 
 	"github.com/hajimehoshi/ebiten/v2"
@@ -15,7 +16,7 @@ import (
 // Colado em paredão (alto além do voo), nem levanta.
 
 const (
-	jumpV    = 5.5
+	jumpV    = 5.0
 	jumpG    = 0.5
 	flyMax   = 5.0
 	flyBoost = 1.3
@@ -27,6 +28,7 @@ const (
 func (d *Duck) air(solids []world.Solid) float64 {
 	if inpututil.IsKeyJustPressed(ebiten.KeySpace) && d.z == 0 && !d.flying {
 		d.vz = jumpV
+		_ = audio.Play("jump")
 	}
 	if ebiten.IsKeyPressed(ebiten.KeyE) {
 		d.holdT += 1.0 / 60.0

@@ -1,6 +1,8 @@
 package audio
 
 import (
+	"bytes"
+	"io"
 	"strings"
 
 	"duckling/content"
@@ -32,9 +34,10 @@ func Update() {
 }
 
 // decode abre o asset e devolve o player parado.
-// Sem asset: (nil, nil) = no-op silencioso.
+// Lê tudo pra memória (sem handle aberto) e sem asset:
+// (nil, nil) = no-op silencioso.
 func decode(name string) (*audio.Player, error) {
-	path, ok := assets.Tracks[name]
+	path, ok := assets.Tracks[strings.ToLower(name)]
 	if !ok {
 		return nil, nil
 	}
@@ -42,17 +45,16 @@ func decode(name string) (*audio.Player, error) {
 	if err != nil {
 		return nil, err
 	}
-	stream, err := mp3.DecodeWithSampleRate(sampleRate, f)
+	raw, err := io.ReadAll(f)
+	f.Close()
 	if err != nil {
-		f.Close()
 		return nil, err
 	}
-	p, err := ctx.NewPlayer(stream)
+	stream, err := mp3.DecodeWithSampleRate(sampleRate, bytes.NewReader(raw))
 	if err != nil {
-		f.Close()
 		return nil, err
 	}
-	return p, nil
+	return ctx.NewPlayer(stream)
 }
 
 func MusicVolume() float64 { return musicVol }

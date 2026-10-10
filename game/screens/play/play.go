@@ -10,6 +10,7 @@ import (
 
 	"github.com/hajimehoshi/ebiten/v2"
 	"github.com/hajimehoshi/ebiten/v2/inpututil"
+	"github.com/hajimehoshi/ebiten/v2/text/v2"
 )
 
 // play.go — tela do jogo: o pato anda no WASD, a câmera segue.
@@ -17,30 +18,32 @@ import (
 
 type Play struct {
 	next func(string)
+	font *text.GoTextFace
 	mp   *world.Map
 	d    *actor.Duck
 	npcs []*actor.NPC
 	area int
 	dbg  bool
+	confirm bool
+	yes, no, qx ui.Btn
 	zoom, zFrom, zT float64
 	camX, camY, camZ float64
 	puff ui.Sparks
 }
 
-func NewPlay(next func(string)) (*Play, error) {
-	mp, err := world.Load("maps/spawn/spawn.tmx")
+func NewPlay(font *text.GoTextFace, next func(string)) (*Play, error) {
+	mp, err := world.Open("spawn")
 	if err != nil {
 		return nil, err
 	}
-	p := &Play{next: next, mp: mp}
+	p := &Play{next: next, font: font, mp: mp,
+		yes: ui.Btn{X: 380, Y: 390, W: 240, H: 64},
+		no:  ui.Btn{X: 660, Y: 390, W: 240, H: 64},
+		qx:  ui.Btn{X: 848, Y: 248, W: 44, H: 44},
+	}
 	sx, sy := mp.Spawn()
 	p.d = actor.New(assets.Images["sprites/duck/yellow/duck-4x"], sx, sy, actor.Cast["duck"])
-	// Vermelhinhos passeando perto do spawn.
-	red := assets.Images["sprites/duck/red/duck-4x"]
-	for _, off := range [][2]float64{{60, 0}, {-50, 30}, {10, -60}} {
-		p.npcs = append(p.npcs, actor.NewNPC(red, sx+off[0], sy+off[1], actor.Cast["red"]))
-	}
-	p.npcs[2].Still = true
+	p.spawnNPCs(sx, sy, assets.Images["sprites/duck/red/duck-4x"])
 	// Intro: nasce mostrando o mapa todo, desce até o pato.
 	p.zoom = min(1280/float64(mp.W), 720/float64(mp.H))
 	p.zFrom = p.zoom
@@ -49,6 +52,11 @@ func NewPlay(next func(string)) (*Play, error) {
 }
 
 func (p *Play) Update() error {
+	// ESC no jogo abre confirmação em vez de sair direto.
+	if p.confirm {
+		p.confirmUpdate()
+		return nil
+	}
 	// Pato carrega lazy: imagens só existem após o loading.
 	if !p.d.Ok() {
 		p.d.Load(assets.Images["sprites/duck/yellow/duck-4x"])
@@ -71,7 +79,7 @@ func (p *Play) Update() error {
 	p.puff.Update()
 	p.follow()
 	if inpututil.IsKeyJustPressed(ebiten.KeyEscape) {
-		p.next("menu")
+		p.confirm = true
 	}
 	// F3 liga o raio-X das colisões.
 	if inpututil.IsKeyJustPressed(ebiten.KeyF3) {

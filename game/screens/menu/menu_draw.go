@@ -32,11 +32,12 @@ func (m *Menu) Draw(img *ebiten.Image) {
 	m.drawBtn(img, m.quit, i18n.T("menu.quit"), 0.45)
 	m.fx.Draw(img)
 
-	switch m.state {
-	case stSettings:
+	switch m.state {	case stSettings:
 		m.settingsDraw(img)
 	case stQuit:
 		m.quitDraw(img)
+	case stMode:
+		m.modeDraw(img)
 	}
 	m.toast.Draw(img, i18n.T("play.soon"), m.font)
 }
@@ -60,6 +61,9 @@ func (m *Menu) drawDuck(img *ebiten.Image) {
 func (m *Menu) drawBtn(img *ebiten.Image, b ui.Btn, label string, delay float64) {
 	p := clamp01((m.ft - delay) / 0.5)
 	b.X += (1 - easeOut(p)) * 700
+	if b.Icon == ui.IconPlay {
+		b.ISize = 32
+	}
 	b.Draw(img, label, m.font)
 }
 

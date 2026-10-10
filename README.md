@@ -54,16 +54,19 @@ go run .
 
 ## 📦 Compilar
 
-Pra gerar o executável:
+Um arquivo por plataforma (saem em `tmp/`):
 
 ```bash
-go build -o duckling.exe .
+mingw32-make build-win64        # Windows 10/11 64-bit
+mingw32-make build-win32        # Windows 10/11 32-bit
+mingw32-make build-linux64      # Linux 64-bit
+mingw32-make build-linux32      # Linux 32-bit
 ```
 
 ## 📸 Telas
 
 <div align="center">
-  <img src="assets/images/screen/home.png" alt="Tela inicial do Duckling" width="80%">
+  <img src="content/images/screen/home.png" alt="Tela inicial do Duckling" width="80%">
 </div>
 
 ---

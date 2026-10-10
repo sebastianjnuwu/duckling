@@ -36,6 +36,11 @@ func (m *Map) Zoom() float64 {
 	return m.zoom
 }
 
+// MaxPlayers é o teto de jogadores (prop do mapa ou 16).
+func (m *Map) MaxPlayers() int {
+	return m.maxp
+}
+
 // visualBounds varre a imagem atrás de pixels opacos.
 func visualBounds(img *image.NRGBA) image.Rectangle {
 	b := img.Bounds()

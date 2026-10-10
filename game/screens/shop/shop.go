@@ -34,7 +34,7 @@ func (s *Shop) Update() error {
 		return nil
 	}
 	if s.back.Update() {
-		_ = audio.Play("Click")
+		_ = audio.Play("click")
 		s.next("menu")
 	}
 	return nil

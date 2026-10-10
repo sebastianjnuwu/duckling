@@ -1,15 +1,15 @@
 # Changelog — Duckling
 
 ## [Unreleased]
-
-## [0.2.0] - 2026-10-10
 ### Added
+- `AGENTS.md` detalhado (contratos de mapa, boot, regras);
+  testes `internal/arch/` removidos
 - Reestrutura Engine/Game/Content (`src/ui`→`engine/rendering`,
   `src/audio`→`engine/audio`, `src/i18n`→`engine/i18n`,
   router→`engine/scene`, telas→`game/screens/*`,
   `src/actor`→`game/player`, `src/world`→`game/map`,
   `assets`→`content`); nomes dos packages intactos
-- Config local (`src/save/`: idioma, música/sfx on+vol em
+- Config local (`game/save/`: idioma, música/sfx on+vol em
   `settings.json` versionado, carrega no boot e grava a cada
   mudança — escrita atômica, só se mudou, corrompido vira backup)
 - Câmera mira o sprite (não os pés); no alto o pato ganha folga
@@ -25,7 +25,7 @@
   quique só no 1º encosto e câmera com altitude amortecida
 - Voo direcional: voando mira pra onde vai (lado = fileira de
   voo espelhada, frente/costas reaproveitadas com flap)
-- Sombra de voo no pato (`actor/shadow.go`: blob pixel arredondado
+- Sombra de voo no pato (`game/player/shadow.go`: blob pixel arredondado
   em 3 faixas perto/médio/alto + contato discreto no chão, flap 2x mais
   rápido e cruzeiro em ~34px; altura do sprite agora escala com
   o zoom; ESPAÇO pula, E/X segura ou alterna pra voar (1.3x))
@@ -38,11 +38,11 @@
   tropeço (pulinho), NPC foge 1s assustado e puff de pena)
 - Toast `ui.Toast` reutilizável (JOGAR e LOJA avisam EM BREVE,
   com quebra de linha responsiva) e faíscas no botão da loja
-- Mapa TMX do Tiled via `go-tiled` em `src/world/` (`Load` +
+- Mapa TMX do Tiled via `go-tiled` em `game/map/` (`Load` +
   `Draw` em 1 chamada, spawn por objeto, `maps/` já no embed)
 - Tela `play`: JOGAR abre o mapa spawn (pato anda no WASD,
   câmera segue, ESC volta, sem footer)
-- Pato direcional em `src/actor/` (`actor.Duck`; a pasta recebe
+- Pato direcional em `game/player/` (`actor.Duck`; a pasta recebe
   todos os personagens): anda de frente nas 4 direções
   (espelha no A/D, fileira 2 no W), parado congela no frame base;
   as fileiras de lado da sheet são voo (só o menu usa)
@@ -51,11 +51,66 @@
 - Colisão: grupo `collision` no Tiled vira sólidos; bateu, o
   pato quica pra trás com atrito (passo fatiado em 1px)
 - Animação: 1º toque troca a pose na hora (`Strip.Step`),
-  parado congela no frame base; `actor/anim.go` separado
-- Pulo e voo (`actor/air.go`): ESPAÇO pula, segurar X voa 3s
-  (recarrega no chão, passa por cima dos sólidos, fileira 0)
+  parado congela no frame base; `game/player/anim.go` separado
+- Pulo e voo (`game/player/air.go`): ESPAÇO pula e X voa
+  (recarrega no chão, passa por cima dos baixos, fileira 0);
+  sem penas no pulo/pouso
+- Penas (`game/player/feathers.go`): amarelas+vermelhas no pulo,
+  no pouso forte e rastro no voo (`Sparks` com gravidade e
+  desenho com câmera)
 - Props custom como API (`world`): `zoom` no mapa, `h` nos
   sólidos — tudo opcional, mapa antigo continua igual
+- Barreira absoluta: grupo `COLLISION_WALL` ou classe `BARRIER`
+  (H 1000 sempre: nem pula, nem voa por cima)
+- Fix áudio mudo: chamadas usavam `"Loop"`/`"Click"` e as faixas
+  são minúsculas (mapa é case-sensitive); chave normalizada
+- SFX de pulo (`jump.mp3` no ESPAÇO)
+- Modo online/lan: JOGAR abre modal (globo + ícone LAN novo);
+  online avisa em breve, LAN entra no jogo (solo até o netcode)
+- Sala de espera (`game/screens/lobby/`, mock offline): min/max
+  2-8, privada/pública com senha gerada, lista com HOST em
+  destaque, START entra no jogo
+- Curral: tabelinha de salas (criar + entrar, cadeado nas
+  privadas) antes da config; textos em clima de fazenda
+- Lobby começa vazio ("NENHUM CURRAL POR PERTO"), ícone de mais
+  no criar, voltar sem ícone; ícone `IconPlus` novo
+- Curral com X pra fechar, paginação de 4 em 4 (`<`/`>` + `1/2`),
+  ícone em toda linha (cadeado nas privadas, rede nas abertas)
+- Nome da sala (campo editável, 3-8 caracteres, CRIAR só entra
+  válido) e senha na direita em pílula; layout da config refeito
+- Impostores na config (1 a cada 6: 6→1, 12→2, 14→3, trava no
+  mínimo); lobby fatiada em `lobby_{cfg,draw,rooms,rule,ui}.go`
+- Modal refinado (`ui.Panel`): sombra, canto recortado, filete
+  de latão e régua dourada — mesmo idioma dos botões
+- X desgrudado da borda em todos os modais + `ui/theme.go`
+  (paleta central, o "CSS" do jogo; `Panel` já usa)
+- X menor com ar e `Btn.Push()`: fechar modal mostra o afundar
+  antes de trocar de tela
+- Botão desabilitado (`Disabled`: sem hover/clique, apagado) no
+  ONLINE e na LOJA; `bevel` foi pro `theme.go`
+- Ícones custom: PNG branco em `content/images/icons/<nome>.png`
+  (tintado sozinho, cai no procedural se faltar)
+- Ícones por nome via fonte (`MaterialSymbolsRounded` embutida,
+  codepoints verificados um a um; PNG > fonte > procedural)
+- Steppers somem no limite; paginação some com <2 páginas;
+  `cap`→`top` (sombreava builtin); Makefile com linux64/32
+  (um arquivo por plataforma) + revisão geral (i18n 100%)
+- Config: botão vira CRIAR, voltar desgrudado, X no canto;
+  steppers e labels de segurança com ícones
+- Rede (`engine/network`, testado local): mensagens JSON UDP
+  (`hello/join/deny/state`) + descoberta LAN (anuncia/escuta)
+- Modal fecha ao escolher; ESC no jogo pede confirmação
+  (`play.quit` + SIM/NÃO); `ui.Dim/Panel` reutilizáveis
+- Bump empurra: trombou em NPC, o pato quica pra trás (testado
+  perto/longe) + `bumped.mp3` no encosto
+- Fix música ignorando mudo: `PlayLoop` tocava sem olhar o
+  `musicOn` (só respeitava ao religar); agora nasce pausado
+- Player não trava player: corpos não bloqueiam (só o `Bump`
+  de encostar); `Def.Height` fica pra uso futuro
+- Fix: offset da camada de objetos somado na origem (muros
+  saiam deslocados e bloqueavam lugar errado)
+- Descoberta: `world.List/Open` por nome (`maps/<nome>/<nome>.tmx`),
+  camada vale por nome OU classe, resto ignorado sem erro
 - Zoom 1.4x no mapa (`world.Zoom`, tiles ~22px, ilha respira
   na tela com `bg.png` em volta)
 - Zoom 4x estilo Stardew no pato (tiles de 64px, ~20x11

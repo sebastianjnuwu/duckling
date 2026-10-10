@@ -7,10 +7,12 @@ import (
 
 	"duckling/content"
 	"duckling/engine/audio"
-	"duckling/game/save"
+	"duckling/engine/rendering"
+	"duckling/engine/save"
 	"duckling/engine/scene"
 
 	"github.com/hajimehoshi/ebiten/v2"
+	"github.com/hajimehoshi/ebiten/v2/text/v2"
 )
 
 func main() {
@@ -21,6 +23,8 @@ func main() {
 	if err := audio.Init(); err != nil {
 		log.Fatal(err)
 	}
+	ui.ProvideIcons(func(name string) *ebiten.Image { return assets.Images[name] })
+	ui.ProvideIconFont(func() *text.GoTextFaceSource { return assets.Fonts["MaterialSymbolsRounded-Regular"] })
 	save.Apply(save.Load())
 
 	if f, err := assets.FS.Open("images/logo.png"); err == nil {

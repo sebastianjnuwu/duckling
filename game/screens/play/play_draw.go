@@ -21,6 +21,7 @@ func (p *Play) Draw(img *ebiten.Image) {
 		n.D.Draw(img, (n.D.Px-p.camX)*p.zoom, (n.D.Py-p.camY)*p.zoom, p.zoom)
 	}
 	p.d.Draw(img, (p.d.Px-p.camX)*p.zoom, (p.d.Py-p.camY)*p.zoom, p.zoom)
+	p.d.DrawFx(img, p.camX, p.camY, p.zoom)
 	p.puff.Draw(img)
 	// Raio-X: sólidos em vermelho, pés do pato em verde.
 	if p.dbg {
@@ -31,5 +32,8 @@ func (p *Play) Draw(img *ebiten.Image) {
 		}
 		fx, fy := (p.d.Px-10-p.camX)*z, (p.d.Py-8-p.camY)*z
 		ebitenutil.DrawRect(img, fx, fy, 20*z, 16*z, color.RGBA{0, 255, 0, 128})
+	}
+	if p.confirm {
+		p.confirmDraw(img)
 	}
 }

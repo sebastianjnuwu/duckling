@@ -4,6 +4,7 @@ import (
 	"math"
 	"math/rand/v2"
 
+	"duckling/engine/audio"
 	"duckling/game/map"
 
 	"github.com/hajimehoshi/ebiten/v2"
@@ -70,6 +71,10 @@ func (n *NPC) Bump(p *Duck) bool {
 		return false
 	}
 	p.slowT, p.bumpT = 1.2, 1.5
+	_ = audio.Play("bumped")
+	if l := math.Hypot(dx, dy); l > 0 {
+		p.kx, p.ky = dx/l*4, dy/l*4
+	}
 	if p.z == 0 {
 		p.vz = 2.2
 	}

@@ -82,10 +82,10 @@ func LoadOne(path string) error {
 		return loadFont(path)
 
 	case ".mp3", ".ogg", ".wav":
-		name := strings.TrimSuffix(
+		name := strings.ToLower(strings.TrimSuffix(
 			filepath.Base(path),
 			filepath.Ext(path),
-		)
+		))
 
 		Tracks[name] = path
 		return nil

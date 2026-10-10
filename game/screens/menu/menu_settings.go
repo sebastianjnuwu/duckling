@@ -3,7 +3,7 @@ package menu
 import (
 	"duckling/engine/audio"
 	"duckling/engine/i18n"
-	"duckling/game/save"
+	"duckling/engine/save"
 	"duckling/engine/rendering"
 
 	"github.com/hajimehoshi/ebiten/v2"
@@ -21,7 +21,7 @@ func (m *Menu) settingsUpdate() {
 		return
 	}
 
-	if s.x.Update() {
+	if s.x.Push() {
 		m.click()
 		m.state = stMain
 		return

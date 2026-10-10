@@ -19,8 +19,8 @@ func (m *Menu) settingsDraw(img *ebiten.Image) {
 	s := &m.set
 	cream := color.RGBA{235, 240, 235, 255}
 
-	dim(img)
-	panel(img, 320, 120, 640, 480)
+	ui.Dim(img)
+	ui.Panel(img, 320, 120, 640, 480)
 
 	s.x.Draw(img, "X", m.font)
 	ui.DrawCenter(img, i18n.T("settings.title"), m.sml, 150)

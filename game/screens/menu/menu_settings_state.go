@@ -48,7 +48,7 @@ func newSettings() Settings {
 			Pct: int(audio.SfxVolume() * 100),
 		},
 		x: ui.Btn{
-			X: 900, Y: 132, W: 48, H: 48,
+			X: 888, Y: 138, W: 44, H: 44,
 		},
 		prev: ui.Btn{
 			X: 380, Y: 525, W: 48, H: 40,

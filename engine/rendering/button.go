@@ -18,13 +18,22 @@ type Btn struct {
 	X, Y, W, H float64
 	Hover      bool
 	Press      float64
+	armed      bool
 	Icon       Icon
+	// ISize é a caixa do ícone (0 = 24 padrão).
+	ISize float64
+	// Disabled chumba: sem hover, sem clique, apagado.
+	Disabled bool
 }
 
 func (b *Btn) Update() bool {
 	mx, my := ebiten.CursorPosition()
 	b.Hover = float64(mx) >= b.X && float64(mx) <= b.X+b.W &&
 		float64(my) >= b.Y && float64(my) <= b.Y+b.H
+	if b.Disabled {
+		b.Hover = false
+		return false
+	}
 	clicked := b.Hover && inpututil.IsMouseButtonJustPressed(ebiten.MouseButtonLeft)
 	if clicked {
 		b.Press = 1
@@ -61,25 +70,27 @@ func (b *Btn) Draw(img *ebiten.Image, label string, f *text.GoTextFace) {
 	}
 	tx := x + b.W/2 - w/2
 	if b.Icon != IconNone {
-		tx = x + (b.W-(24+12+w))/2 + 36
-		DrawIcon(img, b.Icon, tx-36, y+b.H/2-12, tc)
+		s := 24.0
+		if b.ISize > 0 {
+			s = b.ISize
+		}
+		tx = x + (b.W-(s+12+w))/2 + s + 12
+		if w == 0 {
+			tx = x + (b.W-s)/2 + s + 12
+		}
+		DrawIconSized(img, b.Icon, tx-s-12, y+b.H/2-s/2, s, tc)
 	}
 	op := &text.DrawOptions{}
 	op.GeoM.Translate(tx, y+b.H/2-h/2)
 	op.ColorScale.ScaleWithColor(tc)
 	text.Draw(img, label, f, op)
+	if b.Disabled {
+		ebitenutil.DrawRect(img, x, y, b.W, b.H, color.RGBA{10, 10, 18, 80})
+	}
 }
 
 // notch desenha retângulo de canto recortado (2 faixas).
 func notch(img *ebiten.Image, x, y, w, h, n float64, c color.Color) {
 	ebitenutil.DrawRect(img, x+n, y, w-2*n, h, c)
 	ebitenutil.DrawRect(img, x, y+n, w, h-2*n, c)
-}
-
-// bevel deriva claro/escuro da cor da face.
-func bevel(face color.RGBA) (hi, mid, lo color.Color) {
-	hi = color.RGBA{uint8(min(255, int(face.R)+90)), uint8(min(255, int(face.G)+90)), uint8(min(255, int(face.B)+90)), 255}
-	mid = color.RGBA{uint8(max(0, int(face.R)-30)), uint8(max(0, int(face.G)-30)), uint8(max(0, int(face.B)-30)), 255}
-	lo = color.RGBA{20, 20, 30, 255}
-	return hi, mid, lo
 }

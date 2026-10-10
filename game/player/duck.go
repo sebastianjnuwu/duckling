@@ -11,6 +11,7 @@ import (
 
 type Duck struct {
 	side, down, up, fly *ui.Strip
+	fx                  ui.Sparks
 	def                 Def
 	dir                 int
 	face                float64
@@ -28,6 +29,8 @@ type Duck struct {
 
 func New(img *ebiten.Image, x, y float64, d Def) *Duck {
 	du := &Duck{def: d, face: 1, flyT: flyMax, Px: x, Py: y}
+	du.fx.Grav = 120
+	du.fx.Size = 0.5
 	du.Load(img)
 	return du
 }

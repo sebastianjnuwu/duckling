@@ -18,7 +18,9 @@ func PlayLoop(name string) error {
 	}
 	music, musicLoop = p, true
 	p.SetVolume(musicVol)
-	p.Play()
+	if musicOn {
+		p.Play()
+	}
 	return nil
 }
 
