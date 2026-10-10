@@ -1,0 +1,35 @@
+package play
+
+import (
+	"image/color"
+
+	"duckling/content"
+	"duckling/engine/rendering"
+
+	"github.com/hajimehoshi/ebiten/v2"
+	"github.com/hajimehoshi/ebiten/v2/ebitenutil"
+)
+
+// play_draw.go — bg atrás, mapa centralizado, pato no spawn.
+
+func (p *Play) Draw(img *ebiten.Image) {
+	if bg := assets.Images["images/bg"]; bg != nil {
+		ui.DrawCover(img, bg)
+	}
+	p.mp.Draw(img, p.camX, p.camY, p.zoom)
+	for _, n := range p.npcs {
+		n.D.Draw(img, (n.D.Px-p.camX)*p.zoom, (n.D.Py-p.camY)*p.zoom, p.zoom)
+	}
+	p.d.Draw(img, (p.d.Px-p.camX)*p.zoom, (p.d.Py-p.camY)*p.zoom, p.zoom)
+	p.puff.Draw(img)
+	// Raio-X: sólidos em vermelho, pés do pato em verde.
+	if p.dbg {
+		z := p.zoom
+		for _, s := range p.mp.Solids {
+			x, y := (float64(s.Rect.Min.X)-p.camX)*z, (float64(s.Rect.Min.Y)-p.camY)*z
+			ebitenutil.DrawRect(img, x, y, float64(s.Rect.Dx())*z, float64(s.Rect.Dy())*z, color.RGBA{255, 0, 0, 128})
+		}
+		fx, fy := (p.d.Px-10-p.camX)*z, (p.d.Py-8-p.camY)*z
+		ebitenutil.DrawRect(img, fx, fy, 20*z, 16*z, color.RGBA{0, 255, 0, 128})
+	}
+}

@@ -5,10 +5,10 @@ import (
 	_ "image/png"
 	"log"
 
-	"duckling/assets"
-	"duckling/src/audio"
-	"duckling/src/save"
-	"duckling/src/screen"
+	"duckling/content"
+	"duckling/engine/audio"
+	"duckling/game/save"
+	"duckling/engine/scene"
 
 	"github.com/hajimehoshi/ebiten/v2"
 )

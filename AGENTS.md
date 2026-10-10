@@ -4,21 +4,23 @@ Idle 2D em Go 1.26 + Ebiten v2. Lógico 1280x720, fullscreen.
 
 ## Estrutura
 - `main.go` — bootstrap Ebiten, nada de lógica aqui.
-- `src/screen/screen.go` — router (`UI()`, `Add`, troca interna).
-- `src/screen/loading|menu|shop/` — uma pasta por tela.
-- `src/ui/` — controles pixel (`button`, `toggle`, `slider`,
-  `icon`, `text`, `cover`, `anim`). Sem estado de jogo aqui.
-- `src/audio/` — `audio.go` (2 canais: música e sfx, cada um com
-  volume + liga/desliga) + `music.go` (loop) + `sfx.go` (tiro único).
-- `src/i18n/` — `i18n.go` + `locales/en|es|pt.json`.
-- `assets/` — `embed` (fonts, images, maps, music, sprites).
+- `engine/scene/` — router (`UI()`, `Add`, troca interna).
+- `engine/rendering/` — controles pixel (`button`, `toggle`,
+  `slider`, `icon`, `text`, `cover`, `anim`). Sem estado de jogo.
+- `engine/audio/` — 2 canais (música e sfx, volume + liga/desliga).
+- `engine/i18n/` — `i18n.go` + `locales/en|es|pt.json`.
+- `game/screens/loading|menu|play|shop/` — uma pasta por tela.
+- `game/player/` — personagens (`actor.Duck` + física e animação).
+- `game/map/` — mapa TMX via go-tiled (`Load`, `Draw`, áreas).
+- `game/save/` — persistência.
+- `content/` — `embed` (fonts, images, maps, music, sprites).
 
 ## Regras
 1. Arquivo curto: ideal ≤75 linhas, máximo 100. Estourou? Divide.
 2. Menos código > mais código. Lib padrão + Ebiten
    (`ebitenutil`, `inpututil`, `text/v2`), sem reinventar.
 3. Uma responsabilidade por arquivo. Sem lógica de jogo no
-   `main.go`, no router e nos controles `ui/`.
+   `main.go`, no router e nos controles `rendering/`.
 4. i18n obrigatório: todo texto visível usa `i18n.T("chave")`
    com chave em `en.json`, `es.json` E `pt.json`. Sem string
    hardcoded em `Draw`. Chaves: `dominio.nome` (ex: `menu.play`).

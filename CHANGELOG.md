@@ -1,7 +1,14 @@
 # Changelog — Duckling
 
 ## [Unreleased]
+
+## [0.2.0] - 2026-10-10
 ### Added
+- Reestrutura Engine/Game/Content (`src/ui`→`engine/rendering`,
+  `src/audio`→`engine/audio`, `src/i18n`→`engine/i18n`,
+  router→`engine/scene`, telas→`game/screens/*`,
+  `src/actor`→`game/player`, `src/world`→`game/map`,
+  `assets`→`content`); nomes dos packages intactos
 - Config local (`src/save/`: idioma, música/sfx on+vol em
   `settings.json` versionado, carrega no boot e grava a cada
   mudança — escrita atômica, só se mudou, corrompido vira backup)
@@ -47,6 +54,8 @@
   parado congela no frame base; `actor/anim.go` separado
 - Pulo e voo (`actor/air.go`): ESPAÇO pula, segurar X voa 3s
   (recarrega no chão, passa por cima dos sólidos, fileira 0)
+- Props custom como API (`world`): `zoom` no mapa, `h` nos
+  sólidos — tudo opcional, mapa antigo continua igual
 - Zoom 1.4x no mapa (`world.Zoom`, tiles ~22px, ilha respira
   na tela com `bg.png` em volta)
 - Zoom 4x estilo Stardew no pato (tiles de 64px, ~20x11
