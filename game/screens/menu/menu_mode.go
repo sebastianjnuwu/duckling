@@ -1,6 +1,8 @@
 package menu
 
 import (
+	"duckling/engine/i18n"
+
 	"github.com/hajimehoshi/ebiten/v2"
 	"github.com/hajimehoshi/ebiten/v2/inpututil"
 )
@@ -19,12 +21,11 @@ func (m *Menu) modeUpdate() {
 	}
 	if m.online.Update() {
 		m.click()
-		m.toast.Show()
+		m.toast.Show(i18n.T("play.soon"))
 		m.state = stMain
 	}
 	if m.lan.Update() {
 		m.click()
-		m.state = stMain
-		m.next("lobby")
+		m.state = stRooms
 	}
 }

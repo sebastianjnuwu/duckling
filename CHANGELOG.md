@@ -76,6 +76,11 @@
   no criar, voltar sem ícone; ícone `IconPlus` novo
 - Curral com X pra fechar, paginação de 4 em 4 (`<`/`>` + `1/2`),
   ícone em toda linha (cadeado nas privadas, rede nas abertas)
+- Curral virou modal do menu (fundo não some); grade sem
+  número mágico (`menu_room_layout.go`); "NOVO JOGO", senha
+  grande estilo código de sala, ícone no nome
+- Browse no mesmo painel da config (X respira igual); senha
+  contida (pílula normal, sem exagero)
 - Nome da sala (campo editável, 3-8 caracteres, CRIAR só entra
   válido) e senha na direita em pílula; layout da config refeito
 - Impostores na config (1 a cada 6: 6→1, 12→2, 14→3, trava no
@@ -85,13 +90,26 @@
 - X desgrudado da borda em todos os modais + `ui/theme.go`
   (paleta central, o "CSS" do jogo; `Panel` já usa)
 - X menor com ar e `Btn.Push()`: fechar modal mostra o afundar
-  antes de trocar de tela
+  antes de trocar de tela; respiro igual (36x20) em todos
+- Senha alinhada na coluna dos controles; CRIAR da tabela
+  alargado (texto não estoura)
+- Títulos com ícone (`ui.Title`) e palavras de fazenda: sair
+  da fazenda, ajustes da fazenda, curral, modo de jogo, sede
+- Título com ícone do tamanho da fonte; config com ícone criar
 - Botão desabilitado (`Disabled`: sem hover/clique, apagado) no
   ONLINE e na LOJA; `bevel` foi pro `theme.go`
 - Ícones custom: PNG branco em `content/images/icons/<nome>.png`
   (tintado sozinho, cai no procedural se faltar)
 - Ícones por nome via fonte (`MaterialSymbolsRounded` embutida,
   codepoints verificados um a um; PNG > fonte > procedural)
+- Copiar senha de verdade (`engine/clip`, Win32 sem cgo):
+  refresh troca, copiar joga no clipboard (testado ida e volta)
+- Toast com entrada e pilha: desliza de baixo com fade-in,
+  até 3 empilhados (sai o velho); `wrap` foi pro `text.go`
+- Toast na senha ("NOVA SENHA XXXXX GERADA", "SENHA COPIADA")
+  e senha alfanumérica sem 0/O/1/I
+- Só fonte: procedural removido, todo ícone vem da fonte
+  (PNG custom continua passando na frente se existir)
 - Steppers somem no limite; paginação some com <2 páginas;
   `cap`→`top` (sombreava builtin); Makefile com linux64/32
   (um arquivo por plataforma) + revisão geral (i18n 100%)

@@ -1,4 +1,4 @@
-package lobby
+package menu
 
 import (
 	"image/color"
@@ -10,8 +10,6 @@ import (
 
 // lobby_ui.go — miudezas de desenho: pílula, número ouro,
 // texto à esquerda e as duas tintas.
-
-func gold() color.Color { return color.RGBA{232, 190, 72, 255} }
 
 func cream() color.Color { return color.RGBA{235, 240, 235, 255} }
 
@@ -25,11 +23,5 @@ func num(img *ebiten.Image, s string, f *text.GoTextFace, cx, y float64) {
 	op := &text.DrawOptions{}
 	op.GeoM.Translate(cx-w/2, y)
 	op.ColorScale.ScaleWithColor(gold())
-	text.Draw(img, s, f, op)
-}
-
-func left(img *ebiten.Image, s string, f *text.GoTextFace, x, y float64) {
-	op := &text.DrawOptions{}
-	op.GeoM.Translate(x, y)
 	text.Draw(img, s, f, op)
 }

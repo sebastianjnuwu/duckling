@@ -1,5 +1,24 @@
 # 🦆 Duckling
 
+<div align="center">
+  <h1>Duckling</h1>
+  <img alt="Duckling" src="https://raw.githubusercontent.com/sebastianjnuwu/duckling/refs/heads/idle/content/images/logo.png" width="25%" />
+  <p>
+    <b>🌽 Duckling</b> <i>é uma fazenda cheia de tarefas, patos suspeitos e milho voando!</i>
+  </p>
+  <hr>
+</div>
+
+<div align="center">
+  <a href="https://github.com/sebastianjnuwu/duckling/blob/idle/LICENSE">
+    <img alt="GitHub License"src="https://img.shields.io/github/license/sebastianjnuwu/cookie-clicker-brasil?style=for-the-badge&logo=apache&logoColor=4086c4&color=4086c4" />
+  </a>
+  <a href="https://github.com/sebastianjnuwu/duckling/archive/refs/heads/idle.zip">
+    <img alt="GitHub Repo Size"src="https://img.shields.io/github/repo-size/sebastianjnuwu/cookie-clicker-brasil?style=for-the-badge&logo=databricks&logoColor=4086c4&color=4086c4" />
+  </a>
+ 
+</div>
+
 Uma fazenda cheia de serviço e patos que não são lá muito confiáveis.
 
 **Duckling** é um jogo 2D inspirado em descubrir quem é o impostor, feito em **Go + Ebiten**. Aqui, você cuida da fazenda, tenta descobrir quem está matando seus colegas e torce pra não ser o próximo.

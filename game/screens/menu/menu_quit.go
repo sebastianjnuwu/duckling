@@ -34,7 +34,7 @@ func (m *Menu) quitDraw(img *ebiten.Image) {
 	ui.Dim(img)
 	ui.Panel(img, 360, 230, 560, 260)
 	m.qX.Draw(img, "X", m.font)
-	ui.DrawCenter(img, i18n.T("menu.confirm"), m.font, 330)
+	ui.Title(img, ui.IconDoor, i18n.T("menu.confirm"), m.font, 330, ui.Cream)
 	m.qYes.Draw(img, i18n.T("menu.yes"), m.font)
 	m.qNo.Draw(img, i18n.T("menu.no"), m.font)
 }

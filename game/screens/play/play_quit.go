@@ -31,7 +31,7 @@ func (p *Play) confirmDraw(img *ebiten.Image) {
 	ui.Dim(img)
 	ui.Panel(img, 360, 230, 560, 260)
 	p.qx.Draw(img, "X", p.font)
-	ui.DrawCenter(img, i18n.T("play.quit"), p.font, 330)
+	ui.Title(img, ui.IconDoor, i18n.T("play.quit"), p.font, 330, ui.Cream)
 	p.yes.Draw(img, i18n.T("menu.yes"), p.font)
 	p.no.Draw(img, i18n.T("menu.no"), p.font)
 }

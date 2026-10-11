@@ -5,7 +5,6 @@ import (
 
 	"duckling/engine/audio"
 	"duckling/game/screens/loading"
-	"duckling/game/screens/lobby"
 	"duckling/game/screens/menu"
 	"duckling/game/screens/play"
 	"duckling/game/screens/shop"
@@ -36,7 +35,10 @@ func UI() (*Game, error) {
 	}
 
 	g.Add("loading", ld)
-	mn := menu.NewMenu(ld.Font(), g.switchTo)
+	mn, err := menu.NewMenu(ld.Font(), g.switchTo)
+	if err != nil {
+		return nil, err
+	}
 	g.Add("menu", mn)
 	pl, err := play.NewPlay(ld.Font(), g.switchTo)
 	if err != nil {
@@ -44,11 +46,6 @@ func UI() (*Game, error) {
 	}
 	g.Add("play", pl)
 	g.Add("shop", shop.NewShop(ld.Font(), g.switchTo))
-	lb, err := lobby.NewLobby(ld.Font(), g.switchTo)
-	if err != nil {
-		return nil, err
-	}
-	g.Add("lobby", lb)
 
 	g.cur = "loading"
 

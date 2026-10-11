@@ -38,8 +38,10 @@ func (m *Menu) Draw(img *ebiten.Image) {
 		m.quitDraw(img)
 	case stMode:
 		m.modeDraw(img)
+	case stRooms:
+		m.room.Draw(img)
 	}
-	m.toast.Draw(img, i18n.T("play.soon"), m.font)
+	m.toast.Draw(img, m.font)
 }
 
 // Patão na esquerda: entra voando da esquerda com pop,

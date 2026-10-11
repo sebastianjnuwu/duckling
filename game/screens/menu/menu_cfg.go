@@ -1,9 +1,10 @@
-package lobby
+package menu
 
 import (
-	"fmt"
-	"math/rand/v2"
 	"unicode"
+
+	"duckling/engine/clip"
+	"duckling/engine/i18n"
 
 	"github.com/hajimehoshi/ebiten/v2"
 	"github.com/hajimehoshi/ebiten/v2/inpututil"
@@ -11,7 +12,8 @@ import (
 
 // lobby_cfg.go — passo 2: min/max, privada com senha, lista.
 
-func (l *Lobby) configUpdate() error {
+func (l *RoomState) configUpdate() error {
+	l.toast.Update()
 	if l.x.Push() || l.back.Update() {
 		l.click()
 		l.tab = 0
@@ -56,7 +58,14 @@ func (l *Lobby) configUpdate() error {
 	}
 	if l.priv && l.regen.Update() {
 		l.click()
-		l.pass = fmt.Sprintf("%05d", rand.IntN(100000))
+		l.pass = genPass()
+		l.toast.Show(i18n.T("lobby.newpass") + " " + l.pass + " " + i18n.T("lobby.generated"))
+	}
+	if l.priv && l.copyB.Update() {
+		l.click()
+		if clip.Copy(l.pass) == nil {
+			l.toast.Show(i18n.T("lobby.copied"))
+		}
 	}
 	if l.nameBox.Update() {
 		l.click()

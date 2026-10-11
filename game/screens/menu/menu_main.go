@@ -33,7 +33,7 @@ func (m *Menu) mainUpdate() {
 	}
 	if m.shop.Update() {
 		m.click()
-		m.toast.Show()
+		m.toast.Show(i18n.T("play.soon"))
 		m.fx.Burst(940, 328, 24,
 			color.RGBA{232, 190, 72, 255},
 			color.RGBA{235, 240, 235, 255},

@@ -20,8 +20,9 @@ Jogo de dedução social: patos com tarefas, um impostor no meio.
   `Store` a cada mudança. Sem arquivo = defaults ligados.
 - `engine/network/` — mensagens JSON por UDP (`msg.go`) +
   descoberta LAN (`discover.go`: anuncia/escuta).
-- `game/screens/loading|menu|play|shop|lobby/` — uma pasta
+- `game/screens/loading|menu|play|shop/` — uma pasta
   por tela (`Update() error` + `Draw(*ebiten.Image)`).
+  O curral (salas + novo jogo) é modal do menu.
 - `game/player/` — `actor.Duck` + `NPC` (`duck.go` sprite,
   `move.go` física, `air.go` pulo/voo, `anim.go` direção,
   `defs.go` elenco, `feathers.go` penas, `npc.go` IA).

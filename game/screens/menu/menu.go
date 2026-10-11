@@ -20,6 +20,7 @@ const (
 	stSettings
 	stQuit
 	stMode
+	stRooms
 )
 
 type Menu struct {
@@ -34,6 +35,7 @@ type Menu struct {
 	// mode (online/lan)
 	online, lan, modeX ui.Btn
 	state         int
+	room          RoomState
 	duck          *ui.Strip
 	ft            float64
 	bgm           bool
@@ -43,7 +45,7 @@ type Menu struct {
 
 func btn(x, y, w, h float64, ic ui.Icon) ui.Btn { return ui.Btn{X: x, Y: y, W: w, H: h, Icon: ic} }
 
-func NewMenu(font *text.GoTextFace, next func(string)) *Menu {
+func NewMenu(font *text.GoTextFace, next func(string)) (*Menu, error) {
 	cx := viewW / 2
 	m := &Menu{
 		next: next,
@@ -59,15 +61,21 @@ func NewMenu(font *text.GoTextFace, next func(string)) *Menu {
 		set:  newSettings(),
 		qYes: btn(cx-260, 390, 240, 64, ui.IconNone),
 		qNo:  btn(cx+20, 390, 240, 64, ui.IconNone),
-		qX:   btn(848, 248, 44, 44, ui.IconNone),
+		qX:   btn(840, 250, 44, 44, ui.IconNone),
 		online: btn(400, 320, 200, 64, ui.IconGlobe),
 		lan:    btn(660, 320, 200, 64, ui.IconLan),
-		modeX:  btn(848, 248, 44, 44, ui.IconNone),
+		modeX:  btn(840, 250, 44, 44, ui.IconNone),
 	}
 	// Em breve: sem clique, apagados.
 	m.online.Disabled = true
 	m.shop.Disabled = true
-	return m
+	r, err := NewRoomState(font, next)
+	if err != nil {
+		return nil, err
+	}
+	m.room = *r
+	m.room.onBack = func() { m.state = stMain }
+	return m, nil
 }
 
 func (m *Menu) Update() error {
@@ -81,6 +89,8 @@ func (m *Menu) Update() error {
 		m.quitUpdate()
 	case stMode:
 		m.modeUpdate()
+	case stRooms:
+		m.room.Update()
 	default:
 		m.mainUpdate()
 	}

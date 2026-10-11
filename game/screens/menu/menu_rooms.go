@@ -1,4 +1,4 @@
-package lobby
+package menu
 
 import (
 	"fmt"
@@ -15,14 +15,14 @@ import (
 
 const perPage = 4
 
-func (l *Lobby) pages() int {
+func (l *RoomState) pages() int {
 	return max(1, (len(l.rooms)+perPage-1)/perPage)
 }
 
-func (l *Lobby) roomsUpdate() error {
+func (l *RoomState) roomsUpdate() error {
 	if l.x.Push() || l.backB.Update() {
 		l.click()
-		l.next("menu")
+		l.onBack()
 		return nil
 	}
 	if l.create.Update() {
@@ -54,13 +54,13 @@ func (l *Lobby) roomsUpdate() error {
 	return nil
 }
 
-func (l *Lobby) roomsDraw(img *ebiten.Image) {
+func (l *RoomState) roomsDraw(img *ebiten.Image) {
 	if bg := assets.Images["images/bg"]; bg != nil {
 		ui.DrawCover(img, bg)
 	}
 	ui.Dim(img)
-	ui.Panel(img, 280, 110, 720, 510)
-	ui.DrawCenterColored(img, i18n.T("lobby.rooms"), l.big, 135, gold())
+	ui.Panel(img, rpX, rpY, rpW, rpH)
+	ui.Title(img, ui.IconLan, i18n.T("lobby.rooms"), l.big, 135, ui.Gold)
 	l.x.Draw(img, "X", l.font)
 	if l.pages() > 1 {
 		left(img, fmt.Sprintf("%d/%d", l.page+1, l.pages()), l.font, 920, 140)
@@ -89,6 +89,6 @@ func (l *Lobby) roomsDraw(img *ebiten.Image) {
 }
 
 // addRoom entra na tabela (a rede lista as reais aqui).
-func (l *Lobby) addRoom(n, max int, priv bool) {
+func (l *RoomState) addRoom(n, max int, priv bool) {
 	l.rooms = append(l.rooms, room{n: n, max: max, priv: priv})
 }

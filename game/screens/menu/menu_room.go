@@ -1,9 +1,6 @@
-package lobby
+package menu
 
 import (
-	"fmt"
-	"math/rand/v2"
-
 	"duckling/engine/audio"
 	"duckling/engine/rendering"
 	world "duckling/game/map"
@@ -21,8 +18,9 @@ type room struct {
 	priv   bool
 }
 
-type Lobby struct {
+type RoomState struct {
 	next func(string)
+	onBack func()
 	font, big *text.GoTextFace
 	tab  int
 	page int
@@ -36,40 +34,43 @@ type Lobby struct {
 	pass string
 	name string
 	nameFocus bool
+	toast ui.Toast
 	start ui.Btn
 	minDec, minInc, maxDec, maxInc ui.Btn
 	impDec, impInc ui.Btn
 	privT ui.Toggle
-	regen, nameBox ui.Btn
+	regen, nameBox, copyB ui.Btn
 }
 
-func btn(x, y, w, h float64, ic ui.Icon) ui.Btn { return ui.Btn{X: x, Y: y, W: w, H: h, Icon: ic} }
 
-func NewLobby(font *text.GoTextFace, next func(string)) (*Lobby, error) {
+func NewRoomState(font *text.GoTextFace, next func(string)) (*RoomState, error) {
 	top := 16
 	if mp, err := world.Open("spawn"); err == nil {
 		top = mp.MaxPlayers()
 	}
-	l := &Lobby{next: next, font: font, min: 6, max: top, top: top, imp: 1,
+	l := &RoomState{next: next, font: font, min: 6, max: top, top: top, imp: 1,
+		toast: ui.Toast{Right: true},
+		onBack: func() {},
 		big: &text.GoTextFace{Source: font.Source, Size: 34},
-		pass: fmt.Sprintf("%05d", rand.IntN(100000)),
+		pass: genPass(),
 		name: "CURRAL",
-		nameBox: btn(600, 182, 240, 48, ui.IconNone),
-		create: btn(400, 450, 220, 56, ui.IconPlus),
-		back:   btn(680, 545, 180, 56, ui.IconDoor),
+		nameBox: btn(rcX, rowY(0)+4, 240, 48, ui.IconNone),
+		create: btn(390, 450, 240, 56, ui.IconPlus),
+		back:   btn(690, rBtnY, 170, 56, ui.IconDoor),
 		backB:  btn(660, 450, 180, 56, ui.IconDoor),
-		x:      btn(928, 128, 44, 44, ui.IconNone),
+		x:      btn(rpX+rpW-80, rpY+20, 44, 44, ui.IconNone),
 		prevB:  btn(320, 455, 56, 48, ui.IconNone),
 		nextB:  btn(904, 455, 56, 48, ui.IconNone),
-		start: btn(420, 545, 220, 56, ui.IconPlay),
-		minDec: btn(640, 240, 56, 56, ui.IconMinus),
-		minInc: btn(840, 240, 56, 56, ui.IconPlus),
-		maxDec: btn(640, 300, 56, 56, ui.IconMinus),
-		maxInc: btn(840, 300, 56, 56, ui.IconPlus),
-		impDec: btn(640, 360, 56, 56, ui.IconMinus),
-		impInc: btn(840, 360, 56, 56, ui.IconPlus),
-		privT: ui.Toggle{X: 640, Y: 420, W: 120, H: 48},
-		regen: btn(830, 472, 48, 48, ui.IconGear),
+		start: btn(420, rBtnY, 250, 56, ui.IconPlay),
+		minDec: btn(rcX, rowY(1), 56, 56, ui.IconMinus),
+		minInc: btn(rcX+200, rowY(1), 56, 56, ui.IconPlus),
+		maxDec: btn(rcX, rowY(2), 56, 56, ui.IconMinus),
+		maxInc: btn(rcX+200, rowY(2), 56, 56, ui.IconPlus),
+		impDec: btn(rcX, rowY(3), 56, 56, ui.IconMinus),
+		impInc: btn(rcX+200, rowY(3), 56, 56, ui.IconPlus),
+		privT: ui.Toggle{X: rcX, Y: rowY(4) + 4, W: 120, H: 48},
+		regen: btn(rcX+150, rowY(5)+4, 48, 48, ui.IconRefresh),
+		copyB: btn(rcX+210, rowY(5)+4, 48, 48, ui.IconCopy),
 	}
 	// Começa vazio: sala só existe se alguém criar (mock: CRIAR).
 	for k := range l.rowB {
@@ -78,13 +79,13 @@ func NewLobby(font *text.GoTextFace, next func(string)) (*Lobby, error) {
 	return l, nil
 }
 
-func (l *Lobby) click() { _ = audio.Play("click") }
+func (l *RoomState) click() { _ = audio.Play("click") }
 
-func (l *Lobby) Update() error {
+func (l *RoomState) Update() error {
 	if inpututil.IsKeyJustPressed(ebiten.KeyEscape) {
 		l.nameFocus = false
 		if l.tab == 0 {
-			l.next("menu")
+			l.onBack()
 		} else {
 			l.tab = 0
 		}

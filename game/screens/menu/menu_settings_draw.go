@@ -23,7 +23,7 @@ func (m *Menu) settingsDraw(img *ebiten.Image) {
 	ui.Panel(img, 320, 120, 640, 480)
 
 	s.x.Draw(img, "X", m.font)
-	ui.DrawCenter(img, i18n.T("settings.title"), m.sml, 150)
+	ui.Title(img, ui.IconGear, i18n.T("settings.title"), m.sml, 150, ui.Gold)
 
 	if s.page == 0 {
 		left(img, i18n.T("settings.lang"), m.font, 380, 249)

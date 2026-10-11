@@ -39,7 +39,7 @@ func NewPlay(font *text.GoTextFace, next func(string)) (*Play, error) {
 	p := &Play{next: next, font: font, mp: mp,
 		yes: ui.Btn{X: 380, Y: 390, W: 240, H: 64},
 		no:  ui.Btn{X: 660, Y: 390, W: 240, H: 64},
-		qx:  ui.Btn{X: 848, Y: 248, W: 44, H: 44},
+		qx:  ui.Btn{X: 840, Y: 250, W: 44, H: 44},
 	}
 	sx, sy := mp.Spawn()
 	p.d = actor.New(assets.Images["sprites/duck/yellow/duck-4x"], sx, sy, actor.Cast["duck"])

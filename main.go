@@ -23,7 +23,6 @@ func main() {
 	if err := audio.Init(); err != nil {
 		log.Fatal(err)
 	}
-	ui.ProvideIcons(func(name string) *ebiten.Image { return assets.Images[name] })
 	ui.ProvideIconFont(func() *text.GoTextFaceSource { return assets.Fonts["MaterialSymbolsRounded-Regular"] })
 	save.Apply(save.Load())
 

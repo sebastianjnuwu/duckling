@@ -21,9 +21,11 @@ var iconRunes = map[Icon]rune{
 	IconGlobe: 0xE80B,
 	IconLan:   0xE157,
 	IconLock:  0xE897,
-	IconPlus:  0xE145,
-	IconMinus: 0xE15B,
-	IconUser:  0xE7FD,
+	IconPlus:    0xE145,
+	IconMinus:   0xE15B,
+	IconUser:    0xE7FD,
+	IconCopy:    0xE14D,
+	IconRefresh: 0xE863,
 }
 
 var (
