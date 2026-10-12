@@ -16,7 +16,11 @@ type Area struct {
 
 // Solid é um retângulo bloqueante com altura H (px de mundo):
 // o pato só colide se estiver abaixo dela (z < H).
-// H vem da propriedade custom `h` no Tiled (falta = 1000, muro).
+// H vem da propriedade custom "h" no Tiled (falta = 1000, muro).
+//
+//	h ≤ 25  → pulo ultrapassa  (actor.JumpPeak)
+//	h ≤ 34  → voo ultrapassa   (actor.FlyPeak)
+//	h > 34  → barreira total
 type Solid struct {
 	Rect image.Rectangle
 	H    float64
@@ -78,4 +82,19 @@ func objRect(o *tiled.Object) (image.Rectangle, bool) {
 		return image.Rect(int(x0), int(y0), int(x1), int(y1)), true
 	}
 	return image.Rectangle{}, false
+}
+
+// solidH lê a propriedade "h" (float OU int, maiúsculo ou não).
+// go-tiled.GetFloat só casa type="float"; GetInt só type="int".
+// Sem h válido = 1000 (muro).
+func solidH(props tiled.Properties) float64 {
+	for _, name := range []string{"h", "H"} {
+		if h := props.GetFloat(name); h > 0 {
+			return h
+		}
+		if h := props.GetInt(name); h > 0 {
+			return float64(h)
+		}
+	}
+	return 1000
 }

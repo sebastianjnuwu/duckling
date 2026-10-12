@@ -17,9 +17,9 @@ import (
 // por convenção (maps/<nome>/<nome>.tmx); camada vale por NOME
 // ou CLASSE, o resto é ignorado sem erro:
 //   grupo "collision" -> retângulos sólidos (prop "h": altura,
-//     sem h = 1000, nem pula nem voa por cima)
+//     sem h = 1000; h≤25 pula, h≤34 voa, h>34 muro)
 //   grupo "COLLISION_WALL" ou classe "BARRIER" -> barreira
-//     absoluta (H 1000 sempre, ignora "h")
+//     (sem h = 1000; com h, respeita o valor)
 //   grupo "areas"     -> zonas ≥128px (teclas 1-5)
 //   objeto "spawn"    -> nascimento (sem ele, centro visível)
 //   mapa prop "zoom"  -> zoom de gameplay (sem ela, Zoom)
@@ -86,17 +86,14 @@ func Load(p string) (*Map, error) {
 			// Grupo "collision": retângulos sólidos (cercas, paredes, água).
 			if groupIs(g, "collision") {
 				if sr, ok := objRect(o); ok {
-					h := o.Properties.GetFloat("h")
-					if h <= 0 {
-						h = 1000
-					}
+					h := solidH(o.Properties)
 					m.Solids = append(m.Solids, Solid{Rect: sr, H: h})
 				}
 			}
-			// "COLLISION_WALL" ou classe "BARRIER": barreira absoluta.
+			// "COLLISION_WALL" ou classe "BARRIER": barreira (sem h = 1000).
 			if groupIs(g, "COLLISION_WALL") || o.Class == "BARRIER" {
 				if sr, ok := objRect(o); ok {
-					m.Solids = append(m.Solids, Solid{Rect: sr, H: 1000})
+					m.Solids = append(m.Solids, Solid{Rect: sr, H: solidH(o.Properties)})
 				}
 			}
 		}

@@ -4,49 +4,37 @@ package actor
 // parado volta ao frame base.
 
 func (d *Duck) Anim(dx, dy float64) {
-	if d.side == nil {
+	if d.down == nil {
 		return
 	}
-	if dx == 0 && dy == 0 && !d.flying {
-		d.side.Reset()
+	if dx == 0 && dy == 0 && !d.flying && d.z <= d.ground+0.1 {
 		d.down.Reset()
 		d.up.Reset()
+		d.left.Reset()
+		d.right.Reset()
 		d.moving = false
 		return
 	}
-	if d.flying {
-		// Voando mira a direção (lado usa a fileira de voo,
-		// frente/costas reaproveitam com flap); parado planeia.
-		if dx != 0 || dy != 0 {
-			switch {
-			case dy < 0:
-				d.dir = 2
-			case dy > 0:
-				d.dir = 1
-			case dx < 0:
-				d.dir, d.face = 0, -1
-			case dx > 0:
-				d.dir, d.face = 0, 1
-			}
+	if dx != 0 || dy != 0 {
+		switch {
+		case dy < 0:
+			d.dir = 1
+		case dy > 0:
+			d.dir = 0
+		case dx < 0:
+			d.dir = 2
+		case dx > 0:
+			d.dir = 3
 		}
-		st := d.cur()
+	}
+	if d.flying {
 		d.flap++
-		// Subindo bate rápido, no cruzeiro bate devagar.
+		st := d.cur()
 		st.Tick()
-		if d.z < flyH-1 || d.flap%2 == 0 {
+		if d.z < FlyPeak-1 || d.flap%2 == 0 {
 			st.Tick()
 		}
 		return
-	}
-	switch {
-	case dy < 0:
-		d.dir = 2
-	case dy > 0:
-		d.dir = 1
-	case dx < 0:
-		d.dir, d.face = 0, -1
-	case dx > 0:
-		d.dir, d.face = 0, 1
 	}
 	if !d.moving {
 		d.moving = true
@@ -56,5 +44,45 @@ func (d *Duck) Anim(dx, dy float64) {
 }
 
 func (d *Duck) Tick() {
-	d.cur().Tick()
+	if st := d.cur(); st != nil {
+		st.Tick()
+	}
+}
+
+// cur devolve a tira da ação e direção atual.
+func (d *Duck) cur() *ui.Strip {
+	if d.flying {
+		switch d.dir {
+		case 1:
+			return d.flyUp
+		case 2:
+			return d.flyLeft
+		case 3:
+			return d.flyRight
+		default:
+			return d.flyDown
+		}
+	}
+	if d.z > d.ground+0.1 {
+		switch d.dir {
+		case 1:
+			return d.jumpUp
+		case 2:
+			return d.jumpLeft
+		case 3:
+			return d.jumpRight
+		default:
+			return d.jumpDown
+		}
+	}
+	switch d.dir {
+	case 1:
+		return d.up
+	case 2:
+		return d.left
+	case 3:
+		return d.right
+	default:
+		return d.down
+	}
 }

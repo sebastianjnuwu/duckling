@@ -2,6 +2,21 @@
 
 ## [Unreleased]
 ### Added
+- Física 2.5D/isométrica de elevação (`game/player/floor.go`): sólidos
+  com altura (cercas, pedras) agora funcionam como plataformas elevadas;
+  o pato pousa no topo (`z = s.H`), caminha sobre elas, pula de cima
+  e cai suavemente pela gravidade ao sair da borda
+- Projeção de sombra em superfícies elevadas (`shadow.go`)
+- Constantes exportadas `JumpPeak` (25) e `FlyPeak` (34) em `air.go`;
+  docs em `Solid`, `map.go` e `AGENTS.md` agora mostram os limiares
+  reais (`h≤25` pula, `h≤34` voa, `h>34` muro)
+### Fixed
+- Pato travava ou trepidava ao andar encostado em paredes/cercas:
+  removido ricochete artificial em `step()`, agora desliza suavemente
+- Pato caía para `z = 0` penetrando dentro de obstáculos com altura
+  e ficava travado permanentemente; agora pousa e caminha sobre o topo
+- `COLLISION_WALL` ignorava a prop `h` e forçava H=1000 (as cercas
+  com `h=20` estavam nesse grupo); agora `solidH()` respeita `h`/`H`
 - Controles com ícones nas labels (setas, espaço, voo) e REDEFINIR
   largo com ícone (cabe o RESTABLECER); confirma "RESTAURAR
   TECLAS?" (SIM/NÃO/X/ESC, padrão do sair)

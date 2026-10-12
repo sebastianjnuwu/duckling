@@ -1,7 +1,6 @@
 package actor
 
 import (
-	"image"
 	"math"
 
 	"duckling/engine/input"
@@ -47,60 +46,39 @@ func (d *Duck) Update(x0, y0, x1, y1 int, solids []world.Solid) {
 	d.Py = min(max(d.Py, float64(top)), float64(y1))
 }
 
-// step anda em fatias de 1px; bloqueou, quica pra trás com atrito.
+// step anda em fatias de 1px; desliza suavemente em paredes e quinas.
 func (d *Duck) step(dx, dy float64, solids []world.Solid) {
 	n := max(1, int(math.Ceil(math.Abs(dx))), int(math.Ceil(math.Abs(dy))))
 	sx, sy := dx/float64(n), dy/float64(n)
-	bx, by := false, false
+	d.hx, d.hy = false, false
 	for i := 0; i < n; i++ {
 		if !hit(d.Px+sx, d.Py, d.z, solids) {
 			d.Px += sx
 		} else {
-			bx = true
+			d.hx = true
 		}
 		if !hit(d.Px, d.Py+sy, d.z, solids) {
 			d.Py += sy
 		} else {
-			by = true
+			d.hy = true
 		}
 	}
-	// Quica só no 1º encosto (segurando contra o muro, descansa).
-	if bx && !d.hx {
-		d.kx = -dx * 1.5
+	// Impulso externo (empurrão de NPC): amortece com atrito.
+	if d.kx != 0 || d.ky != 0 {
+		if !hit(d.Px+d.kx, d.Py, d.z, solids) {
+			d.Px += d.kx
+		}
+		if !hit(d.Px, d.Py+d.ky, d.z, solids) {
+			d.Py += d.ky
+		}
+		d.kx *= 0.8
+		d.ky *= 0.8
+		if math.Abs(d.kx) < 0.05 {
+			d.kx = 0
+		}
+		if math.Abs(d.ky) < 0.05 {
+			d.ky = 0
+		}
 	}
-	if by && !d.hy {
-		d.ky = -dy * 1.5
-	}
-	if !hit(d.Px+d.kx, d.Py, d.z, solids) {
-		d.Px += d.kx
-	} else {
-		d.kx = 0
-	}
-	if !hit(d.Px, d.Py+d.ky, d.z, solids) {
-		d.Py += d.ky
-	} else {
-		d.ky = 0
-	}
-	d.kx *= 0.8
-	d.ky *= 0.8
-	if math.Abs(d.kx) < 0.05 {
-		d.kx = 0
-	}
-	if math.Abs(d.ky) < 0.05 {
-		d.ky = 0
-	}
-	d.hx, d.hy = bx, by
 	d.Anim(dx, dy)
-}
-
-// hit diz se a caixa dos pés (20x16) encosta em algum sólido
-// mais alto que o pato (por cima da altura, passa direto).
-func hit(x, y, z float64, solids []world.Solid) bool {
-	r := image.Rect(int(x-10), int(y-8), int(x+10), int(y+8))
-	for _, s := range solids {
-		if z < s.H && r.Overlaps(s.Rect) {
-			return true
-		}
-	}
-	return false
 }

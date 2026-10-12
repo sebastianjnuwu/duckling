@@ -10,47 +10,60 @@ import (
 // Física e entrada ficam em move.go.
 
 type Duck struct {
-	side, down, up, fly *ui.Strip
-	fx                  ui.Sparks
-	def                 Def
-	dir                 int
-	face                float64
-	moving              bool
-	kx, ky              float64
-	z, vz               float64
-	flyT, holdT          float64
-	flying, wantFly     bool
-	hx, hy              bool
-	flap                uint
-	slowT               float64
-	bumpT               float64
-	Px, Py              float64
+	down, up, left, right                 *ui.Strip
+	flyDown, flyUp, flyLeft, flyRight     *ui.Strip
+	jumpDown, jumpUp, jumpLeft, jumpRight *ui.Strip
+	fx                                    ui.Sparks
+	def                                   Def
+	dir                                   int
+	moving                                bool
+	kx, ky                                float64
+	z, vz, ground                         float64
+	flyT, holdT                           float64
+	flying, wantFly                       bool
+	hx, hy                                bool
+	flap                                  uint
+	slowT                                 float64
+	bumpT                                 float64
+	Px, Py                                float64
 }
 
-func New(img *ebiten.Image, x, y float64, d Def) *Duck {
-	du := &Duck{def: d, face: 1, flyT: flyMax, Px: x, Py: y}
+func New(imgs map[string]*ebiten.Image, x, y float64, d Def) *Duck {
+	du := &Duck{def: d, flyT: flyMax, Px: x, Py: y}
 	du.fx.Grav = 120
 	du.fx.Size = 0.5
-	du.Load(img)
+	du.Load(imgs)
 	return du
 }
 
-// Load (re)monta as tiras; imagens só existem após o loading.
-func (d *Duck) Load(img *ebiten.Image) {
-	if img == nil {
+// Load monta as 12 tiras a partir das imagens carregadas.
+func (d *Duck) Load(imgs map[string]*ebiten.Image) {
+	if imgs == nil {
 		return
 	}
-	s, dn, up := d.def.Side, d.def.Down, d.def.Up
-	c, cs := d.def.Cell, d.def.Cols
-	d.side = ui.NewDuck(img, s, c, cs)
-	d.down = ui.NewDuck(img, dn, c, cs)
-	d.up = ui.NewDuck(img, up, c, cs)
-	d.fly = ui.NewFlap(img, d.def.Fly, d.def.FlapUp, c, cs, 6)
+	p := d.def.Prefix
+	if p == "" {
+		p = "sprites/duck/yellow/128px"
+	}
+	d.down = ui.NewHStrip(imgs[p+"/down"], 8)
+	d.up = ui.NewHStrip(imgs[p+"/up"], 8)
+	d.left = ui.NewHStrip(imgs[p+"/left"], 8)
+	d.right = ui.NewHStrip(imgs[p+"/right"], 8)
+
+	d.flyDown = ui.NewHStrip(imgs[p+"/fly_down"], 8)
+	d.flyUp = ui.NewHStrip(imgs[p+"/fly_up"], 8)
+	d.flyLeft = ui.NewHStrip(imgs[p+"/fly_left"], 8)
+	d.flyRight = ui.NewHStrip(imgs[p+"/fly_right"], 8)
+
+	d.jumpDown = ui.NewHStrip(imgs[p+"/jump_down"], 8)
+	d.jumpUp = ui.NewHStrip(imgs[p+"/jump_up"], 8)
+	d.jumpLeft = ui.NewHStrip(imgs[p+"/jump_left"], 8)
+	d.jumpRight = ui.NewHStrip(imgs[p+"/jump_right"], 8)
 }
 
 // Ok diz se o sprite já carregou.
 func (d *Duck) Ok() bool {
-	return d.side != nil && !d.side.Empty()
+	return d.down != nil && !d.down.Empty()
 }
 
 // Alt devolve a altura atual (px de mundo).
@@ -64,28 +77,8 @@ func (d *Duck) Move(dx, dy float64) {
 }
 
 func (d *Duck) Draw(img *ebiten.Image, x, y, s float64) {
-	drawShadow(img, x, y, s, d.z)
-	st := d.cur()
-	f := d.face
-	if d.dir != 0 {
-		f = 1
-	}
-	if st != nil {
-		st.Draw(img, x, y-d.z*s, s*d.def.Scale, f)
-	}
-}
-
-// cur devolve a tira da direção atual (voando de lado usa a de voo).
-func (d *Duck) cur() *ui.Strip {
-	if d.flying && d.dir == 0 {
-		return d.fly
-	}
-	switch d.dir {
-	case 2:
-		return d.up
-	case 1:
-		return d.down
-	default:
-		return d.side
+	drawShadow(img, x, y, s, d.z-d.ground, d.ground)
+	if st := d.cur(); st != nil {
+		st.Draw(img, x, y-d.z*s, s*d.def.Scale, 1)
 	}
 }

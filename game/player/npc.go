@@ -21,8 +21,8 @@ type NPC struct {
 	flee     float64
 }
 
-func NewNPC(img *ebiten.Image, x, y float64, d Def) *NPC {
-	n := &NPC{D: New(img, x, y, d)}
+func NewNPC(imgs map[string]*ebiten.Image, x, y float64, d Def) *NPC {
+	n := &NPC{D: New(imgs, x, y, d)}
 	n.retarget()
 	return n
 }

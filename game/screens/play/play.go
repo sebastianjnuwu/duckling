@@ -1,8 +1,6 @@
 package play
 
 import (
-	"image/color"
-
 	"duckling/content"
 	"duckling/game/player"
 	"duckling/engine/rendering"
@@ -42,8 +40,7 @@ func NewPlay(font *text.GoTextFace, next func(string)) (*Play, error) {
 		qx:  ui.Btn{X: 840, Y: 250, W: 44, H: 44},
 	}
 	sx, sy := mp.Spawn()
-	p.d = actor.New(assets.Images["sprites/duck/yellow/duck-4x"], sx, sy, actor.Cast["duck"])
-	p.spawnNPCs(sx, sy, assets.Images["sprites/duck/red/duck-4x"])
+	p.d = actor.New(assets.Images, sx, sy, actor.Cast["duck"])
 	// Intro: nasce mostrando o mapa todo, desce até o pato.
 	p.zoom = min(1280/float64(mp.W), 720/float64(mp.H))
 	p.zFrom = p.zoom
@@ -59,23 +56,10 @@ func (p *Play) Update() error {
 	}
 	// Pato carrega lazy: imagens só existem após o loading.
 	if !p.d.Ok() {
-		p.d.Load(assets.Images["sprites/duck/yellow/duck-4x"])
+		p.d.Load(assets.Images)
 	}
 	x0, y0, x1, y1 := p.bounds()
 	p.d.Update(x0, y0, x1, y1, p.mp.Solids)
-	red := assets.Images["sprites/duck/red/duck-4x"]
-	for _, n := range p.npcs {
-		if !n.D.Ok() {
-			n.D.Load(red)
-		}
-		n.Update(x0, y0, x1, y1, p.mp.Solids)
-		if n.Bump(p.d) {
-			mx, my := (p.d.Px+n.D.Px)/2, (p.d.Py+n.D.Py)/2
-			p.puff.Burst((mx-p.camX)*p.zoom, (my-p.camY)*p.zoom, 14,
-				color.RGBA{235, 240, 235, 255},
-				color.RGBA{250, 220, 120, 255})
-		}
-	}
 	p.puff.Update()
 	p.follow()
 	if inpututil.IsKeyJustPressed(ebiten.KeyEscape) {

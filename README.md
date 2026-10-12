@@ -82,12 +82,4 @@ mingw32-make build-linux64      # Linux 64-bit
 mingw32-make build-linux32      # Linux 32-bit
 ```
 
-## 📸 Telas
-
-<div align="center">
-  <img src="content/images/screen/home.png" alt="Tela inicial do Duckling" width="80%">
-</div>
-
----
-
-Se perguntarem, você estava no celeiro.
+> Se perguntarem, você estava no celeiro.

@@ -26,7 +26,18 @@ func main() {
 	ui.ProvideIconFont(func() *text.GoTextFaceSource { return assets.Fonts["MaterialSymbolsRounded-Regular"] })
 	save.Apply(save.Load())
 
-	if f, err := assets.FS.Open("images/logo.png"); err == nil {
+	var icons []image.Image
+	for _, sz := range []string{"256x256", "128x128", "64x64", "48x48", "32x32", "16x16"} {
+		if f, err := assets.FS.Open("images/icons/duck/transparent/" + sz + ".png"); err == nil {
+			if icon, _, err := image.Decode(f); err == nil {
+				icons = append(icons, icon)
+			}
+			f.Close()
+		}
+	}
+	if len(icons) > 0 {
+		ebiten.SetWindowIcon(icons)
+	} else if f, err := assets.FS.Open("images/logo.png"); err == nil {
 		if icon, _, err := image.Decode(f); err == nil {
 			ebiten.SetWindowIcon([]image.Image{icon})
 		}

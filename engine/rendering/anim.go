@@ -27,28 +27,22 @@ func NewStrip(img *ebiten.Image, cell, cols, start, n, rate int) *Strip {
 	return s
 }
 
-// NewFlap monta o bater-asa: n frames da base (asa baixa) +
-// n da erguida, pra asa aparecer de verdade no voo.
-func NewFlap(img *ebiten.Image, base, up, cell, cols, n int) *Strip {
-	s := &Strip{rate: 8}
+// NewHStrip monta uma tira horizontal de frames quadrados (largura = N * altura).
+// Suporta qualquer resolução de sprite (16px, 32px, 64px, 128px).
+func NewHStrip(img *ebiten.Image, rate int) *Strip {
+	s := &Strip{rate: rate}
 	if img == nil {
 		return s
 	}
-	for _, row := range []int{base, up} {
-		for k := 0; k < n; k++ {
-			x, y := (k%cols)*cell, row*cell+(k/cols)*cell
-			s.frames = append(s.frames, img.SubImage(image.Rect(x, y, x+cell, y+cell)).(*ebiten.Image))
-		}
+	cell := img.Bounds().Dy()
+	if cell <= 0 {
+		return s
+	}
+	n := img.Bounds().Dx() / cell
+	for k := 0; k < n; k++ {
+		s.frames = append(s.frames, img.SubImage(image.Rect(k*cell, 0, (k+1)*cell, cell)).(*ebiten.Image))
 	}
 	return s
-}
-
-// NewDuck monta o personagem da fileira row da sheet do pato
-// (24 amarelos, 10 laranjas, 8 brancos, 13 laranjas, 10 amarelos).
-// cell/cols descrevem a grade: 32/24 no normal, 128/24 no 4x.
-func NewDuck(img *ebiten.Image, row, cell, cols int) *Strip {
-	n := []int{24, 10, 8, 13, 10}[row%5]
-	return NewStrip(img, cell, cols, row*cols, n, 8)
 }
 
 func (s *Strip) Tick() {
