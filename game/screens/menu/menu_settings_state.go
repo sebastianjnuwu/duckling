@@ -17,11 +17,14 @@ type Settings struct {
 	svol                ui.Slider
 	x                   ui.Btn
 	prev, next          ui.Btn
+	reset               ui.Btn
 	page                int
+	keys                [6]ui.Btn
+	cap                 int
 }
 
 func newSettings() Settings {
-	return Settings{
+	s := Settings{
 		langA: ui.Btn{
 			X: 640, Y: 230, W: 80, H: 56,
 		},
@@ -48,7 +51,7 @@ func newSettings() Settings {
 			Pct: int(audio.SfxVolume() * 100),
 		},
 		x: ui.Btn{
-			X: 880, Y: 140, W: 44, H: 44,
+			X: 884, Y: 140, W: 44, H: 44,
 		},
 		prev: ui.Btn{
 			X: 380, Y: 525, W: 48, H: 40,
@@ -56,6 +59,15 @@ func newSettings() Settings {
 		next: ui.Btn{
 			X: 852, Y: 525, W: 48, H: 40,
 		},
+		reset: ui.Btn{
+			X: 540, Y: 472, W: 200, H: 40,
+		},
 		page: 0,
+		cap:  -1,
 	}
+	ys := []float64{226, 288, 350, 412, 295, 357}
+	for i := range s.keys {
+		s.keys[i] = ui.Btn{X: 700, Y: ys[i], W: 200, H: 48}
+	}
+	return s
 }

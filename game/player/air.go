@@ -4,6 +4,7 @@ import (
 	"image"
 
 	"duckling/engine/audio"
+	"duckling/engine/input"
 	"duckling/game/map"
 
 	"github.com/hajimehoshi/ebiten/v2"
@@ -26,7 +27,7 @@ const (
 
 // air atualiza altura e voo; devolve o multiplicador de velocidade.
 func (d *Duck) air(solids []world.Solid) float64 {
-	if inpututil.IsKeyJustPressed(ebiten.KeySpace) && d.z == 0 && !d.flying {
+	if input.JustPressed(input.Jump) && d.z == 0 && !d.flying {
 		d.vz = jumpV
 		_ = audio.Play("jump")
 	}
@@ -35,7 +36,7 @@ func (d *Duck) air(solids []world.Solid) float64 {
 	} else {
 		d.holdT = 0
 	}
-	if inpututil.IsKeyJustPressed(ebiten.KeyX) || inpututil.IsKeyJustPressed(ebiten.KeyE) {
+	if input.JustPressed(input.Fly) || inpututil.IsKeyJustPressed(ebiten.KeyE) {
 		d.wantFly = !d.wantFly
 	}
 	// Paredão colado corta o voo (e nem deixa levantar).
@@ -43,7 +44,7 @@ func (d *Duck) air(solids []world.Solid) float64 {
 	if wall {
 		d.wantFly = false
 	}
-	d.flying = (d.wantFly || ebiten.IsKeyPressed(ebiten.KeyX) || d.holdT > flyHold) && d.flyT > 0 && !wall
+	d.flying = (d.wantFly || input.Held(input.Fly) || ebiten.IsKeyPressed(ebiten.KeyE) || d.holdT > flyHold) && d.flyT > 0 && !wall
 	if !d.flying {
 		d.wantFly = false
 	}

@@ -4,9 +4,8 @@ import (
 	"image"
 	"math"
 
+	"duckling/engine/input"
 	"duckling/game/map"
-
-	"github.com/hajimehoshi/ebiten/v2"
 )
 
 // move.go — física do personagem: entrada, animação e trava.
@@ -27,16 +26,16 @@ func (d *Duck) Update(x0, y0, x1, y1 int, solids []world.Solid) {
 		d.bumpT -= 1.0 / 60.0
 	}
 	var dx, dy float64
-	if ebiten.IsKeyPressed(ebiten.KeyA) || ebiten.IsKeyPressed(ebiten.KeyArrowLeft) {
+	if input.Held(input.Left) {
 		dx -= sp
 	}
-	if ebiten.IsKeyPressed(ebiten.KeyD) || ebiten.IsKeyPressed(ebiten.KeyArrowRight) {
+	if input.Held(input.Right) {
 		dx += sp
 	}
-	if ebiten.IsKeyPressed(ebiten.KeyW) || ebiten.IsKeyPressed(ebiten.KeyArrowUp) {
+	if input.Held(input.Up) {
 		dy -= sp
 	}
-	if ebiten.IsKeyPressed(ebiten.KeyS) || ebiten.IsKeyPressed(ebiten.KeyArrowDown) {
+	if input.Held(input.Down) {
 		dy += sp
 	}
 	d.step(dx, dy, solids)

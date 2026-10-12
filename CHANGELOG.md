@@ -2,6 +2,11 @@
 
 ## [Unreleased]
 ### Added
+- Controles remapeáveis (`engine/input` + página nas opções):
+  WASD/setas, pulo e voo; salva em `settings.json`
+- Controles em 2 páginas (mover/ações) com título; shift, F1-F12
+  e mouse até X2 (5 botões); tecla repetida troca de lugar
+- Botão RESET (volta WASD/espaço/X); título único por página
 - `AGENTS.md` detalhado (contratos de mapa, boot, regras);
   testes `internal/arch/` removidos
 - Reestrutura Engine/Game/Content (`src/ui`→`engine/rendering`,

@@ -35,7 +35,8 @@ func (m *Menu) settingsUpdate() {
 			m.click()
 			s.page--
 		}
-	} else if s.page < mp {
+	}
+	if s.page < mp {
 		if s.next.Update() {
 			m.click()
 			s.page++
@@ -63,6 +64,11 @@ func (m *Menu) settingsUpdate() {
 			save.Store()
 		}
 
+		return
+	}
+
+	if s.page != 1 || (!audio.MusicOn() && !audio.SfxOn()) {
+		m.controlsUpdate()
 		return
 	}
 

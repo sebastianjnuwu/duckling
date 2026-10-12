@@ -8,6 +8,7 @@ import (
 
 	"duckling/engine/audio"
 	"duckling/engine/i18n"
+	"duckling/engine/input"
 )
 
 // save.go — config local (idioma, música, sfx) em JSON.
@@ -16,12 +17,13 @@ import (
 const Version = 1
 
 type Data struct {
-	V        int     `json:"v"`
-	Lang     string  `json:"lang"`
-	MusicOn  bool    `json:"musicOn"`
-	MusicVol float64 `json:"musicVol"`
-	SfxOn    bool    `json:"sfxOn"`
-	SfxVol   float64 `json:"sfxVol"`
+	V        int            `json:"v"`
+	Lang     string         `json:"lang"`
+	MusicOn  bool           `json:"musicOn"`
+	MusicVol float64        `json:"musicVol"`
+	SfxOn    bool           `json:"sfxOn"`
+	SfxVol   float64        `json:"sfxVol"`
+	Keys     map[string]int `json:"keys"`
 }
 
 var last []byte
@@ -53,19 +55,20 @@ func Load() Data {
 	return d
 }
 
-// Apply joga o salvo no idioma e nos canais de áudio.
+// Apply joga o salvo no idioma, áudio e teclas.
 func Apply(d Data) {
 	i18n.Set(d.Lang)
 	audio.SetMusicOn(d.MusicOn)
 	audio.SetMusicVolume(d.MusicVol)
 	audio.SetSfxOn(d.SfxOn)
 	audio.SetSfxVolume(d.SfxVol)
+	input.LoadCodes(d.Keys)
 	last, _ = json.MarshalIndent(d, "", "  ")
 }
 
 // Current fotografa o estado atual.
 func Current() Data {
-	return Data{Version, i18n.Lang, audio.MusicOn(), audio.MusicVolume(), audio.SfxOn(), audio.SfxVolume()}
+	return Data{Version, i18n.Lang, audio.MusicOn(), audio.MusicVolume(), audio.SfxOn(), audio.SfxVolume(), input.Codes()}
 }
 
 // Store grava o estado atual (atômico, só se mudou).

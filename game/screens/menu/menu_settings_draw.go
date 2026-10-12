@@ -23,7 +23,9 @@ func (m *Menu) settingsDraw(img *ebiten.Image) {
 	ui.Panel(img, 320, 120, 640, 480)
 
 	s.x.Draw(img, "X", m.font)
-	ui.Title(img, ui.IconGear, i18n.T("settings.title"), m.sml, 150, ui.Gold)
+	if s.page == 0 || (s.page == 1 && (audio.MusicOn() || audio.SfxOn())) {
+		ui.Title(img, ui.IconGear, i18n.T("settings.title"), m.sml, 150, ui.Gold)
+	}
 
 	if s.page == 0 {
 		left(img, i18n.T("settings.lang"), m.font, 380, 249)
@@ -40,7 +42,7 @@ func (m *Menu) settingsDraw(img *ebiten.Image) {
 		ui.DrawIcon(img, ui.IconSpk, 348, 446, cream)
 		left(img, i18n.T("settings.sfx"), m.font, 380, 449)
 		s.sfx.Draw(img)
-	} else {
+	} else if s.page == 1 && (audio.MusicOn() || audio.SfxOn()) {
 		y := 230.0
 
 		if audio.MusicOn() {
@@ -54,6 +56,22 @@ func (m *Menu) settingsDraw(img *ebiten.Image) {
 			ui.DrawIcon(img, ui.IconSpk, 348, y+16, cream)
 			left(img, i18n.T("settings.sfxVol"), m.font, 380, y+19)
 			s.svol.Draw(img)
+		}
+	} else {
+		ui.Title(img, ui.IconGear, i18n.T("settings.controls"), m.sml, 150, ui.Gold)
+		s.reset.Draw(img, i18n.T("settings.reset"), m.font)
+		if s.page == movePage() {
+			for i := 0; i < 4; i++ {
+				y := 226.0 + float64(i)*62
+				left(img, i18n.T(keyRows[i].key), m.font, 380, y+14)
+				s.keys[i].Draw(img, m.keyName(i), m.font)
+			}
+		} else {
+			for i := 4; i < 6; i++ {
+				y := 295.0 + float64(i-4)*62
+				left(img, i18n.T(keyRows[i].key), m.font, 380, y+14)
+				s.keys[i].Draw(img, m.keyName(i), m.font)
+			}
 		}
 	}
 
@@ -86,12 +104,20 @@ func (m *Menu) settingsDraw(img *ebiten.Image) {
 	}
 }
 
-// maxPage retorna a última página disponível (0 ou 1).
+// maxPage retorna a última página (controles sempre por último).
 func maxPage() int {
 	if audio.MusicOn() || audio.SfxOn() {
-		return 1
+		return 3
 	}
-	return 0
+	return 2
+}
+
+// movePage: página do movimento (1 sem áudio, 2 com).
+func movePage() int {
+	if audio.MusicOn() || audio.SfxOn() {
+		return 2
+	}
+	return 1
 }
 
 // left desenha texto alinhado à esquerda em (x, y).
