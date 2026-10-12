@@ -92,6 +92,7 @@ Jogo de dedução social: patos com tarefas, um impostor no meio.
 
 ## Comandos
 - Run: `go run .` (ou `air`, config em `.air.toml`)
+- Syso (ícone do .exe): `mingw32-make syso` (do `logo.png`; `build-win*` já garante)
 - Verificação completa: `go build ./... && go vet ./...`
 - Build win64: `GOARCH=amd64 go build -ldflags="-s -w" -o tmp/duckling-win64.exe .`
 - Build win32: `go build -ldflags="-s -w" -o tmp/duckling-win32.exe .` (toolchain padrão é 386)

@@ -18,6 +18,8 @@ type Settings struct {
 	x                   ui.Btn
 	prev, next          ui.Btn
 	reset               ui.Btn
+	confirm             bool
+	cYes, cNo, cX       ui.Btn
 	page                int
 	keys                [6]ui.Btn
 	cap                 int
@@ -60,11 +62,15 @@ func newSettings() Settings {
 			X: 852, Y: 525, W: 48, H: 40,
 		},
 		reset: ui.Btn{
-			X: 540, Y: 472, W: 200, H: 40,
+			X: 510, Y: 472, W: 260, H: 40, Icon: ui.IconRefresh,
 		},
 		page: 0,
 		cap:  -1,
 	}
+	// Confirma do reset: mesmo modal do sair (360,230,560x260).
+	s.cYes = ui.Btn{X: 380, Y: 390, W: 240, H: 64}
+	s.cNo = ui.Btn{X: 660, Y: 390, W: 240, H: 64}
+	s.cX = ui.Btn{X: 840, Y: 250, W: 44, H: 44}
 	ys := []float64{226, 288, 350, 412, 295, 357}
 	for i := range s.keys {
 		s.keys[i] = ui.Btn{X: 700, Y: ys[i], W: 200, H: 48}

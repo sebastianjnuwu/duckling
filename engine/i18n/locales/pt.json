@@ -34,6 +34,7 @@
   "settings.title": "AJUSTES",
   "settings.controls": "CONTROLES",
   "settings.reset": "REDEFINIR",
+  "settings.resetConfirm": "RESTAURAR TECLAS?",
   "settings.up": "CIMA",
   "settings.down": "BAIXO",
   "settings.left": "ESQUERDA",

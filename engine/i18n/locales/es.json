@@ -34,6 +34,7 @@
   "settings.title": "AJUSTES",
   "settings.controls": "CONTROLES",
   "settings.reset": "RESTABLECER",
+  "settings.resetConfirm": "¿RESTAURAR TECLAS?",
   "settings.up": "ARRIBA",
   "settings.down": "ABAJO",
   "settings.left": "IZQUIERDA",

@@ -26,6 +26,12 @@ var iconRunes = map[Icon]rune{
 	IconUser:    0xE7FD,
 	IconCopy:    0xE14D,
 	IconRefresh: 0xE863,
+	IconUp:      0xE5D8,
+	IconDown:    0xE5DB,
+	IconLeft:    0xE5C4,
+	IconRight:   0xE5C5,
+	IconJump:    0xE256,
+	IconFly:     0xE539,
 }
 
 var (

@@ -63,12 +63,14 @@ func (m *Menu) settingsDraw(img *ebiten.Image) {
 		if s.page == movePage() {
 			for i := 0; i < 4; i++ {
 				y := 226.0 + float64(i)*62
+				ui.DrawIcon(img, keyRows[i].ic, 348, y+11, cream)
 				left(img, i18n.T(keyRows[i].key), m.font, 380, y+14)
 				s.keys[i].Draw(img, m.keyName(i), m.font)
 			}
 		} else {
 			for i := 4; i < 6; i++ {
 				y := 295.0 + float64(i-4)*62
+				ui.DrawIcon(img, keyRows[i].ic, 348, y+11, cream)
 				left(img, i18n.T(keyRows[i].key), m.font, 380, y+14)
 				s.keys[i].Draw(img, m.keyName(i), m.font)
 			}
@@ -101,6 +103,10 @@ func (m *Menu) settingsDraw(img *ebiten.Image) {
 				c,
 			)
 		}
+	}
+
+	if s.confirm {
+		m.resetConfirmDraw(img)
 	}
 }
 

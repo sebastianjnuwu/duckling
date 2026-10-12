@@ -34,6 +34,7 @@
   "settings.title": "SETTINGS",
   "settings.controls": "CONTROLS",
   "settings.reset": "RESET",
+  "settings.resetConfirm": "RESTORE KEYS?",
   "settings.up": "UP",
   "settings.down": "DOWN",
   "settings.left": "LEFT",

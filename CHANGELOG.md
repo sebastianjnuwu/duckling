@@ -2,6 +2,11 @@
 
 ## [Unreleased]
 ### Added
+- Controles com ícones nas labels (setas, espaço, voo) e REDEFINIR
+  largo com ícone (cabe o RESTABLECER); confirma "RESTAURAR
+  TECLAS?" (SIM/NÃO/X/ESC, padrão do sair)
+- Ícone do `.exe` regenerável (`mingw32-make syso`: go-winres via
+  `go run`, sem instalar nada; `build-win*` garante o `.syso`)
 - Controles remapeáveis (`engine/input` + página nas opções):
   WASD/setas, pulo e voo; salva em `settings.json`
 - Controles em 2 páginas (mover/ações) com título; shift, F1-F12

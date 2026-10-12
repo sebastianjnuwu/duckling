@@ -2,6 +2,7 @@ package menu
 
 import (
 	"duckling/engine/input"
+	"duckling/engine/rendering"
 	"duckling/engine/save"
 
 	"github.com/hajimehoshi/ebiten/v2"
@@ -14,13 +15,14 @@ import (
 var keyRows = []struct {
 	act input.Action
 	key string
+	ic  ui.Icon
 }{
-	{input.Up, "settings.up"},
-	{input.Down, "settings.down"},
-	{input.Left, "settings.left"},
-	{input.Right, "settings.right"},
-	{input.Jump, "settings.jump"},
-	{input.Fly, "settings.fly"},
+	{input.Up, "settings.up", ui.IconUp},
+	{input.Down, "settings.down", ui.IconDown},
+	{input.Left, "settings.left", ui.IconLeft},
+	{input.Right, "settings.right", ui.IconRight},
+	{input.Jump, "settings.jump", ui.IconJump},
+	{input.Fly, "settings.fly", ui.IconFly},
 }
 
 func (m *Menu) controlsUpdate() {
@@ -51,8 +53,7 @@ func (m *Menu) controlsUpdate() {
 	}
 	if s.reset.Update() {
 		m.click()
-		input.Reset()
-		save.Store()
+		s.confirm = true
 	}
 }
 

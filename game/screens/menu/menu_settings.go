@@ -16,6 +16,11 @@ import (
 func (m *Menu) settingsUpdate() {
 	s := &m.set
 
+	if s.confirm {
+		m.resetConfirmUpdate()
+		return
+	}
+
 	if inpututil.IsKeyJustPressed(ebiten.KeyEscape) {
 		m.state = stMain
 		return

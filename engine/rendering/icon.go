@@ -26,6 +26,12 @@ const (
 	IconUser
 	IconCopy
 	IconRefresh
+	IconUp
+	IconDown
+	IconLeft
+	IconRight
+	IconJump
+	IconFly
 )
 
 // DrawIcon desenha o ícone da fonte numa caixa 24x24 em (x,y).

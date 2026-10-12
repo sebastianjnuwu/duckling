@@ -9,7 +9,7 @@ APP := duckling
 TMP := tmp
 FLAGS := -trimpath -ldflags="-s -w"
 
-.PHONY: run vet build-win64 build-win32 build-linux64 build-linux32 web pack size clean
+.PHONY: run vet syso build-win64 build-win32 build-linux64 build-linux32 web pack size clean
 
 run:
 	go run .
@@ -17,10 +17,15 @@ run:
 vet:
 	go vet ./...
 
-build-win64: vet
+syso: rsrc_windows_386.syso rsrc_windows_amd64.syso
+
+rsrc_windows_%.syso: content/images/logo.png
+	go run github.com/tc-hib/go-winres@latest simply --icon $< --manifest none --arch $* --out rsrc
+
+build-win64: vet rsrc_windows_amd64.syso
 	GOARCH=amd64 go build $(FLAGS) -o $(TMP)/$(APP)-win64.exe .
 
-build-win32: vet
+build-win32: vet rsrc_windows_386.syso
 	go build $(FLAGS) -o $(TMP)/$(APP)-win32.exe .
 
 build-linux64: vet
