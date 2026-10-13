@@ -23,9 +23,9 @@ Jogo de dedução social: patos com tarefas, um impostor no meio.
 - `game/screens/loading|menu|play|shop/` — uma pasta
   por tela (`Update() error` + `Draw(*ebiten.Image)`).
   O curral (salas + novo jogo) é modal do menu.
-- `game/player/` — `actor.Duck` + `NPC` (`duck.go` sprite,
+- `game/player/` — `actor.Duck` (`duck.go` sprite,
   `move.go` física, `air.go` pulo/voo, `anim.go` direção,
-  `defs.go` elenco, `feathers.go` penas, `npc.go` IA).
+  `defs.go` elenco, `feathers.go` penas).
 - `game/map/` — TMX via go-tiled (`map.go` Load, `map_geo.go`
   geometria, `map_draw.go` 1 DrawImage, `maps.go` List/Open).
 - `content/` — `embed` (fonts, images, maps, music, sprites).

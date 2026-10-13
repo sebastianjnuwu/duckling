@@ -17,9 +17,6 @@ func (p *Play) Draw(img *ebiten.Image) {
 		ui.DrawCover(img, bg)
 	}
 	p.mp.Draw(img, p.camX, p.camY, p.zoom)
-	for _, n := range p.npcs {
-		n.D.Draw(img, (n.D.Px-p.camX)*p.zoom, (n.D.Py-p.camY)*p.zoom, p.zoom)
-	}
 	p.d.Draw(img, (p.d.Px-p.camX)*p.zoom, (p.d.Py-p.camY)*p.zoom, p.zoom)
 	p.d.DrawFx(img, p.camX, p.camY, p.zoom)
 	p.puff.Draw(img)

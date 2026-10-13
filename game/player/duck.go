@@ -17,14 +17,13 @@ type Duck struct {
 	def                                   Def
 	dir                                   int
 	moving                                bool
-	kx, ky                                float64
+	vx, vy                                float64
+	coyT, bufT                            float64
+	jumpHeld                              bool
 	z, vz, ground                         float64
 	flyT, holdT                           float64
 	flying, wantFly                       bool
-	hx, hy                                bool
 	flap                                  uint
-	slowT                                 float64
-	bumpT                                 float64
 	Px, Py                                float64
 }
 
@@ -69,7 +68,7 @@ func (d *Duck) Ok() bool {
 // Alt devolve a altura atual (px de mundo).
 func (d *Duck) Alt() float64 { return d.z }
 
-// Move anda sem colisão (portas, empurrões, testes).
+// Move anda sem colisão (portas, testes).
 func (d *Duck) Move(dx, dy float64) {
 	d.Px += dx
 	d.Py += dy

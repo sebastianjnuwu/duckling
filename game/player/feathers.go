@@ -6,7 +6,7 @@ import (
 	"github.com/hajimehoshi/ebiten/v2"
 )
 
-// feathers.go — penas amarelas+vermelhas (as cores dos dois patos).
+// feathers.go — penas amarelas do pato.
 
 // feather solta n penas nos pés.
 func (d *Duck) feather(n int) {

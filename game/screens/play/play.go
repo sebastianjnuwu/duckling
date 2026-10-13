@@ -19,7 +19,6 @@ type Play struct {
 	font *text.GoTextFace
 	mp   *world.Map
 	d    *actor.Duck
-	npcs []*actor.NPC
 	area int
 	dbg  bool
 	confirm bool

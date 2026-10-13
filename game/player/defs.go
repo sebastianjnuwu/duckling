@@ -2,8 +2,8 @@ package actor
 
 // defs.go — elenco: cada personagem é 1 linha de dados.
 // Novo personagem = 1 entrada aqui + png em assets/sprites.
-// Fileiras da sheet do pato: lado 0/1/3, frente 2/4;
-// o voo alterna Fly (asa baixa) com FlapUp (asa erguida).
+// Cada ação/direção é 1 tira horizontal (down/up/left/right,
+// fly_down/up/left/right, jump_down/up/left/right).
 
 type Def struct {
 	Prefix string
@@ -13,5 +13,5 @@ type Def struct {
 }
 
 var Cast = map[string]Def{
-	"duck": {Prefix: "sprites/duck/yellow/128px", Scale: 0.25, Speed: 3, Height: 24},
+	"duck": {Prefix: "sprites/duck/yellow/128px", Scale: 0.25, Speed: 2.6, Height: 24},
 }

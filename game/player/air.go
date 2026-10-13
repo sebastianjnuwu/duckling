@@ -15,15 +15,21 @@ import (
 // Alturas de referência no Tiled: h≤25 pulo, h≤34 voo, h>34 muro.
 
 const (
-	jumpV    = 5.6
-	jumpG    = 0.45
+	jumpV    = 5.2
+	jumpG    = 0.5
+	jumpCut  = 2.5  // soltou o pulo subindo: corta (toque = pulinho)
+	jumpBuf  = 0.12 // buffer: apertou um pouco antes, vale
+	coyote   = 0.10 // saiu da borda agora: ainda pode pular
 	flyMax   = 5.0
-	flyBoost = 1.3
+	flyBoost = 1.25
 	flyH     = 38.0
 	flyHold  = 0.2
+	flyRise  = 1.8 // subida do voo (decolagem suave)
+	flyDive  = 3.0 // segurando baixo no voo: mergulha
+	flyRegen = 2.0 // estamina de volta no chão, por s
 
-	// JumpPeak é o teto do pulo (v²/2g).
-	JumpPeak = jumpV * jumpV / (2 * jumpG) // ~35
+	// JumpPeak é o teto do pulo (v²/2g; ~30 na integração do jogo).
+	JumpPeak = jumpV * jumpV / (2 * jumpG) // ~27 contínuo
 
 	// FlyPeak é o teto do voo.
 	FlyPeak = flyH // 38
@@ -33,9 +39,25 @@ const (
 func (d *Duck) air(solids []world.Solid) float64 {
 	d.ground = Floor(d.Px, d.Py, d.z, solids)
 	onGround := d.z <= d.ground+0.1
-
-	if input.JustPressed(input.Jump) && onGround && !d.flying {
-		d.vz = jumpV
+	if onGround {
+		d.coyT = coyote
+	} else {
+		d.coyT -= 1.0 / 60.0
+	}
+	if d.bufT > 0 {
+		d.bufT -= 1.0 / 60.0
+	}
+	if input.JustPressed(input.Jump) {
+		d.bufT = jumpBuf
+	}
+	held := input.Held(input.Jump)
+	// Soltou subindo: corta o pulo (toque rápido = pulinho).
+	if !held && d.jumpHeld && d.vz > jumpCut && !d.flying {
+		d.vz = jumpCut
+	}
+	d.jumpHeld = held
+	if d.bufT > 0 && (onGround || d.coyT > 0) && !d.flying {
+		d.bufT, d.coyT, d.vz = 0, 0, jumpV
 		_ = audio.Play("jump")
 	}
 	if ebiten.IsKeyPressed(ebiten.KeyE) {
@@ -59,14 +81,17 @@ func (d *Duck) air(solids []world.Solid) float64 {
 		d.flyT -= 1.0 / 60.0
 		// Teto desce no último 1s: cansou, plana até o piso.
 		ceiling := d.ground + flyH*min(max(d.flyT, 0), 1)
-		if up := min(2.5, (ceiling-d.z)*0.3+0.3); up > 0 {
-			d.z = min(ceiling, d.z+up)
+		if input.Held(input.Down) {
+			// Mergulha: desce rápido até o piso.
+			d.z = max(d.ground, d.z-flyDive)
+		} else if up := min(2.5, (ceiling-d.z)*0.3+0.3); up > 0 {
+			d.z = min(ceiling, d.z+min(up, flyRise))
 		}
 		d.vz = 0
 		return flyBoost
 	}
 	if onGround && d.flyT < flyMax {
-		d.flyT += 1.5 / 60.0
+		d.flyT += flyRegen / 60.0
 	}
 	if d.z > d.ground || d.vz != 0 {
 		d.z += d.vz

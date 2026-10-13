@@ -1,5 +1,9 @@
 package actor
 
+import (
+	"duckling/engine/rendering"
+)
+
 // anim.go — direção e quadros: o 1º toque troca a pose na hora,
 // parado volta ao frame base.
 

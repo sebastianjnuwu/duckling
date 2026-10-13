@@ -2,6 +2,28 @@
 
 ## [Unreleased]
 ### Added
+- TODO detalhado no `README.md` (Fases 1–8 com arquivos-alvo,
+  números iniciais e contratos de mapa/rede por fase)
+### Changed
+- Física do pato com peso (`move.go`/`air.go`/`defs.go`): aceleração
+  (chão 0.9/ar 0.4/voo 0.55), diagonal normalizada (1/√2),
+  velocidade 3→2.6, pulo com altura variável (soltar corta em 2.5),
+  buffer 0.12s + coyote 0.10s, pulo 5.6→5.2/gravidade 0.5
+  (pico ~30, ainda limpa `h=25`), voo com decolagem suave
+  (sobe ≤1.8/frame), mergulho segurando baixo e regen 2.0/s
+### Removed
+- NPCs vermelhos removidos de vez (`game/player/npc.go`,
+  `game/screens/play/play_npc.go`, lista `npcs` no play,
+  trombada/empurrão `slowT/bumpT/kx/ky/hx/hy` no pato):
+  sem passeadores, sem freio ao encostar
+### Changed
+- Sprites do pato em 12 tiras por tamanho
+  (`sprites/duck/yellow/{16,32,64,128}px/`: `down/up/left/right`,
+  `fly_*`, `jump_*`); `NewHStrip` fatia pelo N real de cada PNG
+- Docs atualizados (`defs.go`, `assets.go`, `feathers.go`, `AGENTS.md`)
+  pro layout novo; ícone do `.exe`/janela usa
+  `images/icons/duck/transparent/` com fallback pra `images/logo.png`
+### Added
 - Física 2.5D/isométrica de elevação (`game/player/floor.go`): sólidos
   com altura (cercas, pedras) agora funcionam como plataformas elevadas;
   o pato pousa no topo (`z = s.H`), caminha sobre elas, pula de cima
