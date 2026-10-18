@@ -11,20 +11,30 @@ import (
 
 // Host é uma sala achada na rede.
 type Host struct {
-	Addr string
+	Addr string // ip:porta de origem do anúncio
+	IP   string // só o IP (é onde a partida conecta)
 	Room string
 	N    int
 	Max  int
 	Priv bool
 }
 
-// Announce grita presença até fechar stop.
+// Announce grita presença com contagem fixa até fechar stop.
 func Announce(room string, n, max int, priv bool, stop <-chan struct{}) error {
-	return AnnounceTo("255.255.255.255", room, n, max, priv, stop)
+	return AnnounceLoop(room, func() int { return n }, max, priv, stop)
 }
 
-// AnnounceTo é o Announce com destino parametrizado (teste usa 127.0.0.1).
+// AnnounceLoop é o Announce com contagem viva (sala que enche).
+func AnnounceLoop(room string, count func() int, max int, priv bool, stop <-chan struct{}) error {
+	return announceTo("255.255.255.255", room, count, max, priv, stop)
+}
+
+// AnnounceTo é o Announce com destino parametrizado (teste: 127.0.0.1).
 func AnnounceTo(dst, room string, n, max int, priv bool, stop <-chan struct{}) error {
+	return announceTo(dst, room, func() int { return n }, max, priv, stop)
+}
+
+func announceTo(dst, room string, count func() int, max int, priv bool, stop <-chan struct{}) error {
 	addr, err := net.ResolveUDPAddr("udp", dst+":"+strconv.Itoa(Port))
 	if err != nil {
 		return err
@@ -45,7 +55,7 @@ func AnnounceTo(dst, room string, n, max int, priv bool, stop <-chan struct{}) e
 		case <-stop:
 			return nil
 		case <-t.C:
-			_, _ = c.Write(Encode(Msg{Kind: "hello", Room: room, N: n, Max: max, Pass: pass}))
+			_, _ = c.Write(Encode(Msg{Ver: Version, Kind: "hello", Room: room, N: count(), Max: max, Pass: pass}))
 		}
 	}
 }
@@ -69,7 +79,11 @@ func Listen(dur time.Duration) ([]Host, error) {
 		if err != nil || m.Kind != "hello" {
 			continue
 		}
-		seen[addr.String()] = Host{Addr: addr.String(), Room: m.Room, N: m.N, Max: m.Max, Priv: m.Pass != ""}
+		ip := ""
+		if ua, ok := addr.(*net.UDPAddr); ok {
+			ip = ua.IP.String()
+		}
+		seen[addr.String()] = Host{Addr: addr.String(), IP: ip, Room: m.Room, N: m.N, Max: m.Max, Priv: m.Pass != ""}
 	}
 	out := make([]Host, 0, len(seen))
 	for _, h := range seen {

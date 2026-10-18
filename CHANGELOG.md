@@ -2,6 +2,22 @@
 
 ## [Unreleased]
 ### Added
+- LAN jogável (Fase 1): host autoritativo + cliente em `game/session/`
+  (join/welcome, snapshot 15/s, input 30/s, timeout 5s, match de
+  versão) sobre UDP no `GamePort` 48218 (`engine/network/endpoint.go`);
+  anúncio/descoberta continuam no 48217
+- Lobby real: CRIAR vira host e anuncia na LAN; browse lista as salas
+  achadas (com botão de atualizar), entra com nome + senha e mostra
+  toasts de erro (`net.*`); sair da tela para a varredura
+- Pato remoto: `actor.In` desacopla a física do teclado (entrada local
+  ou da rede), `Interp`/`Snap` em `game/player/remote.go`; o host
+  simula todos, o cliente prevê o próprio e interpola os outros
+- i18n de `lobby.join`, `lobby.scanning` e `net.*` em en/es/pt
+### Changed
+- `Duck.Update` recebe `actor.In` (não lê mais `input` direto); a
+  tecla E e o buffer de voo ficaram em `actor.LocalIn`
+- `Menu.room` virou ponteiro (`RoomState` guarda mutex da varredura)
+### Added
 - TODO detalhado no `README.md` (Fases 1–8 com arquivos-alvo,
   números iniciais e contratos de mapa/rede por fase)
 ### Changed

@@ -74,5 +74,15 @@
   "play.dead": "El pan es malo para los patos. F...",
   "play.friend": "Ahora son amigos para siempre!",
   "play.retry": "ENTER: SALIR - CLIC: OTRA VEZ",
-  "play.end": "FIN"
+  "play.end": "FIN",
+  "lobby.join": "ENTRAR",
+  "lobby.scanning": "BUSCANDO SALAS...",
+  "net.joined": "JUGADOR ENTRÓ",
+  "net.left": "JUGADOR SALIÓ",
+  "net.badpass": "CONTRASEÑA INCORRECTA",
+  "net.full": "SALA LLENA",
+  "net.badversion": "VERSIÓN DISTINTA",
+  "net.timeout": "LA SALA NO RESPONDE",
+  "net.hostgone": "EL ANFITRIÓN SALIÓ",
+  "net.fail": "FALLO DE RED"
 }

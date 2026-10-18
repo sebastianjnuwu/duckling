@@ -74,5 +74,15 @@
   "play.dead": "Bread is bad for ducks. F...",
   "play.friend": "Now they're friends forever!",
   "play.retry": "ENTER: QUIT - CLICK: AGAIN",
-  "play.end": "THE END"
+  "play.end": "THE END",
+  "lobby.join": "JOIN",
+  "lobby.scanning": "SEARCHING ROOMS...",
+  "net.joined": "PLAYER JOINED",
+  "net.left": "PLAYER LEFT",
+  "net.badpass": "WRONG PASSWORD",
+  "net.full": "ROOM FULL",
+  "net.badversion": "VERSION MISMATCH",
+  "net.timeout": "ROOM NOT RESPONDING",
+  "net.hostgone": "THE HOST LEFT",
+  "net.fail": "NETWORK FAILURE"
 }

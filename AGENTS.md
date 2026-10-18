@@ -19,7 +19,11 @@ Jogo de dedução social: patos com tarefas, um impostor no meio.
   UserConfigDir): idioma + áudio. `Load/Apply` no boot,
   `Store` a cada mudança. Sem arquivo = defaults ligados.
 - `engine/network/` — mensagens JSON por UDP (`msg.go`) +
-  descoberta LAN (`discover.go`: anuncia/escuta).
+  descoberta LAN (`discover.go`: anuncia/escuta no 48217) +
+  socket da partida (`endpoint.go`: host/cliente no 48218).
+- `game/session/` — partida LAN: host autoritativo (simula todos
+  e distribui snapshot 15/s) ou cliente (manda input 30/s e
+  interpola). `Set/Get` guarda a sessão atual (nil = solo).
 - `game/screens/loading|menu|play|shop/` — uma pasta
   por tela (`Update() error` + `Draw(*ebiten.Image)`).
   O curral (salas + novo jogo) é modal do menu.

@@ -21,7 +21,7 @@ type Duck struct {
 	coyT, bufT                            float64
 	jumpHeld                              bool
 	z, vz, ground                         float64
-	flyT, holdT                           float64
+	flyT                                  float64
 	flying, wantFly                       bool
 	flap                                  uint
 	Px, Py                                float64

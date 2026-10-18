@@ -36,3 +36,14 @@ func Floor(x, y, z float64, solids []world.Solid) float64 {
 	}
 	return top
 }
+
+// walled diz se o pato tá colado em paredão mais alto que o voo.
+func (d *Duck) walled(solids []world.Solid) bool {
+	r := image.Rect(int(d.Px-11), int(d.Py-9), int(d.Px+11), int(d.Py+9))
+	for _, s := range solids {
+		if s.H > d.z+flyH && r.Overlaps(s.Rect) {
+			return true
+		}
+	}
+	return false
+}

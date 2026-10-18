@@ -3,7 +3,6 @@ package actor
 import (
 	"math"
 
-	"duckling/engine/input"
 	"duckling/game/map"
 )
 
@@ -19,22 +18,22 @@ const (
 	diagK     = 0.7071 // 1/√2: diagonal anda igual ao reto
 )
 
-// Update anda conforme WASD/setas, desliza nos sólidos e
+// Update anda conforme a entrada (in), desliza nos sólidos e
 // prende nos limites (no alto, com folga pra cabeça não
 // sair da tela). Passa por cima do que for mais baixo.
-func (d *Duck) Update(x0, y0, x1, y1 int, solids []world.Solid) {
-	sp := d.def.Speed * d.air(solids)
+func (d *Duck) Update(x0, y0, x1, y1 int, solids []world.Solid, in In) {
+	sp := d.def.Speed * d.air(solids, in)
 	var tx, ty float64
-	if input.Held(input.Left) {
+	if in.Left {
 		tx -= sp
 	}
-	if input.Held(input.Right) {
+	if in.Right {
 		tx += sp
 	}
-	if input.Held(input.Up) {
+	if in.Up {
 		ty -= sp
 	}
-	if input.Held(input.Down) {
+	if in.Down {
 		ty += sp
 	}
 	if tx != 0 && ty != 0 {

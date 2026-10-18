@@ -74,5 +74,15 @@
   "play.dead": "Pão faz mal pra pato. F...",
   "play.friend": "Agora sao amigos para sempre!",
   "play.retry": "ENTER: SAIR - CLIQUE: DE NOVO",
-  "play.end": "FIM"
+  "play.end": "FIM",
+  "lobby.join": "ENTRAR",
+  "lobby.scanning": "BUSCANDO SALAS...",
+  "net.joined": "JOGADOR ENTROU",
+  "net.left": "JOGADOR SAIU",
+  "net.badpass": "SENHA ERRADA",
+  "net.full": "SALA CHEIA",
+  "net.badversion": "VERSAO DIFERENTE",
+  "net.timeout": "SEM RESPOSTA DA SALA",
+  "net.hostgone": "O DONO SAIU",
+  "net.fail": "FALHA NA REDE"
 }

@@ -21,7 +21,7 @@ func (l *RoomState) configUpdate() error {
 	}
 	if l.start.Update() && validName(l.name) {
 		l.click()
-		l.next("play")
+		l.startHost()
 		return nil
 	}
 	if l.canMinDec() && l.minDec.Update() {

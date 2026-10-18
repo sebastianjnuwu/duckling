@@ -3,6 +3,7 @@ package play
 import (
 	"duckling/engine/i18n"
 	"duckling/engine/rendering"
+	"duckling/game/session"
 
 	"github.com/hajimehoshi/ebiten/v2"
 	"github.com/hajimehoshi/ebiten/v2/inpututil"
@@ -23,6 +24,7 @@ func (p *Play) confirmUpdate() {
 	}
 	if p.yes.Update() {
 		p.confirm = false
+		session.Set(nil)
 		p.next("menu")
 	}
 }

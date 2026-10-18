@@ -20,6 +20,10 @@ func (l *RoomState) Draw(img *ebiten.Image) {
 		l.roomsDraw(img)
 		return
 	}
+	if l.tab == 2 {
+		l.joinDraw(img)
+		return
+	}
 	if bg := assets.Images["images/bg"]; bg != nil {
 		ui.DrawCover(img, bg)
 	}

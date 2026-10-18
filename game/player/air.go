@@ -1,14 +1,8 @@
 package actor
 
 import (
-	"image"
-
 	"duckling/engine/audio"
-	"duckling/engine/input"
 	"duckling/game/map"
-
-	"github.com/hajimehoshi/ebiten/v2"
-	"github.com/hajimehoshi/ebiten/v2/inpututil"
 )
 
 // air.go — pulo e voo: ESPAÇO pula, E ou X voa (pousa em cercas/pedras).
@@ -23,7 +17,6 @@ const (
 	flyMax   = 5.0
 	flyBoost = 1.25
 	flyH     = 38.0
-	flyHold  = 0.2
 	flyRise  = 1.8 // subida do voo (decolagem suave)
 	flyDive  = 3.0 // segurando baixo no voo: mergulha
 	flyRegen = 2.0 // estamina de volta no chão, por s
@@ -36,7 +29,7 @@ const (
 )
 
 // air atualiza piso, gravidade, pulo e voo; devolve multiplicador de vel.
-func (d *Duck) air(solids []world.Solid) float64 {
+func (d *Duck) air(solids []world.Solid, in In) float64 {
 	d.ground = Floor(d.Px, d.Py, d.z, solids)
 	onGround := d.z <= d.ground+0.1
 	if onGround {
@@ -47,10 +40,10 @@ func (d *Duck) air(solids []world.Solid) float64 {
 	if d.bufT > 0 {
 		d.bufT -= 1.0 / 60.0
 	}
-	if input.JustPressed(input.Jump) {
+	if in.JumpEdge {
 		d.bufT = jumpBuf
 	}
-	held := input.Held(input.Jump)
+	held := in.Jump
 	// Soltou subindo: corta o pulo (toque rápido = pulinho).
 	if !held && d.jumpHeld && d.vz > jumpCut && !d.flying {
 		d.vz = jumpCut
@@ -60,12 +53,7 @@ func (d *Duck) air(solids []world.Solid) float64 {
 		d.bufT, d.coyT, d.vz = 0, 0, jumpV
 		_ = audio.Play("jump")
 	}
-	if ebiten.IsKeyPressed(ebiten.KeyE) {
-		d.holdT += 1.0 / 60.0
-	} else {
-		d.holdT = 0
-	}
-	if input.JustPressed(input.Fly) || inpututil.IsKeyJustPressed(ebiten.KeyE) {
+	if in.FlyEdge {
 		d.wantFly = !d.wantFly
 	}
 	// Paredão colado corta o voo (e nem deixa levantar).
@@ -73,7 +61,7 @@ func (d *Duck) air(solids []world.Solid) float64 {
 	if wall {
 		d.wantFly = false
 	}
-	d.flying = (d.wantFly || input.Held(input.Fly) || ebiten.IsKeyPressed(ebiten.KeyE) || d.holdT > flyHold) && d.flyT > 0 && !wall
+	d.flying = (d.wantFly || in.Fly) && d.flyT > 0 && !wall
 	if !d.flying {
 		d.wantFly = false
 	}
@@ -81,7 +69,7 @@ func (d *Duck) air(solids []world.Solid) float64 {
 		d.flyT -= 1.0 / 60.0
 		// Teto desce no último 1s: cansou, plana até o piso.
 		ceiling := d.ground + flyH*min(max(d.flyT, 0), 1)
-		if input.Held(input.Down) {
+		if in.Down {
 			// Mergulha: desce rápido até o piso.
 			d.z = max(d.ground, d.z-flyDive)
 		} else if up := min(2.5, (ceiling-d.z)*0.3+0.3); up > 0 {
@@ -103,15 +91,4 @@ func (d *Duck) air(solids []world.Solid) float64 {
 		d.z = d.ground
 	}
 	return 1
-}
-
-// walled diz se o pato tá colado em paredão mais alto que o voo.
-func (d *Duck) walled(solids []world.Solid) bool {
-	r := image.Rect(int(d.Px-11), int(d.Py-9), int(d.Px+11), int(d.Py+9))
-	for _, s := range solids {
-		if s.H > d.z+flyH && r.Overlaps(s.Rect) {
-			return true
-		}
-	}
-	return false
 }

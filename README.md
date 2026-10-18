@@ -35,18 +35,18 @@ O jogo ainda está em desenvolvimento. Por enquanto, estamos construindo a fazen
 
 ## 🗺️ TODO — rumo ao jogo funcionando
 
-O que já está pronto: 1 pato com física própria (corre/acelera/pula/voa) na fazenda (`play`), menu com salas mock, loja "EM BREVE", rede UDP pronta mas desplugada, save de config, i18n em 3 idiomas. Falta o jogo em si: gente, papéis, tarefas, morte e voto. A ordem abaixo é a sugerida (cada fase destrava a próxima). Números como cooldowns e preços são chute inicial — o único lugar da verdade é o código citado em cada item.
+O que já está pronto: 1 pato com física própria (corre/acelera/pula/voa) na fazenda (`play`), menu com salas reais na LAN (host/cliente + descoberta), loja "EM BREVE", rede UDP plugada, save de config, i18n em 3 idiomas. Falta o jogo em si: gente, papéis, tarefas, morte e voto. A ordem abaixo é a sugerida (cada fase destrava a próxima). Números como cooldowns e preços são chute inicial — o único lugar da verdade é o código citado em cada item.
 
 ### Fase 1 — Multiplayer de verdade (base de tudo)
-- [ ] Modelo host-autoritativo: o dono da sala simula e distribui; protocolo em `engine/network/msg.go` com `hello/join/leave/state/event` + versão do protocolo (cliente velho não entra)
-- [ ] Anúncio LAN valendo (`discover.go`): nome da sala, nº de jogadores, tem senha?, mapa, intervalo de broadcast e porta fixa documentados
-- [ ] Salas reais no curral: criar (nome/senha/min/max/mapa), entrar com senha, sair; se o dono sai, a sala fecha (sem migração por enquanto)
-- [ ] `menu_rooms.go` listando as salas achadas na rede (hoje é mock), com cadeado, paginação e toast de erro ("senha errada", "sala cheia")
-- [ ] Snapshot de estado 10–15/s com interpolação nos patos remotos; eventos (pulo/kill/tarefa/voto) por mensagem com reenvio simples
-- [ ] Timeout de 5s sem pacote = caiu (vira fantasma na partida, some no lobby) + toast avisando quem caiu
-- [ ] Nome do jogador: campo de texto no lobby (hoje não existe input de texto — fazer um mínimo com teclado físico)
+- [x] Modelo host-autoritativo: o dono da sala simula e distribui; protocolo em `engine/network/msg.go` (`hello/join/welcome/deny/input/state/leave`) + versão do protocolo (cliente velho não entra)
+- [x] Anúncio LAN valendo (`discover.go`): nome da sala, nº de jogadores, tem senha?, intervalo de 500ms; portas fixas 48217 (descoberta) e 48218 (partida)
+- [x] Salas reais no curral: criar (nome/senha/min/max), entrar com senha, sair; se o dono sai, a sala fecha (sem migração por enquanto). Mapa ainda é fixo (`spawn`)
+- [x] `menu_rooms.go` listando as salas achadas na rede (com botão de atualizar), com cadeado, paginação e toast de erro ("senha errada", "sala cheia")
+- [ ] Snapshot de estado 10–15/s com interpolação nos patos remotos (feito: 15/s + interpolação); faltam eventos (pulo/kill/tarefa/voto) com reenvio simples
+- [x] Timeout de 5s sem pacote = caiu (some do lobby e o cliente volta com aviso; fantasma de partida fica pra Fase 2)
+- [x] Nome do jogador: campo de texto no lobby (teclado físico) — já existia e agora vale no join
 - [ ] Escolha de cor no lobby com trava de repetido (cores = pastas `sprites/duck/<cor>/`, hoje só existe `yellow`)
-- [ ] Teste com 2 instâncias na mesma máquina antes de fechar a fase
+- [ ] Teste com 2 instâncias da GUI na mesma máquina antes de fechar a fase (host+cliente headless já validados)
 
 ### Fase 2 — Partida e papéis
 - [ ] Máquina de estados da partida (ex: `game/match/` novo): `lobby → jogando → reunião → fim`; rede só sincroniza dentro dela

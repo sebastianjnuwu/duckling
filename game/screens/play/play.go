@@ -2,9 +2,10 @@ package play
 
 import (
 	"duckling/content"
-	"duckling/game/player"
 	"duckling/engine/rendering"
 	"duckling/game/map"
+	"duckling/game/player"
+	"duckling/game/session"
 
 	"github.com/hajimehoshi/ebiten/v2"
 	"github.com/hajimehoshi/ebiten/v2/inpututil"
@@ -12,20 +13,24 @@ import (
 )
 
 // play.go — tela do jogo: o pato anda no WASD, a câmera segue.
-// ESC volta, 1-5 pula entre as áreas do mapa.
+// LAN: o host simula todo mundo; o cliente manda input e interpola.
 
 type Play struct {
-	next func(string)
-	font *text.GoTextFace
-	mp   *world.Map
-	d    *actor.Duck
-	area int
-	dbg  bool
-	confirm bool
-	yes, no, qx ui.Btn
-	zoom, zFrom, zT float64
+	next             func(string)
+	font             *text.GoTextFace
+	mp               *world.Map
+	d                *actor.Duck
+	area             int
+	dbg              bool
+	confirm          bool
+	yes, no, qx      ui.Btn
+	zoom, zFrom, zT  float64
 	camX, camY, camZ float64
-	puff ui.Sparks
+	puff             ui.Sparks
+	sess             *session.Session
+	rem              map[int]*actor.Duck
+	rname            map[int]string
+	toast            ui.Toast
 }
 
 func NewPlay(font *text.GoTextFace, next func(string)) (*Play, error) {
@@ -34,12 +39,16 @@ func NewPlay(font *text.GoTextFace, next func(string)) (*Play, error) {
 		return nil, err
 	}
 	p := &Play{next: next, font: font, mp: mp,
-		yes: ui.Btn{X: 380, Y: 390, W: 240, H: 64},
-		no:  ui.Btn{X: 660, Y: 390, W: 240, H: 64},
-		qx:  ui.Btn{X: 840, Y: 250, W: 44, H: 44},
+		yes:   ui.Btn{X: 380, Y: 390, W: 240, H: 64},
+		no:    ui.Btn{X: 660, Y: 390, W: 240, H: 64},
+		qx:    ui.Btn{X: 840, Y: 250, W: 44, H: 44},
+		rem:   map[int]*actor.Duck{},
+		rname: map[int]string{},
+		toast: ui.Toast{Right: true},
 	}
 	sx, sy := mp.Spawn()
 	p.d = actor.New(assets.Images, sx, sy, actor.Cast["duck"])
+	p.sess = session.Get()
 	// Intro: nasce mostrando o mapa todo, desce até o pato.
 	p.zoom = min(1280/float64(mp.W), 720/float64(mp.H))
 	p.zFrom = p.zoom
@@ -48,7 +57,7 @@ func NewPlay(font *text.GoTextFace, next func(string)) (*Play, error) {
 }
 
 func (p *Play) Update() error {
-	// ESC no jogo abre confirmação em vez de sair direto.
+	p.syncSession()
 	if p.confirm {
 		p.confirmUpdate()
 		return nil
@@ -58,9 +67,14 @@ func (p *Play) Update() error {
 		p.d.Load(assets.Images)
 	}
 	x0, y0, x1, y1 := p.bounds()
-	p.d.Update(x0, y0, x1, y1, p.mp.Solids)
+	p.d.Update(x0, y0, x1, y1, p.mp.Solids, actor.LocalIn())
+	p.netUpdate(x0, y0, x1, y1)
+	p.toast.Update()
 	p.puff.Update()
 	p.follow()
+	if p.leaveIfBroken() {
+		return nil
+	}
 	if inpututil.IsKeyJustPressed(ebiten.KeyEscape) {
 		p.confirm = true
 	}
