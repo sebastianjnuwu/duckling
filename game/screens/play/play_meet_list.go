@@ -43,6 +43,9 @@ func (p *Play) meetList(img *ebiten.Image, m session.MeetInfo) {
 			ebitenutil.DrawRect(img, x, y, 4, h, ui.Gold)
 		}
 		ebitenutil.DrawRect(img, x+10, y+10, 22, 22, actor.Color(e.Color).RGB())
+		if e.Hat != 0 {
+			actor.DrawHat(img, actor.Hat(e.Hat), 0, x+21, y+30, 0.4, 0)
+		}
 		col := mtCream
 		if e.Ghost {
 			col = mtDim

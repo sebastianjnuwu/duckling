@@ -1,6 +1,9 @@
 # Changelog — Duckling
 
 ## [Unreleased]
+### Added — Fase 7 (chapéu na reunião)
+- Chapéu também na lista da reunião, desenhado sobre o quadradinho
+  da cor do pato
 ### Added — Fase 7 (tela da loja)
 - Loja valendo (`game/screens/shop/`): cartões com nome, pato de
   preview vestindo a peça, preço/estado (preço, EQUIPAR, EQUIPADO),
