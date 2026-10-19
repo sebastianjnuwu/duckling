@@ -131,7 +131,7 @@
     <property name="time" type="float" value="4"/>
    </properties>
   </object>
-  <object id="77" name="milho" x="500" y="150" width="24" height="24">
+  <object id="77" name="milho" x="450" y="150" width="24" height="24">
    <properties>
     <property name="kind" value="hold"/>
     <property name="time" type="float" value="4"/>
@@ -143,7 +143,7 @@
     <property name="time" type="float" value="4"/>
    </properties>
   </object>
-  <object id="79" name="milho" x="500" y="270" width="24" height="24">
+  <object id="79" name="milho" x="450" y="270" width="24" height="24">
    <properties>
     <property name="kind" value="hold"/>
     <property name="time" type="float" value="4"/>

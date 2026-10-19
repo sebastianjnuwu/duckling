@@ -28,6 +28,9 @@
   moedas) e solta um puff de penas no ponto (som próprio na Fase 8)
 - Refactor: `play_task*.go` e `save/coins.go` separados por
   responsabilidade (teto de 100 linhas por arquivo)
+- Mapa: as 2 tarefas de milho do lado leste saíram de dentro do
+  muro (x 500→450); todo ponto e destino de carry agora é
+  alcançável (conferido headless)
 ### Added — Fase 2 (partida e papéis)
 - `game/match/`: máquina de fases (`lobby/jogando/reunião/fim`),
   sorteio de papel (AUTO: 1 impostor até 6 jogadores, 2 a partir
