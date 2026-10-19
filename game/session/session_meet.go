@@ -70,6 +70,7 @@ func (s *Session) MeetStep() {
 		return
 	}
 	id, skip, imp := s.tallyLocked()
+	s.lastVotes = s.meetVotesLocked()
 	s.clearMeetLocked()
 	s.phase = match.Playing
 	end := false

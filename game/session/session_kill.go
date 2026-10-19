@@ -58,6 +58,7 @@ func (s *Session) Kill(by, target int, x, y float64) bool {
 		return false
 	}
 	s.ghosts[target] = true
+	s.killsN++
 	s.bodies = append(s.bodies, network.Body{ID: target, X: x, Y: y})
 	s.killCd, s.cdAt = KillCooldown, time.Now()
 	s.recountLocked()

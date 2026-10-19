@@ -21,6 +21,13 @@ func (s *Session) clientHandle(m network.Msg) {
 		s.states, s.lastRecv = fresh, time.Now()
 		s.cdMS, s.bodies = m.Cd, m.Bodies
 		s.sabMS, s.lampMS, s.gateMS = m.SabCd, m.Lamp, m.Gate
+		// O snapshot também carrega a fase: se um "phase" se perder,
+		// reunião/fim/volta chegam do mesmo jeito (lobby fica com a
+		// mensagem explícita pra não voltar por pacote atrasado).
+		if m.Phase != int(match.Lobby) {
+			s.phase = match.Phase(m.Phase)
+		}
+		s.result = match.Result{Winner: m.Win, Reason: m.Why}
 		s.meetMS, s.meetOpen = m.MeetLeft, m.MeetOpen
 		s.meetReason, s.meetBy, s.meetOf = m.Meet, m.MeetBy, m.MeetOf
 		s.meetAll = m.Votes
@@ -41,6 +48,9 @@ func (s *Session) clientHandle(m network.Msg) {
 	case "start", "phase":
 		s.mu.Lock()
 		s.phase = match.Phase(m.Phase)
+		if m.Win != "" || m.Phase == int(match.End) {
+			s.result = match.Result{Winner: m.Win, Reason: m.Why}
+		}
 		if m.Meet != "" {
 			s.meetMS, s.meetOpen = m.MeetLeft, m.MeetOpen
 			s.meetReason, s.meetBy, s.meetOf = m.Meet, m.MeetBy, m.MeetOf

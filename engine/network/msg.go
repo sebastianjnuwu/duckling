@@ -13,7 +13,7 @@ const (
 	// GamePort é a porta da partida (join/input/state).
 	GamePort = 48218
 	// Version do protocolo: cliente de versão diferente não entra.
-	Version = 8
+	Version = 9
 )
 
 // Player é um pato num snapshot (posição, altitude, pose).
@@ -85,6 +85,8 @@ type Msg struct {
 	MeetOpen bool     `json:"mopen,omitempty"`
 	Votes    []Vote   `json:"votes,omitempty"`
 	Chats    []Chat   `json:"chats,omitempty"`
+	Win      string   `json:"win,omitempty"`
+	Why      string   `json:"why,omitempty"`
 	By       int      `json:"by,omitempty"`
 	Say      string   `json:"say,omitempty"`
 	Skip     bool     `json:"skip,omitempty"`

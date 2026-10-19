@@ -21,6 +21,22 @@ const (
 	Imp
 )
 
+// Result é o desfecho da partida (strings vão na rede e no i18n).
+type Result struct {
+	Winner string // crew | imp | ""
+	Reason string // tasks | eject | parity | ""
+}
+
+// Vencedores e motivos do fim.
+const (
+	WinCrew = "crew"
+	WinImp  = "imp"
+
+	WhyTasks  = "tasks"
+	WhyEject  = "eject"
+	WhyParity = "parity"
+)
+
 // Pt é uma posição de mundo.
 type Pt struct{ X, Y float64 }
 

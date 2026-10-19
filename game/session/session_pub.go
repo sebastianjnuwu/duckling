@@ -22,6 +22,9 @@ func (s *Session) Publish(ps []network.Player) {
 	s.sent = now
 	m := network.Msg{
 		Ver: network.Version, Kind: "state", Players: ps,
+		Phase:  int(s.phase),
+		Win:    s.result.Winner,
+		Why:    s.result.Reason,
 		Cd:     int(s.killCd / time.Millisecond),
 		Bodies: append([]network.Body(nil), s.bodies...),
 		SabCd:  int(s.sabCd / time.Millisecond),

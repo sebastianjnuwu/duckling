@@ -36,6 +36,7 @@ func (s *Session) Start(plan match.Plan) {
 	s.clearMeetLocked()
 	s.calls = map[int]bool{}
 	s.chats, s.ejectDone = nil, false
+	s.result, s.killsN, s.lastVotes = match.Result{}, 0, nil
 	s.recountLocked()
 	done, total := s.done, s.total
 	type target struct {
@@ -65,12 +66,7 @@ func (s *Session) Start(plan match.Plan) {
 }
 
 // Finish encerra a partida (host) e abre a tela de fim.
-func (s *Session) Finish() {
-	s.mu.Lock()
-	s.phase = match.End
-	s.mu.Unlock()
-	s.broadcast(network.Msg{Ver: network.Version, Kind: "phase", Phase: int(match.End)})
-}
+func (s *Session) Finish() { s.finish(s.win()) }
 
 // Reset volta todo mundo pro lobby e limpa papéis/fantasmas.
 func (s *Session) Reset() {
@@ -86,6 +82,12 @@ func (s *Session) Reset() {
 	s.clearMeetLocked()
 	s.calls = map[int]bool{}
 	s.chats, s.ejectDone = nil, false
+	s.result, s.killsN, s.lastVotes = match.Result{}, 0, nil
 	s.mu.Unlock()
-	s.broadcast(network.Msg{Ver: network.Version, Kind: "phase", Phase: int(match.Lobby)})
+	// Repete a fase: um pacote perdido no fim/lobby deixaria o
+	// convidado preso na tela de resultado.
+	m := network.Msg{Ver: network.Version, Kind: "phase", Phase: int(match.Lobby)}
+	for i := 0; i < 3; i++ {
+		s.broadcast(m)
+	}
 }

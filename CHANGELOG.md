@@ -1,6 +1,15 @@
 # Changelog — Duckling
 
 ## [Unreleased]
+### Added — Fase 6 (fim de jogo, regras)
+- `match.Result` (vencedor + motivo: tarefas 100%, impostor
+  ejetado, impostores em maioria) decidido no host; `Finish()`
+  infere o resultado da mesa e `Stop()` encerra sem vencedor
+- Vitória por tarefas 100% fecha a partida; as mortes são contadas
+  e a última votação fica guardada pra tela de fim
+- Fase e resultado também vão no snapshot (um `phase` perdido não
+  prende o convidado) e o `phase` de fim/lobby é repetido 3×.
+  Protocolo **v9**
 ### Added — Fase 5 (reunião, host)
 - Reunião autoritativa no host: reportar corpo (`report`, só com
   corpo no chão) e botão de emergência (`call`, 1 por jogador por

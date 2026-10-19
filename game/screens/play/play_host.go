@@ -25,7 +25,7 @@ func (p *Play) hostUpdate() {
 		}
 	case match.Playing:
 		if p.endB.Update() {
-			s.Finish()
+			s.Stop()
 		}
 	}
 }
