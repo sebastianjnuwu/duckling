@@ -13,22 +13,24 @@ const (
 	// GamePort é a porta da partida (join/input/state).
 	GamePort = 48218
 	// Version do protocolo: cliente de versão diferente não entra.
-	Version = 1
+	Version = 2
 )
 
 // Player é um pato num snapshot (posição, altitude, pose).
 type Player struct {
-	ID   int     `json:"id"`
-	Name string  `json:"name,omitempty"`
-	X    float64 `json:"x"`
-	Y    float64 `json:"y"`
-	Z    float64 `json:"z,omitempty"`
-	Dir  int     `json:"d,omitempty"`
-	Fly  bool    `json:"f,omitempty"`
+	ID    int     `json:"id"`
+	Name  string  `json:"name,omitempty"`
+	X     float64 `json:"x"`
+	Y     float64 `json:"y"`
+	Z     float64 `json:"z,omitempty"`
+	Dir   int     `json:"d,omitempty"`
+	Fly   bool    `json:"f,omitempty"`
+	Ghost bool    `json:"g,omitempty"`
 }
 
 // Msg cobre os dois papéis: hello é a descoberta; join/deny/
-// welcome/input/state/leave são a partida.
+// welcome/input/state/leave são a partida; start/role/phase
+// levam a partida (fases e, só pro dono, o papel).
 type Msg struct {
 	Ver     int      `json:"v,omitempty"`
 	Kind    string   `json:"kind"`
@@ -38,8 +40,15 @@ type Msg struct {
 	Reason  string   `json:"reason,omitempty"`
 	ID      int      `json:"id,omitempty"`
 	Max     int      `json:"max,omitempty"`
+	Min     int      `json:"min,omitempty"`
 	N       int      `json:"n,omitempty"`
 	In      uint8    `json:"in,omitempty"`
+	Phase   int      `json:"ph,omitempty"`
+	Role    string   `json:"role,omitempty"`
+	Mates   []int    `json:"mates,omitempty"`
+	Tasks   []int    `json:"tasks,omitempty"`
+	X       float64  `json:"x,omitempty"`
+	Y       float64  `json:"y,omitempty"`
 	Players []Player `json:"p,omitempty"`
 }
 
