@@ -106,11 +106,30 @@ O que já está pronto: 1 pato com física própria (corre/acelera/pula/voa) na 
 - [ ] 2º mapa de fazenda (celeiro + milharal) com spawns múltiplos, tasks próprias e `maxplayers`; `world.Open` já lista por pasta
 - [ ] Acessibilidade: cor sempre acompanhada de símbolo/nome (daltônico), volumes já existem no settings
 - [ ] Novas ações (interagir/matar/reportar) entram no remapeamento de controles (`engine/input` + 2 páginas do settings, com nomes no i18n)
-- [ ] Tabela de balance inicial documentada aqui quando fechar: velocidade, voo, cooldown do kill (25s), timers da reunião (60/30s), nº de tarefas (4+2)
+- [x] Tabela de balance inicial documentada na seção Balance (velocidade, voo, cooldown do kill 25s, timers da reunião 60/30s, 4+2 tarefas)
 - [ ] Modo online (botão hoje desligado em `menu.go:70`): relay fora da LAN — por último, LAN primeiro
 - [ ] Cada fase com seu teste headless em `tmp/` (física, protocolo, votação...) provando antes de marcar o checkbox
 
 > Regra de ouro: fase fechada e verde (`go build ./... && go vet ./...`) antes de abrir a próxima. Sem changelog, sem commit.
+
+## ⚖️ Balance inicial
+
+Tom que o jogo nasceu; tudo aqui é constante de código (ou prop do mapa).
+
+| O quê | Valor |
+| --- | --- |
+| Pato andando | 2.6 px por frame, corpo com 24 de altura, sprite de 128px desenhado a 0.25 |
+| Pulo | impulso 5.2, gravidade 0.5 → ~27px de altura; soltar corta em 2.5 (buffer 0.12s, coyote 0.10s) |
+| Voo | teto de 38px, 5s de estamina (regenera 2/s no chão); subida 1.8, mergulho 3.0 |
+| Kill | golpe único, cooldown de 25s; só o impostor vivo, um por vez |
+| Sabotagem | recarga de 30s: luz apaga por 15s, porteiras fecham por 30s |
+| Reunião | 60s de discussão + 30s de votação; 1 sino ou reporte por jogador por partida |
+| Voto | maioria simples; empate e PULAR não ejetam; ejetado vira fantasma e a sabotagem cai |
+| Tarefas | 4 curtas + 2 longas por tripulante; o mapa tem 7 pontos (4 `hold` de 4s, 1 `hold` de 12s, 1 `order` de 9s, 1 `carry` A→B) |
+| Impostores | 1 na sala normal e 2 a partir de 7 jogadores (ou o que a sala pedir, teto `(n-1)/2`) |
+| Vitória | tripulantes: 100% das tarefas ou impostor ejetado; impostores: maioria viva (imps ≥ crew) |
+| Moedas | tarefa curta +2, longa +5, vitória +10; boné 30, palha 80, coroa 150 |
+| Rede | 15 snapshots/s, 30 inputs/s, 5s sem sinal = caiu; protocolo v10 |
 
 ## 🛠️ Feito com
 

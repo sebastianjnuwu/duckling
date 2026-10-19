@@ -1,6 +1,10 @@
 # Changelog — Duckling
 
 ## [Unreleased]
+### Docs — Fase 8 (balance)
+- Seção ⚖️ Balance inicial no README: velocidade, pulo, voo, kill,
+  sabotagem, reunião, voto, tarefas, impostores, vitória, moedas e
+  rede, com os valores tirados do código e do mapa
 ### Added — Fase 8 (como jogar)
 - Tela `game/screens/help/` (registrada no `UI()`): objetivo, papéis,
   tarefas, teclas (lidas do remapeamento atual) e dicas de reunião
