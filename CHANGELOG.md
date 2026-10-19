@@ -6,6 +6,8 @@
   no `Strip`); vale no pato local, remotos, fantasmas e corpo
 - O host guarda as cores, dá a primeira livre ao entrar, troca só se
   estiver livre (`session_color.go`) e manda no `welcome` + snapshot
+- Paleta de 8 quadradinhos no HUD do lobby: clique pede a cor,
+  cor tomada fica escura e a minha ganha aro dourado (`play_color.go`)
 ### Added — Fase 1 (rede)
 - Borda de pulo/voo vai explícita no `input` e o cliente reenvia uma
   vez; o host descarta repetição em 120ms (`session_input.go`)

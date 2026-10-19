@@ -84,6 +84,7 @@ func (p *Play) Update() error {
 		return p.overUpdate()
 	}
 	p.hostUpdate()
+	p.colorUpdate()
 	if inpututil.IsKeyJustPressed(ebiten.KeyEscape) {
 		p.confirm = true
 	}

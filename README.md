@@ -45,7 +45,7 @@ O que já está pronto: 1 pato com física própria (corre/acelera/pula/voa) na 
 - [x] Snapshot de estado 10–15/s com interpolação nos patos remotos (feito: 15/s + interpolação); pulo/voo vão como borda própria reenviada 1× (host filtra repetição em 120ms), kill e tarefa vão 3×; o voto usa o mesmo reenvio quando existir (Fase 5)
 - [x] Timeout de 5s sem pacote = caiu (some do lobby e o cliente volta com aviso; fantasma de partida fica pra Fase 2)
 - [x] Nome do jogador: campo de texto no lobby (teclado físico) — já existia e agora vale no join
-- [ ] Escolha de cor no lobby com trava de repetido (cores = pastas `sprites/duck/<cor>/`, hoje só existe `yellow`)
+- [x] Escolha de cor no lobby: 8 matizes por tint da arte amarela (`game/player/color.go`, a loja troca por sprite próprio na Fase 7), paleta no HUD do lobby e trava de repetido no host
 - [ ] Teste com 2 instâncias da GUI na mesma máquina antes de fechar a fase (host+cliente headless já validados)
 
 ### Fase 2 — Partida e papéis

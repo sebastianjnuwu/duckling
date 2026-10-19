@@ -40,7 +40,7 @@ Jogo de dedução social: patos com tarefas, um impostor no meio.
   O curral (salas + novo jogo) é modal do menu.
 - `game/player/` — `actor.Duck` (`duck.go` sprite,
   `move.go` física, `air.go` pulo/voo, `anim.go` direção,
-  `defs.go` elenco, `feathers.go` penas).
+  `defs.go` elenco, `color.go` matiz do pato, `feathers.go` penas).
 - `game/map/` — TMX via go-tiled (`map.go` Load, `map_geo.go`
   geometria, `map_draw.go` 1 DrawImage, `maps.go` List/Open).
 - `content/` — `embed` (fonts, images, maps, music, sprites).
