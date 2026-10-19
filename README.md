@@ -46,7 +46,7 @@ O que já está pronto: 1 pato com física própria (corre/acelera/pula/voa) na 
 - [x] Timeout de 5s sem pacote = caiu (some do lobby e o cliente volta com aviso; fantasma de partida fica pra Fase 2)
 - [x] Nome do jogador: campo de texto no lobby (teclado físico) — já existia e agora vale no join
 - [x] Escolha de cor no lobby: 8 matizes por tint da arte amarela (`game/player/color.go`, a loja troca por sprite próprio na Fase 7), paleta no HUD do lobby e trava de repetido no host
-- [ ] Teste com 2 instâncias da GUI na mesma máquina antes de fechar a fase (host+cliente headless já validados)
+- [x] Teste com 2 instâncias da GUI na mesma máquina (host+cliente headless também validados) — fecha a Fase 1
 
 ### Fase 2 — Partida e papéis
 - [x] Máquina de estados da partida (`game/match/`): `lobby → jogando → reunião → fim`; o host sincroniza (`start/role/phase`) e a rede só anda dentro dela (reunião ainda sem gatilho: Fase 5)

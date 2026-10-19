@@ -12,6 +12,8 @@
 - Borda de pulo/voo vai explícita no `input` e o cliente reenvia uma
   vez; o host descarta repetição em 120ms (`session_input.go`)
 - `kill` reenviado 3× (tarefa já era)
+- Teste manual com 2 instâncias da GUI na mesma máquina: aprovado
+  (com o outro lado headless já validado, fecha a Fase 1)
 ### Added — Fase 4 (impostor)
 - Núcleo do **MATAR** autoritativo: o convidado pede (`kill`), o
   host confere fase, papel, alvo vivo, alcance e cooldown (25s)
