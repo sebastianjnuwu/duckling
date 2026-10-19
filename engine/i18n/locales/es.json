@@ -84,5 +84,19 @@
   "net.badversion": "VERSIÓN DISTINTA",
   "net.timeout": "LA SALA NO RESPONDE",
   "net.hostgone": "EL ANFITRIÓN SALIÓ",
-  "net.fail": "FALLO DE RED"
+  "net.fail": "FALLO DE RED",
+  "net.started": "LA PARTIDA YA EMPEZÓ",
+  "lobby.auto": "AUTO",
+  "match.lobby": "LOBBY",
+  "match.playing": "PARTIDA",
+  "match.meeting": "REUNIÓN",
+  "match.over": "FIN DE PARTIDA",
+  "match.start": "EMPEZAR",
+  "match.stop": "TERMINAR",
+  "match.back": "VOLVER AL LOBBY",
+  "match.wait": "ESPERANDO AL ANFITRIÓN...",
+  "match.crew": "ERES TRIPULANTE",
+  "match.imp": "ERES IMPOSTOR",
+  "match.mates": "CÓMPLICES",
+  "match.alive": "VIVOS"
 }

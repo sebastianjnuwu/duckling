@@ -4,6 +4,7 @@ import (
 	"time"
 
 	"duckling/engine/network"
+	"duckling/game/match"
 )
 
 // session_client.go — o convidado: pede entrada (esperando a
@@ -35,6 +36,7 @@ func Join(addr, name, pass string) (*Session, error) {
 			switch m.Kind {
 			case "welcome":
 				s.id, s.room, s.max = m.ID, m.Room, m.Max
+				s.min = m.Min
 				s.joined, s.lastRecv = true, time.Now()
 				go s.clientLoop()
 				return s, nil
@@ -70,6 +72,22 @@ func (s *Session) clientHandle(m network.Msg) {
 		}
 		s.mu.Lock()
 		s.states, s.lastRecv = fresh, time.Now()
+		s.mu.Unlock()
+	case "role":
+		role := match.Crew
+		if m.Role == "imp" {
+			role = match.Imp
+		}
+		s.mu.Lock()
+		s.plan.Put(s.id, role, m.Mates, m.Tasks, match.Pt{X: m.X, Y: m.Y})
+		s.phase = match.Phase(m.Phase)
+		s.mu.Unlock()
+	case "start", "phase":
+		s.mu.Lock()
+		s.phase = match.Phase(m.Phase)
+		if s.phase == match.Lobby {
+			s.plan.Clear()
+		}
 		s.mu.Unlock()
 	case "deny":
 		s.mu.Lock()

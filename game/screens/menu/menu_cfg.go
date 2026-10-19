@@ -26,7 +26,7 @@ func (l *RoomState) configUpdate() error {
 	}
 	if l.canMinDec() && l.minDec.Update() {
 		l.click()
-		l.min = max(6, l.min-1)
+		l.min = max(2, l.min-1)
 		l.imp = min(l.imp, l.maxImp())
 	}
 	if l.canMinInc() && l.minInc.Update() {
@@ -37,8 +37,7 @@ func (l *RoomState) configUpdate() error {
 	}
 	if l.canMaxDec() && l.maxDec.Update() {
 		l.click()
-		l.max = min(l.top, max(6, l.max-1))
-		l.min = min(l.min, l.max)
+		l.max = max(l.min, l.max-1)
 	}
 	if l.canMaxInc() && l.maxInc.Update() {
 		l.click()
@@ -46,7 +45,7 @@ func (l *RoomState) configUpdate() error {
 	}
 	if l.canImpDec() && l.impDec.Update() {
 		l.click()
-		l.imp = max(1, l.imp-1)
+		l.imp = max(0, l.imp-1)
 	}
 	if l.canImpInc() && l.impInc.Update() {
 		l.click()

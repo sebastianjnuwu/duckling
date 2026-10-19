@@ -24,7 +24,7 @@ func (l *RoomState) startHost() {
 	if l.priv {
 		pass = l.pass
 	}
-	s, err := session.Host(l.name, l.name, pass, l.max)
+	s, err := session.Host(l.name, l.name, pass, l.min, l.max, l.imp)
 	if err != nil {
 		l.toast.Show(i18n.T("net.fail"))
 		return

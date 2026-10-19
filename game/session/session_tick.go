@@ -1,6 +1,10 @@
 package session
 
-import "time"
+import (
+	"time"
+
+	"duckling/game/match"
+)
 
 // session_tick.go — manutenção por frame e o encerramento:
 // derruba quem ficou mudo e avisa quando o host some.
@@ -13,6 +17,9 @@ func (s *Session) Tick() {
 	now := time.Now()
 	for addr, p := range s.peers {
 		if now.Sub(p.last) > peerTimeout {
+			if s.phase == match.Playing {
+				s.ghosts[p.id] = true
+			}
 			delete(s.peers, addr)
 			s.events = append(s.events, "net.left")
 		}

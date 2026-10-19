@@ -84,5 +84,19 @@
   "net.badversion": "VERSAO DIFERENTE",
   "net.timeout": "SEM RESPOSTA DA SALA",
   "net.hostgone": "O DONO SAIU",
-  "net.fail": "FALHA NA REDE"
+  "net.fail": "FALHA NA REDE",
+  "net.started": "A PARTIDA JÁ COMEÇOU",
+  "lobby.auto": "AUTO",
+  "match.lobby": "LOBBY",
+  "match.playing": "PARTIDA",
+  "match.meeting": "REUNIÃO",
+  "match.over": "FIM DE PARTIDA",
+  "match.start": "COMEÇAR",
+  "match.stop": "ENCERRAR",
+  "match.back": "VOLTAR AO LOBBY",
+  "match.wait": "ESPERANDO O DONO...",
+  "match.crew": "VOCÊ É TRIPULANTE",
+  "match.imp": "VOCÊ É IMPOSTOR",
+  "match.mates": "COMPARSAS",
+  "match.alive": "VIVOS"
 }

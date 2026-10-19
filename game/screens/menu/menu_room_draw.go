@@ -34,7 +34,11 @@ func (l *RoomState) Draw(img *ebiten.Image) {
 	l.nameRow(img)
 	l.stepRow(img, 1, i18n.T("lobby.min"), fmt.Sprint(l.min), &l.minDec, &l.minInc, l.canMinDec(), l.canMinInc())
 	l.stepRow(img, 2, i18n.T("lobby.max"), fmt.Sprint(l.max), &l.maxDec, &l.maxInc, l.canMaxDec(), l.canMaxInc())
-	l.stepRow(img, 3, i18n.T("lobby.impostors"), fmt.Sprint(l.imp), &l.impDec, &l.impInc, l.canImpDec(), l.canImpInc())
+	imp := fmt.Sprint(l.imp)
+	if l.imp == 0 {
+		imp = i18n.T("lobby.auto")
+	}
+	l.stepRow(img, 3, i18n.T("lobby.impostors"), imp, &l.impDec, &l.impInc, l.canImpDec(), l.canImpInc())
 	y := rowY(4)
 	ui.DrawIcon(img, ui.IconLock, rlX-32, y+16, cream())
 	if l.priv {

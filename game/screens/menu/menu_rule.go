@@ -25,13 +25,15 @@ func genPass() string {
 	return string(b)
 }
 
-// maxImp: 1 impostor a cada 6 jogadores (6→1, 12→2, 14→3).
-func (l *RoomState) maxImp() int { return (l.min + 5) / 6 }
+// maxImp: teto do override manual (o auto segue a regra do host).
+// imp = 0 significa AUTO: 1 impostor até 6 jogadores, 2 a partir
+// de 7 (ver game/match).
+func (l *RoomState) maxImp() int { return max(1, l.min/3) }
 
 // No limite o stepper some (igual dos dois lados).
-func (l *RoomState) canMinDec() bool { return l.min > 6 }
+func (l *RoomState) canMinDec() bool { return l.min > 2 }
 func (l *RoomState) canMinInc() bool { return l.min < l.top }
-func (l *RoomState) canMaxDec() bool { return l.max > 6 }
+func (l *RoomState) canMaxDec() bool { return l.max > l.min }
 func (l *RoomState) canMaxInc() bool { return l.max < l.top }
-func (l *RoomState) canImpDec() bool { return l.imp > 1 }
+func (l *RoomState) canImpDec() bool { return l.imp > 0 }
 func (l *RoomState) canImpInc() bool { return l.imp < l.maxImp() }

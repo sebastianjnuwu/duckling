@@ -84,5 +84,19 @@
   "net.badversion": "VERSION MISMATCH",
   "net.timeout": "ROOM NOT RESPONDING",
   "net.hostgone": "THE HOST LEFT",
-  "net.fail": "NETWORK FAILURE"
+  "net.fail": "NETWORK FAILURE",
+  "net.started": "MATCH ALREADY STARTED",
+  "lobby.auto": "AUTO",
+  "match.lobby": "LOBBY",
+  "match.playing": "MATCH",
+  "match.meeting": "MEETING",
+  "match.over": "GAME OVER",
+  "match.start": "START",
+  "match.stop": "STOP",
+  "match.back": "BACK TO LOBBY",
+  "match.wait": "WAITING FOR HOST...",
+  "match.crew": "YOU ARE CREW",
+  "match.imp": "YOU ARE IMPOSTOR",
+  "match.mates": "MATES",
+  "match.alive": "ALIVE"
 }

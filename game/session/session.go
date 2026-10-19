@@ -5,6 +5,7 @@ import (
 	"time"
 
 	"duckling/engine/network"
+	"duckling/game/match"
 )
 
 // session.go — partida na LAN: o host simula e distribui, o
@@ -53,7 +54,9 @@ type Session struct {
 	name string
 	room string
 	pass string
+	min  int
 	max  int
+	imps int
 	id   int
 	ep   *network.Endpoint
 	stop chan struct{}
@@ -69,6 +72,9 @@ type Session struct {
 	sent     time.Time
 	sentIn   time.Time
 	joined   bool
+	phase    match.Phase
+	plan     match.Plan
+	ghosts   map[int]bool
 }
 
 // IsHost diz se esta máquina é a dona da sala.

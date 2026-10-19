@@ -57,7 +57,7 @@ func NewRoomState(font *text.GoTextFace, next func(string)) (*RoomState, error) 
 	if mp, err := world.Open("spawn"); err == nil {
 		top = mp.MaxPlayers()
 	}
-	l := &RoomState{next: next, font: font, min: 6, max: top, top: top, imp: 1,
+	l := &RoomState{next: next, font: font, min: 4, max: top, top: top, imp: 0,
 		toast:   ui.Toast{Right: true},
 		onBack:  func() {},
 		big:     &text.GoTextFace{Source: font.Source, Size: 34},

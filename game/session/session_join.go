@@ -4,10 +4,11 @@ import (
 	"time"
 
 	"duckling/engine/network"
+	"duckling/game/match"
 )
 
 // session_join.go — a porta de entrada: valida versão e senha,
-// limita a lotação e devolve um id pro convidado.
+// limita a lotação, fecha depois de começar e devolve um id.
 
 func (s *Session) hostJoin(addr string, m network.Msg) {
 	reason := ""
@@ -18,6 +19,9 @@ func (s *Session) hostJoin(addr string, m network.Msg) {
 		reason = "net.badpass"
 	}
 	s.mu.Lock()
+	if reason == "" && s.phase != match.Lobby {
+		reason = "net.started"
+	}
 	if reason == "" && len(s.peers)+1 >= s.max {
 		if _, ok := s.peers[addr]; !ok {
 			reason = "net.full"
@@ -37,9 +41,11 @@ func (s *Session) hostJoin(addr string, m network.Msg) {
 	}
 	p.last = time.Now()
 	id := p.id
+	min := s.min
 	s.mu.Unlock()
 	_ = s.ep.SendTo(addr, network.Encode(network.Msg{
-		Ver: network.Version, Kind: "welcome", ID: id, Room: s.room, Max: s.max,
+		Ver: network.Version, Kind: "welcome", ID: id, Room: s.room,
+		Max: s.max, Min: min,
 	}))
 }
 

@@ -19,12 +19,19 @@ func (s *Session) Publish(ps []network.Player) {
 		return
 	}
 	s.sent = now
+	s.mu.Unlock()
+	s.broadcast(network.Msg{Ver: network.Version, Kind: "state", Players: ps})
+}
+
+// broadcast manda a mesma mensagem pra cada convidado.
+func (s *Session) broadcast(m network.Msg) {
+	s.mu.Lock()
 	addrs := make([]string, 0, len(s.peers))
 	for addr := range s.peers {
 		addrs = append(addrs, addr)
 	}
 	s.mu.Unlock()
-	data := network.Encode(network.Msg{Ver: network.Version, Kind: "state", Players: ps})
+	data := network.Encode(m)
 	for _, addr := range addrs {
 		_ = s.ep.SendTo(addr, data)
 	}

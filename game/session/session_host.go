@@ -10,15 +10,16 @@ import (
 // dos clientes, simula todo mundo (no play) e distribui snapshot.
 
 // Host abre a sala e passa a anunciar na LAN.
-func Host(name, room, pass string, max int) (*Session, error) {
+func Host(name, room, pass string, min, max, imps int) (*Session, error) {
 	ep, err := network.ListenHost()
 	if err != nil {
 		return nil, err
 	}
 	s := &Session{
-		host: true, name: name, room: room, pass: pass, max: max,
+		host: true, name: name, room: room, pass: pass,
+		min: min, max: max, imps: imps,
 		ep: ep, stop: make(chan struct{}), nextID: 1,
-		peers: map[string]*peer{},
+		peers: map[string]*peer{}, ghosts: map[int]bool{},
 	}
 	go s.announce()
 	go s.hostLoop()
