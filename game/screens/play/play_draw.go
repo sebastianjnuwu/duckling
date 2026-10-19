@@ -46,6 +46,7 @@ func (p *Play) Draw(img *ebiten.Image) {
 	}
 	p.hudDraw(img)
 	p.taskDraw(img)
+	p.killDraw(img)
 	p.hostDraw(img)
 	if p.phase == match.End {
 		p.overDraw(img)

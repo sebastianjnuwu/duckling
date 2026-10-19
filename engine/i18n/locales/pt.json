@@ -101,6 +101,7 @@
   "match.imp": "VOCÊ É IMPOSTOR",
   "match.mates": "COMPARSAS",
   "match.alive": "VIVOS",
+  "match.dead": "VOCÊ VIROU FANTASMA",
   "task.title": "TAREFAS",
   "task.milho": "MILHO",
   "task.celeiro": "CELEIRO",

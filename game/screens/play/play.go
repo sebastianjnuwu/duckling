@@ -43,6 +43,8 @@ type Play struct {
 	done             map[int]bool
 	tids             []int
 	lock             map[int]float64
+	wasGhost         bool
+	bodySeen         map[int]bool
 }
 
 func (p *Play) Update() error {
@@ -62,6 +64,7 @@ func (p *Play) Update() error {
 		p.d.Update(x0, y0, x1, y1, p.mp.Solids, actor.LocalIn())
 	}
 	p.netUpdate(x0, y0, x1, y1)
+	p.deadUpdate()
 	if p.phase == match.Playing && p.canMove() {
 		p.taskUpdate(1.0 / 60.0)
 		p.killUpdate()

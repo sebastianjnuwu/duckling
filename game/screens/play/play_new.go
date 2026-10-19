@@ -19,19 +19,20 @@ func NewPlay(font *text.GoTextFace, next func(string)) (*Play, error) {
 		return nil, err
 	}
 	p := &Play{next: next, font: font, mp: mp,
-		yes:    ui.Btn{X: 380, Y: 390, W: 240, H: 64},
-		no:     ui.Btn{X: 660, Y: 390, W: 240, H: 64},
-		qx:     ui.Btn{X: 840, Y: 250, W: 44, H: 44},
-		startB: ui.Btn{X: 520, Y: 22, W: 240, H: 48, Icon: ui.IconPlay},
-		endB:   ui.Btn{X: 1050, Y: 22, W: 210, H: 44, Icon: ui.IconDoor},
-		backB:  ui.Btn{X: 500, Y: 430, W: 280, H: 56, Icon: ui.IconPlay},
-		rem:    map[int]*actor.Duck{},
-		rname:  map[int]string{},
-		rghost: map[int]bool{},
-		toast:  ui.Toast{Right: true},
-		ts:     map[int]*task.State{},
-		done:   map[int]bool{},
-		lock:   map[int]float64{},
+		yes:      ui.Btn{X: 380, Y: 390, W: 240, H: 64},
+		no:       ui.Btn{X: 660, Y: 390, W: 240, H: 64},
+		qx:       ui.Btn{X: 840, Y: 250, W: 44, H: 44},
+		startB:   ui.Btn{X: 520, Y: 22, W: 240, H: 48, Icon: ui.IconPlay},
+		endB:     ui.Btn{X: 1050, Y: 22, W: 210, H: 44, Icon: ui.IconDoor},
+		backB:    ui.Btn{X: 500, Y: 430, W: 280, H: 56, Icon: ui.IconPlay},
+		rem:      map[int]*actor.Duck{},
+		rname:    map[int]string{},
+		rghost:   map[int]bool{},
+		toast:    ui.Toast{Right: true},
+		ts:       map[int]*task.State{},
+		done:     map[int]bool{},
+		lock:     map[int]float64{},
+		bodySeen: map[int]bool{},
 	}
 	sx, sy := mp.Spawn()
 	p.d = actor.New(assets.Images, sx, sy, actor.Cast["duck"])

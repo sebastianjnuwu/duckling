@@ -101,6 +101,7 @@
   "match.imp": "YOU ARE IMPOSTOR",
   "match.mates": "MATES",
   "match.alive": "ALIVE",
+  "match.dead": "YOU ARE A GHOST",
   "task.title": "TASKS",
   "task.milho": "CORN",
   "task.celeiro": "BARN",

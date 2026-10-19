@@ -44,4 +44,6 @@ func (p *Play) resetCast() {
 	p.rem = map[int]*actor.Duck{}
 	p.rghost = map[int]bool{}
 	p.lock = map[int]float64{}
+	p.bodySeen = map[int]bool{}
+	p.wasGhost = false
 }

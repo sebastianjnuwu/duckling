@@ -10,6 +10,10 @@
   tripulantes vivos; 100% das tarefas também encerra
 - Cooldown pausa na reunião/lobby e zera ao voltar pra fazenda;
   vivos contados pelo host (fantasma sai da conta)
+- Botão radial do MATAR no HUD: o anel enche conforme o cooldown
+  acaba, a tecla fica no meio e os segundos enquanto espera
+- Som `gamekill`, puff de penas no corpo e toast de quem virou
+  fantasma; o corpo usa o próprio sprite deitado e escurecido
 - Protocolo **v4**
 - Ação **MATAR** (padrão `F`) remapeável e salva, com ícone próprio
   (`IconKill`, content_cut) e a chave `settings.kill` em en/es/pt
