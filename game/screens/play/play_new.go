@@ -33,6 +33,9 @@ func NewPlay(font *text.GoTextFace, next func(string)) (*Play, error) {
 		done:     map[int]bool{},
 		lock:     map[int]float64{},
 		bodySeen: map[int]bool{},
+		dark:     ui.NewDark(1280, 720, 256),
+		sabLamp:  ui.Btn{X: 1096, Y: 596, W: 164, H: 44},
+		sabGate:  ui.Btn{X: 1096, Y: 648, W: 164, H: 44},
 	}
 	sx, sy := mp.Spawn()
 	p.d = actor.New(assets.Images, sx, sy, actor.Cast["duck"])

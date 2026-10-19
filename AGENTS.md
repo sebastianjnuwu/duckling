@@ -21,7 +21,7 @@ Jogo de dedução social: patos com tarefas, um impostor no meio.
   ligados.
 - `engine/network/` — mensagens JSON por UDP (`msg.go`:
   `hello/join/deny/welcome/input/state/leave` + `start/role/
-  phase/task/tasks/kill`) + descoberta LAN (`discover.go`: anuncia e
+  phase/task/tasks/kill/sabotage`) + descoberta LAN (`discover.go`: anuncia e
   escuta no 48217) + socket da partida (`endpoint.go`: host e
   cliente no 48218).
 - `game/session/` — partida LAN: host autoritativo (simula todos
@@ -65,6 +65,8 @@ Jogo de dedução social: patos com tarefas, um impostor no meio.
 - Grupo `COLLISION_WALL` ou classe `BARRIER` = barreira
   absoluta (H 1000: nem pula, nem voa).
 - Grupo `areas` (retângulos ≥128px) = zonas das teclas 1-5.
+- Grupo `gates` = porteiras que a sabotagem fecha; viram colisão
+  total (H 1000) e desenho enquanto durar.
 - Objeto `spawn` = nascimento (sem ele, centro visível).
   Vários = um ponto por pato (o host distribui no começar).
 - Grupo `tasks` = pontos de tarefa: prop `long` (bool), `time`

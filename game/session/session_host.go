@@ -89,5 +89,16 @@ func (s *Session) hostHandle(addr string, m network.Msg) {
 		if id > 0 {
 			s.AskKill(id, m.ID)
 		}
+	case "sabotage":
+		s.mu.Lock()
+		id := 0
+		if p := s.peers[addr]; p != nil {
+			id = p.id
+			p.last = time.Now()
+		}
+		s.mu.Unlock()
+		if id > 0 {
+			s.Sabotage(id, m.Sab)
+		}
 	}
 }

@@ -70,7 +70,7 @@ O que já está pronto: 1 pato com física própria (corre/acelera/pula/voa) na 
 ### Fase 4 — Impostor: faca, corpo e cooldown
 - [x] Nova ação MATAR no `engine/input` (remapeável, padrão F): só impostor, alcance 46px, cooldown 25s com radial no HUD
 - [x] Kill trava o impostor 0.5s + som + puff de pena da vítima; corpo caído no chão (por enquanto o próprio sprite deitado e escurecido no lugar de `duck_dead.png`)
-- [ ] 1ª leva de sabotagens (com cooldown próprio): fechar porteiras (tranca as `areas` por 30s) e apagar a lamparina (overlay escuro com raio de visão — controle novo em `engine/rendering`)
+- [x] 1ª leva de sabotagens (cooldown 30s, pausa na reunião): lamparina apagada 15s (overlay escuro com raio de visão por pato em `engine/rendering`) e porteiras fechadas 30s (grupo `gates` do Tiled)
 - [x] Vitória do(s) impostor(es) quando vivos deles == vivos tripulantes (fantasma não conta)
 - [x] Cooldowns pausam durante a reunião e resetam ao voltar pra fazenda
 

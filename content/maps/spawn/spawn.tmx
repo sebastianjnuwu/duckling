@@ -171,4 +171,8 @@
    </properties>
   </object>
  </objectgroup>
+ <objectgroup id="15" name="gates">
+  <object id="83" name="N_RIGHT" x="444" y="96" width="46" height="18"/>
+  <object id="84" name="S_LEFT" x="16" y="417" width="53" height="18"/>
+ </objectgroup>
 </map>

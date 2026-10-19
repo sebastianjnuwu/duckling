@@ -23,6 +23,9 @@ func (s *Session) Publish(ps []network.Player) {
 		Ver: network.Version, Kind: "state", Players: ps,
 		Cd:     int(s.killCd / time.Millisecond),
 		Bodies: append([]network.Body(nil), s.bodies...),
+		SabCd:  int(s.sabCd / time.Millisecond),
+		Lamp:   int(s.lampLeft / time.Millisecond),
+		Gate:   int(s.gateLeft / time.Millisecond),
 	}
 	s.mu.Unlock()
 	s.broadcast(m)

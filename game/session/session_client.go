@@ -73,6 +73,7 @@ func (s *Session) clientHandle(m network.Msg) {
 		s.mu.Lock()
 		s.states, s.lastRecv = fresh, time.Now()
 		s.cdMS, s.bodies = m.Cd, m.Bodies
+		s.sabMS, s.lampMS, s.gateMS = m.SabCd, m.Lamp, m.Gate
 		s.mu.Unlock()
 	case "role":
 		role := match.Crew
@@ -90,6 +91,7 @@ func (s *Session) clientHandle(m network.Msg) {
 			s.plan.Clear()
 			s.done, s.total = 0, 0
 			s.bodies, s.cdMS, s.killCd = nil, 0, 0
+			s.sabMS, s.lampMS, s.gateMS = 0, 0, 0
 		}
 		s.mu.Unlock()
 	case "tasks":

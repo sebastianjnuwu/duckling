@@ -45,6 +45,9 @@ type Play struct {
 	lock             map[int]float64
 	wasGhost         bool
 	bodySeen         map[int]bool
+	dark             *ui.Dark
+	sabLamp, sabGate ui.Btn
+	lampOn, gateOn   bool
 }
 
 func (p *Play) Update() error {
@@ -61,10 +64,12 @@ func (p *Play) Update() error {
 	x0, y0, x1, y1 := p.bounds()
 	p.lockUpdate(1.0 / 60.0)
 	if p.canMove() && p.lock[p.localID()] <= 0 {
-		p.d.Update(x0, y0, x1, y1, p.mp.Solids, actor.LocalIn())
+		p.d.Update(x0, y0, x1, y1, p.solids(), actor.LocalIn())
 	}
 	p.netUpdate(x0, y0, x1, y1)
 	p.deadUpdate()
+	p.sabUpdate()
+	p.sabFx()
 	if p.phase == match.Playing && p.canMove() {
 		p.taskUpdate(1.0 / 60.0)
 		p.killUpdate()

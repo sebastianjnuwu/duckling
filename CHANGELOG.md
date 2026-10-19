@@ -10,11 +10,17 @@
   tripulantes vivos; 100% das tarefas também encerra
 - Cooldown pausa na reunião/lobby e zera ao voltar pra fazenda;
   vivos contados pelo host (fantasma sai da conta)
+- Sabotagens do impostor (cooldown 30s, pausa na reunião):
+  **lamparina apagada** por 15s (escuro com raio de visão por pato,
+  novo `ui.Dark` em `engine/rendering`) e **porteiras fechadas** por
+  30s (grupo `gates` do Tiled vira colisão e desenho)
+- Botões de sabotagem no HUD do impostor (mouse) com o tempo
+  restante; toast + som quando começam
 - Botão radial do MATAR no HUD: o anel enche conforme o cooldown
   acaba, a tecla fica no meio e os segundos enquanto espera
 - Som `gamekill`, puff de penas no corpo e toast de quem virou
   fantasma; o corpo usa o próprio sprite deitado e escurecido
-- Protocolo **v4**
+- Protocolo **v5**
 - Ação **MATAR** (padrão `F`) remapeável e salva, com ícone próprio
   (`IconKill`, content_cut) e a chave `settings.kill` em en/es/pt
 - Ajustes: página de controles com 4 ações; reset e indicadores de

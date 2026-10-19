@@ -22,6 +22,7 @@ func (p *Play) Draw(img *ebiten.Image) {
 		ui.DrawCover(img, bg)
 	}
 	p.mp.Draw(img, p.camX, p.camY, p.zoom)
+	p.gateDraw(img)
 	p.deadDraw(img)
 	for _, id := range p.remoteIDs() {
 		d := p.rem[id]
@@ -40,6 +41,7 @@ func (p *Play) Draw(img *ebiten.Image) {
 	}
 	p.d.DrawFx(img, p.camX, p.camY, p.zoom)
 	p.puff.Draw(img)
+	p.darkDraw(img)
 	// Raio-X: sólidos em vermelho, pés do pato em verde.
 	if p.dbg {
 		p.drawDbg(img)
@@ -47,6 +49,7 @@ func (p *Play) Draw(img *ebiten.Image) {
 	p.hudDraw(img)
 	p.taskDraw(img)
 	p.killDraw(img)
+	p.sabDraw(img)
 	p.hostDraw(img)
 	if p.phase == match.End {
 		p.overDraw(img)

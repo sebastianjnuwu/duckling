@@ -51,7 +51,7 @@ func (p *Play) netUpdate(x0, y0, x1, y1 int) {
 			if p.lock[id] > 0 {
 				in = actor.In{}
 			}
-			p.remote(id).Update(x0, y0, x1, y1, p.mp.Solids, in)
+			p.remote(id).Update(x0, y0, x1, y1, p.solids(), in)
 		}
 		for id := range p.rem {
 			p.rghost[id] = s.Ghost(id)

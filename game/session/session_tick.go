@@ -14,7 +14,7 @@ import (
 func (s *Session) Tick() {
 	s.mu.Lock()
 	now := time.Now()
-	s.tickCooldown(now)
+	s.tickTimers(now)
 	lost := false
 	for addr, p := range s.peers {
 		if now.Sub(p.last) > peerTimeout {
@@ -35,8 +35,8 @@ func (s *Session) Tick() {
 	}
 }
 
-// tickCooldown corre só jogando: reunião/lobby pausam o relógio.
-func (s *Session) tickCooldown(now time.Time) {
+// tickTimers corre só jogando: reunião/lobby pausam os relógios.
+func (s *Session) tickTimers(now time.Time) {
 	if !s.host {
 		return
 	}
@@ -45,12 +45,21 @@ func (s *Session) tickCooldown(now time.Time) {
 		d = now.Sub(s.cdAt)
 	}
 	s.cdAt = now
-	if s.phase != match.Playing || s.killCd <= 0 {
+	if s.phase != match.Playing {
 		return
 	}
-	if s.killCd -= d; s.killCd < 0 {
-		s.killCd = 0
+	s.killCd = decay(s.killCd, d)
+	s.sabCd = decay(s.sabCd, d)
+	s.lampLeft = decay(s.lampLeft, d)
+	s.gateLeft = decay(s.gateLeft, d)
+}
+
+// decay desconta d sem passar de zero.
+func decay(v, d time.Duration) time.Duration {
+	if v -= d; v < 0 {
+		return 0
 	}
+	return v
 }
 
 // TakeEvents entrega e limpa os avisos pendentes (chaves i18n).

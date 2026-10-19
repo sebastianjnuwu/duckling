@@ -24,6 +24,13 @@ func (m *Map) scan(doc *tiled.Map) {
 				m.takeTask(o)
 				continue
 			}
+			// Grupo "gates": porteiras que a sabotagem fecha.
+			if groupIs(g, "gates") {
+				if gr, ok := objRect(o); ok {
+					m.Gates = append(m.Gates, gr)
+				}
+				continue
+			}
 			if ar, ok := objRect(o); ok && ar.Dx() >= 128 && ar.Dy() >= 128 {
 				m.Areas = append(m.Areas, Area{Name: o.Name, Rect: ar})
 			}

@@ -46,4 +46,5 @@ func (p *Play) resetCast() {
 	p.lock = map[int]float64{}
 	p.bodySeen = map[int]bool{}
 	p.wasGhost = false
+	p.lampOn, p.gateOn = false, false
 }

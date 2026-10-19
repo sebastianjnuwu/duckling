@@ -3,9 +3,6 @@ package session
 import (
 	"sync"
 	"time"
-
-	"duckling/engine/network"
-	"duckling/game/match"
 )
 
 // session.go — partida na LAN: o host simula e distribui, o
@@ -38,51 +35,6 @@ func Get() *Session {
 	regMu.Lock()
 	defer regMu.Unlock()
 	return current
-}
-
-type peer struct {
-	id   int
-	name string
-	in   uint8 // bits segurados
-	prev uint8 // bits do pacote anterior
-	edge uint8 // borda pendente (consumida no HostInputs)
-	last time.Time
-}
-
-type Session struct {
-	host bool
-	name string
-	room string
-	pass string
-	min  int
-	max  int
-	imps int
-	id   int
-	ep   *network.Endpoint
-	stop chan struct{}
-	once sync.Once
-
-	mu       sync.Mutex
-	nextID   int
-	peers    map[string]*peer
-	states   map[int]network.Player
-	events   []string
-	fatal    string
-	lastRecv time.Time
-	sent     time.Time
-	sentIn   time.Time
-	joined   bool
-	phase    match.Phase
-	plan     match.Plan
-	ghosts   map[int]bool
-	tasks    map[int]map[int]bool
-	done     int
-	total    int
-	bodies   []network.Body
-	kills    []KillReq
-	killCd   time.Duration
-	cdAt     time.Time
-	cdMS     int
 }
 
 // IsHost diz se esta máquina é a dona da sala.

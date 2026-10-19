@@ -23,6 +23,7 @@ import (
 //   grupo "areas"     -> zonas ≥128px (teclas 1-5)
 //   objeto "spawn"    -> nascimento; vários = um ponto por pato
 //   grupo "tasks"     -> pontos de tarefa (prop "long" = longa)
+//   grupo "gates"     -> porteiras que a sabotagem fecha (retângulos)
 //   mapa prop "zoom"  -> zoom de gameplay (sem ela, Zoom)
 //   mapa prop "maxplayers" -> teto de jogadores (sem ela, 16)
 
@@ -31,6 +32,7 @@ type Map struct {
 	Areas  []Area
 	Solids []Solid
 	Tasks  []Task
+	Gates  []image.Rectangle
 	zoom   float64
 	maxp   int
 	img    *ebiten.Image
