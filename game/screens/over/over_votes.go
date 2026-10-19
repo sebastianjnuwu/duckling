@@ -49,11 +49,12 @@ func oName(s *session.Session, id int) string {
 	return "?"
 }
 
-// footer: o dono volta pro lobby; o convidado espera.
+// footer: o dono volta pro lobby (revanche) ou fecha a sala.
 func (o *Over) footer(img *ebiten.Image, s *session.Session) {
-	if s.IsHost() {
-		o.back.Draw(img, i18n.T("match.back"), o.font)
+	if !s.IsHost() {
+		ui.DrawCenter(img, i18n.T("match.wait"), o.font, 640)
 		return
 	}
-	ui.DrawCenter(img, i18n.T("match.wait"), o.font, 640)
+	o.back.Draw(img, i18n.T("over.again"), o.font)
+	o.menu.Draw(img, i18n.T("over.menu"), o.font)
 }

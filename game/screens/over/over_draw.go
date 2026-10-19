@@ -55,5 +55,8 @@ func (o *Over) head(img *ebiten.Image, s *session.Session) {
 	done, total := s.GlobalTasks()
 	line := fmt.Sprintf("%s %d/%d    %s %d",
 		i18n.T("over.tasks"), done, total, i18n.T("over.kills"), s.Kills())
+	if o.bonus > 0 {
+		line += "    " + fmt.Sprintf(i18n.T("over.coins"), o.bonus)
+	}
 	ui.DrawCenterColored(img, line, o.face(12), 170, dimmer)
 }

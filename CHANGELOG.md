@@ -1,6 +1,13 @@
 # Changelog — Duckling
 
 ## [Unreleased]
+### Added — Fase 6 (moedas e botões do fim)
+- Bônus de vitória: +10 moedas pro lado vencedor, creditado uma vez
+  na tela de fim e salvo (`save.AddCoins`/`Store`)
+- Botões do dono no fim: REVANCHE (volta ao lobby com a mesma sala)
+  e MENU (fecha a sala e sai; os convidados caem no menu pelo aviso
+  de host perdido)
+- Convidado sem host (fatal) sai da tela de fim pro menu
 ### Added — Fase 6 (tela de fim)
 - Tela `game/screens/over/` (pasta própria, registrada no `UI()`):
   quem venceu e o motivo, tarefas feitas e mortes, a lista completa

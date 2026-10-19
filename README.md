@@ -63,7 +63,7 @@ O que já está pronto: 1 pato com física própria (corre/acelera/pula/voa) na 
 - [x] 3 tipos pra começar: segurar-E com barra (colher milho), levar item de A até B (feno no celeiro), ordem certa (ordenhar na sequência)
 - [x] Nova ação INTERAGIR no `engine/input` (remapeável, padrão E) — voo agora é só X
 - [x] HUD das minhas tarefas + seta na borda apontando a próxima + barra global de progresso (a vitória em 100% é checada na Fase 6)
-- [x] Moedas: curta +2, longa +5 (a vitória +10 fica na Fase 6)
+- [x] Moedas: curta +2, longa +5 (a vitória +10 fecha na tela de fim)
 - [x] Impostor tem tarefas fake: animação igual, mas sem progresso e sem moeda
 - [x] Som de tarefa pronta + toast + puff de pena (som reaproveitado até a Fase 8)
 
@@ -87,8 +87,8 @@ O que já está pronto: 1 pato com física própria (corre/acelera/pula/voa) na 
 - [x] Tela `game/screens/over/` (pasta própria): quem venceu e o motivo (tarefas 100% / impostores zerados / tripulantes ≤ impostores), no lugar do overlay mínimo que era do play
 - [x] Lista completa de papéis (revelada pelo host no `phase`) + stats: tarefas feitas, mortes e os votos da última reunião (quem votou em quem / pular)
 - [ ] Teste manual com 2 instâncias da GUI: ver a tela de fim, voltar pro lobby e conferir papéis/votos
-- [ ] Moedas creditadas e salvas; botões revanche (mesma sala, volta ao lobby) e menu
-- [ ] Condição checada no host a cada morte/ejeção/tarefa (não no cliente — anti-"vitória fantasma")
+- [x] Moedas creditadas e salvas (+2/+5 por tarefa, +10 pro lado vencedor na tela de fim); botões REVANCHE (mesma sala, volta ao lobby) e MENU (fecha a sala)
+- [x] Condição checada no host a cada morte/ejeção/tarefa (`winLocked` no `Kill`, `MeetStep` e `DoneTask`); o cliente só lê o `Result` do `phase`/snapshot
 
 ### Fase 7 — Loja valendo
 - [ ] Desligar o `Disabled` do botão (`menu.go:71`) e tirar o "EM BREVE" (`shop.go`): grade de itens com preço, preview e botão comprar/equipar
