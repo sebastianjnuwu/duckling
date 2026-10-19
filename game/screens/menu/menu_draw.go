@@ -32,6 +32,9 @@ func (m *Menu) Draw(img *ebiten.Image) {
 	m.drawBtn(img, m.shop, i18n.T("menu.shop"), 0.25)
 	m.drawBtn(img, m.opt, i18n.T("menu.options"), 0.35)
 	m.drawBtn(img, m.quit, i18n.T("menu.quit"), 0.45)
+	if m.state == stMain {
+		m.help.Draw(img, "?", m.font)
+	}
 	m.fx.Draw(img)
 
 	switch m.state {

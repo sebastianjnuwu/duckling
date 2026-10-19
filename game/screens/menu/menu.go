@@ -34,13 +34,15 @@ type Menu struct {
 	qYes, qNo, qX ui.Btn
 	// mode (online/lan)
 	online, lan, modeX ui.Btn
-	state              int
-	room               *RoomState
-	duck               *ui.Strip
-	ft                 float64
-	bgm                bool
-	toast              ui.Toast
-	fx                 ui.Sparks
+	// help ("?" no canto): como jogar
+	help  ui.Btn
+	state int
+	room  *RoomState
+	duck  *ui.Strip
+	ft    float64
+	bgm   bool
+	toast ui.Toast
+	fx    ui.Sparks
 }
 
 func btn(x, y, w, h float64, ic ui.Icon) ui.Btn { return ui.Btn{X: x, Y: y, W: w, H: h, Icon: ic} }
@@ -65,6 +67,7 @@ func NewMenu(font *text.GoTextFace, next func(string)) (*Menu, error) {
 		online: btn(400, 320, 200, 64, ui.IconGlobe),
 		lan:    btn(660, 320, 200, 64, ui.IconLan),
 		modeX:  btn(840, 250, 44, 44, ui.IconNone),
+		help:   btn(1204, 24, 52, 52, ui.IconNone),
 	}
 	// Em breve: sem clique, apagados.
 	m.online.Disabled = true

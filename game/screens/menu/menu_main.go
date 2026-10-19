@@ -33,6 +33,10 @@ func (m *Menu) mainUpdate() {
 		m.click()
 		m.next("shop")
 	}
+	if m.help.Update() {
+		m.click()
+		m.next("help")
+	}
 	if m.opt.Update() {
 		m.click()
 		m.state = stSettings

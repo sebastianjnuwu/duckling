@@ -4,6 +4,7 @@ import (
 	"image/color"
 
 	"duckling/engine/audio"
+	"duckling/game/screens/help"
 	"duckling/game/screens/loading"
 	"duckling/game/screens/menu"
 	"duckling/game/screens/over"
@@ -47,6 +48,7 @@ func UI() (*Game, error) {
 	}
 	g.Add("play", pl)
 	g.Add("shop", shop.NewShop(ld.Font(), g.switchTo))
+	g.Add("help", help.NewHelp(ld.Font(), g.switchTo))
 	ov := over.NewOver(ld.Font(), g.switchTo)
 	g.Add("over", ov)
 

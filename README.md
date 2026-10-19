@@ -102,7 +102,7 @@ O que já está pronto: 1 pato com física própria (corre/acelera/pula/voa) na 
 ### Fase 8 — Conteúdo e polimento
 - [ ] LOD de sprites: usar `16/32/64px` conforme o zoom (hoje só `128px` desenha; o resto só pesa o binário) + dar destino a `icons/duck/bottom/` (avatares da reunião? favicon web?)
 - [~] Sons que faltam, um por evento: início, vitória e derrota já tocam os mp3 que existiam; kill, corpo achado, sino, voto, ejetado, tarefa pronta e sabotagem esperam os arquivos (`sfx.go` já tem 2 canais + anti-spam de 100ms)
-- [ ] Tela/modal "como jogar" + placas de tutorial na 1ª fazenda; i18n de TODA string nova (`en/es/pt.json`, sem hardcoded no `Draw`)
+- [~] Tela "como jogar" pronta (`game/screens/help/`, botão "?" no menu) com objetivo, papéis, tarefas, teclas remapeadas e dicas; faltam as placas de tutorial na 1ª fazenda
 - [ ] 2º mapa de fazenda (celeiro + milharal) com spawns múltiplos, tasks próprias e `maxplayers`; `world.Open` já lista por pasta
 - [ ] Acessibilidade: cor sempre acompanhada de símbolo/nome (daltônico), volumes já existem no settings
 - [ ] Novas ações (interagir/matar/reportar) entram no remapeamento de controles (`engine/input` + 2 páginas do settings, com nomes no i18n)

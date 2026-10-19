@@ -1,6 +1,12 @@
 # Changelog — Duckling
 
 ## [Unreleased]
+### Added — Fase 8 (como jogar)
+- Tela `game/screens/help/` (registrada no `UI()`): objetivo, papéis,
+  tarefas, teclas (lidas do remapeamento atual) e dicas de reunião
+- Botão "?" no canto do menu principal (só no estado principal) abre
+  a tela; ESC ou o botão VOLTAR saem; i18n `help.*` nas 3 línguas
+  (linhas medidas a 12px pra caberem no painel)
 ### Added — Fase 8 (sons de partida)
 - Sons que já vinham no pacote agora tocam: `gamestart` quando a
   partida começa e, no desfecho, `gamewinning` pro lado vencedor e
