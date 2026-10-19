@@ -69,6 +69,8 @@ type Session struct {
 	edgeLast  uint8
 	colors    map[int]int
 	color     int
+	hats      map[int]int
+	hat       int
 
 	meetReason     string
 	meetBy, meetOf int

@@ -37,6 +37,7 @@ func (s *Session) clientHandle(m network.Msg) {
 		s.chats = m.Chats
 		if p, ok := fresh[s.id]; ok {
 			s.color = p.Color
+			s.hat = p.Hat
 		}
 		s.mu.Unlock()
 	case "role":

@@ -12,6 +12,7 @@ type RosterEntry struct {
 	ID    int
 	Name  string
 	Color int
+	Hat   int
 	Ghost bool
 }
 
@@ -22,17 +23,17 @@ func (s *Session) Roster() []RosterEntry {
 	out := make([]RosterEntry, 0, len(s.peers)+1)
 	if s.host {
 		out = append(out, RosterEntry{
-			ID: 0, Name: s.name, Color: s.colorAt(0), Ghost: s.ghosts[0],
+			ID: 0, Name: s.name, Color: s.colorAt(0), Hat: s.hatAt(0), Ghost: s.ghosts[0],
 		})
 		for _, p := range s.peers {
 			out = append(out, RosterEntry{
-				ID: p.id, Name: p.name, Color: s.colorAt(p.id), Ghost: s.ghosts[p.id],
+				ID: p.id, Name: p.name, Color: s.colorAt(p.id), Hat: s.hatAt(p.id), Ghost: s.ghosts[p.id],
 			})
 		}
 	} else {
 		for _, pl := range s.states {
 			out = append(out, RosterEntry{
-				ID: pl.ID, Name: pl.Name, Color: pl.Color, Ghost: pl.Ghost,
+				ID: pl.ID, Name: pl.Name, Color: pl.Color, Hat: pl.Hat, Ghost: pl.Ghost,
 			})
 		}
 	}

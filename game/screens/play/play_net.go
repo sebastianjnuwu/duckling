@@ -2,6 +2,7 @@ package play
 
 import (
 	"duckling/engine/network"
+	"duckling/engine/save"
 	"duckling/game/match"
 	"duckling/game/player"
 	"duckling/game/session"
@@ -30,10 +31,12 @@ func (p *Play) syncSession() {
 func (p *Play) netUpdate(x0, y0, x1, y1 int) {
 	s := p.sess
 	if s == nil {
+		p.d.SetHat(actor.Hat(save.Hat()))
 		return
 	}
 	s.Tick()
 	p.d.SetColor(actor.Color(s.Color(s.ID())))
+	p.d.SetHat(actor.Hat(s.Hat(s.ID())))
 	if s.IsHost() {
 		p.hostKills()
 		s.MeetStep()
@@ -43,6 +46,7 @@ func (p *Play) netUpdate(x0, y0, x1, y1 int) {
 			}
 			d := p.remote(id)
 			d.SetColor(actor.Color(s.Color(id)))
+			d.SetHat(actor.Hat(s.Hat(id)))
 			d.Update(x0, y0, x1, y1, p.solids(), in)
 		}
 		for id := range p.rem {
@@ -61,6 +65,7 @@ func (p *Play) netUpdate(x0, y0, x1, y1 int) {
 		d := p.remote(pl.ID)
 		d.Interp(pl.X, pl.Y, pl.Z, pl.Dir, pl.Fly)
 		d.SetColor(actor.Color(pl.Color))
+		d.SetHat(actor.Hat(pl.Hat))
 		p.rname[pl.ID] = pl.Name
 	}
 }

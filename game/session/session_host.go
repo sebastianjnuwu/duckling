@@ -2,6 +2,7 @@ package session
 
 import (
 	"duckling/engine/network"
+	"duckling/engine/save"
 	"duckling/game/player"
 )
 
@@ -21,6 +22,7 @@ func Host(name, room, pass string, min, max, imps int) (*Session, error) {
 		peers: map[string]*peer{}, ghosts: map[int]bool{},
 		tasks:  map[int]map[int]bool{},
 		colors: map[int]int{0: int(actor.Yellow)},
+		hats:   map[int]int{0: save.Hat()},
 	}
 	go s.announce()
 	go s.hostLoop()

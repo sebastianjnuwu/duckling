@@ -4,6 +4,7 @@ import (
 	"time"
 
 	"duckling/engine/network"
+	"duckling/engine/save"
 )
 
 // session_client.go — o convidado: pede entrada (esperando a
@@ -20,7 +21,7 @@ func Join(addr, name, pass string) (*Session, error) {
 		name: name, pass: pass, ep: ep, stop: make(chan struct{}),
 		states: map[int]network.Player{}, lastRecv: time.Now(),
 	}
-	_ = s.ep.Send(network.Encode(network.Msg{Ver: network.Version, Kind: "join", Name: name, Pass: pass}))
+	_ = s.ep.Send(network.Encode(network.Msg{Ver: network.Version, Kind: "join", Name: name, Pass: pass, Hat: save.Hat()}))
 	deadline := time.After(1200 * time.Millisecond)
 	for {
 		select {
@@ -35,7 +36,7 @@ func Join(addr, name, pass string) (*Session, error) {
 			switch m.Kind {
 			case "welcome":
 				s.id, s.room, s.max = m.ID, m.Room, m.Max
-				s.min, s.color = m.Min, m.Color
+				s.min, s.color, s.hat = m.Min, m.Color, m.Hat
 				s.joined, s.lastRecv = true, time.Now()
 				go s.clientLoop()
 				return s, nil

@@ -1,6 +1,10 @@
 # Changelog — Duckling
 
 ## [Unreleased]
+### Changed — Fase 7 (chapéu na rede)
+- Protocolo **v10**: o `hat` viaja no join/welcome e no snapshot;
+  `session.Hat(id)` e `RosterEntry.Hat` dão o chapéu de cada pato
+  (o local e os remotos vestem pelo snapshot)
 ### Added — Fase 7 (catálogo de chapéus)
 - Catálogo em `game/player/hat.go`: boné 30, palha 80 e coroa 150,
   desenhados por código sobre o sprite (`hat_draw.go`) — trocar por

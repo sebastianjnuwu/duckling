@@ -4,6 +4,7 @@ import (
 	"time"
 
 	"duckling/engine/network"
+	"duckling/engine/save"
 	"duckling/game/match"
 	"duckling/game/player"
 )
@@ -38,20 +39,28 @@ func (s *Session) hostJoin(addr string, m network.Msg) {
 		if s.colors == nil {
 			s.colors = map[int]int{0: int(actor.Yellow)}
 		}
+		if s.hats == nil {
+			s.hats = map[int]int{0: save.Hat()}
+		}
 		p = &peer{id: s.nextID, name: clip(m.Name)}
 		s.nextID++
 		s.peers[addr] = p
 		s.colors[p.id] = s.freeColorLocked()
+		s.hats[p.id] = 0
+		if actor.HatValid(m.Hat) {
+			s.hats[p.id] = m.Hat
+		}
 		s.events = append(s.events, "net.joined")
 	}
 	p.last = time.Now()
 	id := p.id
 	min := s.min
 	color := s.colors[id]
+	hat := s.hats[id]
 	s.mu.Unlock()
 	_ = s.ep.SendTo(addr, network.Encode(network.Msg{
 		Ver: network.Version, Kind: "welcome", ID: id, Room: s.room,
-		Max: s.max, Min: min, Color: color,
+		Max: s.max, Min: min, Color: color, Hat: hat,
 	}))
 }
 
@@ -60,6 +69,7 @@ func (s *Session) drop(addr string) {
 	if p, ok := s.peers[addr]; ok {
 		delete(s.peers, addr)
 		delete(s.colors, p.id)
+		delete(s.hats, p.id)
 		s.events = append(s.events, "net.left")
 	}
 	s.mu.Unlock()
