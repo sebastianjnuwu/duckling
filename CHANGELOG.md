@@ -23,6 +23,9 @@
 - HUD de tarefas: barra global do time no topo, lista das minhas
   com ✓ (nomes traduzidos por `task.*`) e seta na borda apontando
   pra tarefa mais perto fora da tela
+- Moedas no `settings.json` (`save.Coins/AddCoins`): curta +2,
+  longa +5; ao concluir toca o sfx, mostra o toast (`task.done` +
+  moedas) e solta um puff de penas no ponto (som próprio na Fase 8)
 ### Added — Fase 2 (partida e papéis)
 - `game/match/`: máquina de fases (`lobby/jogando/reunião/fim`),
   sorteio de papel (AUTO: 1 impostor até 6 jogadores, 2 a partir

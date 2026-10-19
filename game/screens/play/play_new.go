@@ -34,6 +34,7 @@ func NewPlay(font *text.GoTextFace, next func(string)) (*Play, error) {
 	}
 	sx, sy := mp.Spawn()
 	p.d = actor.New(assets.Images, sx, sy, actor.Cast["duck"])
+	p.puff.Grav, p.puff.Size = 120, 0.6
 	p.sess = session.Get()
 	// Intro: nasce mostrando o mapa todo, desce até o pato.
 	p.zoom = min(1280/float64(mp.W), 720/float64(mp.H))

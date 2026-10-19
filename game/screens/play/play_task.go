@@ -74,6 +74,7 @@ func (p *Play) finishTasks() {
 		if st.Done() && !p.done[i] {
 			p.done[i] = true
 			p.report(i)
+			p.reward(i)
 		}
 	}
 }

@@ -24,9 +24,23 @@ type Data struct {
 	SfxOn    bool           `json:"sfxOn"`
 	SfxVol   float64        `json:"sfxVol"`
 	Keys     map[string]int `json:"keys"`
+	Coins    int            `json:"coins"`
 }
 
-var last []byte
+var (
+	last  []byte
+	coins int
+)
+
+// Coins é o saldo local (a loja gasta na Fase 7).
+func Coins() int { return coins }
+
+// AddCoins soma ao saldo (negativo nunca; a loja usa outro caminho).
+func AddCoins(n int) {
+	if n > 0 {
+		coins += n
+	}
+}
 
 func path() (string, bool) {
 	dir, err := os.UserConfigDir()
@@ -63,12 +77,13 @@ func Apply(d Data) {
 	audio.SetSfxOn(d.SfxOn)
 	audio.SetSfxVolume(d.SfxVol)
 	input.LoadCodes(d.Keys)
+	coins = d.Coins
 	last, _ = json.MarshalIndent(d, "", "  ")
 }
 
 // Current fotografa o estado atual.
 func Current() Data {
-	return Data{Version, i18n.Lang, audio.MusicOn(), audio.MusicVolume(), audio.SfxOn(), audio.SfxVolume(), input.Codes()}
+	return Data{Version, i18n.Lang, audio.MusicOn(), audio.MusicVolume(), audio.SfxOn(), audio.SfxVolume(), input.Codes(), coins}
 }
 
 // Store grava o estado atual (atômico, só se mudou).

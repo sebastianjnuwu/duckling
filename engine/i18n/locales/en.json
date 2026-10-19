@@ -104,5 +104,7 @@
   "task.milho": "CORN",
   "task.celeiro": "BARN",
   "task.ordenha": "MILKING",
-  "task.feno": "HAY"
+  "task.feno": "HAY",
+  "task.done": "TASK DONE",
+  "task.coins": "COINS"
 }

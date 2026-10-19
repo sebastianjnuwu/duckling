@@ -16,8 +16,9 @@ Jogo de dedução social: patos com tarefas, um impostor no meio.
   (tiro único, anti-spam 100ms, sem handle aberto).
 - `engine/i18n/` — `i18n.go` + `locales/en|es|pt.json`.
 - `engine/save/` — config local (`settings.json` em
-  UserConfigDir): idioma + áudio. `Load/Apply` no boot,
-  `Store` a cada mudança. Sem arquivo = defaults ligados.
+  UserConfigDir): idioma, áudio, teclas e moedas. `Load/Apply`
+  no boot, `Store` a cada mudança. Sem arquivo = defaults
+  ligados.
 - `engine/network/` — mensagens JSON por UDP (`msg.go`:
   `hello/join/deny/welcome/input/state/leave` + `start/role/
   phase/task/tasks`) + descoberta LAN (`discover.go`: anuncia e

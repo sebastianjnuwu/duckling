@@ -1,6 +1,7 @@
 package play
 
 import (
+	"image"
 	"math"
 
 	"duckling/engine/rendering"
@@ -15,19 +16,24 @@ func (p *Play) arrowDraw(img *ebiten.Image) {
 	if p.ghost() {
 		return
 	}
-	best, bd := -1, math.MaxFloat64
-	for i, st := range p.ts {
-		if st.Done() {
-			continue
+	var at image.Point
+	if i := p.carrying(); i >= 0 {
+		at = p.mp.Tasks[i].Target()
+	} else {
+		best, bd := -1, math.MaxFloat64
+		for i, st := range p.ts {
+			if st.Done() {
+				continue
+			}
+			if d := p.dist(p.mp.Tasks[i].Center()); d < bd {
+				best, bd = i, d
+			}
 		}
-		if d := p.dist(p.mp.Tasks[i].Center()); d < bd {
-			best, bd = i, d
+		if best < 0 {
+			return
 		}
+		at = p.mp.Tasks[best].Center()
 	}
-	if best < 0 {
-		return
-	}
-	at := p.mp.Tasks[best].Center()
 	x := (float64(at.X) - p.camX) * p.zoom
 	y := (float64(at.Y) - p.camY) * p.zoom
 	if x >= 0 && x <= 1280 && y >= 0 && y <= 720 {

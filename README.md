@@ -59,13 +59,13 @@ O que já está pronto: 1 pato com física própria (corre/acelera/pula/voa) na 
 - [x] Quem cai no meio da partida vira fantasma automático (o pato não some do mundo)
 
 ### Fase 3 — Tarefas (o trabalho da fazenda)
-- [ ] Contrato Tiled: objetos de tarefa (`nome`, `tipo`, `tempo`) documentados no `AGENTS.md`, um por ponto da fazenda
-- [ ] 3 tipos pra começar: segurar-E com barra (colher milho), levar item de A até B (feno no celeiro), ordem certa (ordenhar na sequência)
-- [ ] Nova ação INTERAGIR no `engine/input` (remapeável, padrão E) — atenção: E hoje é voo alternativo (`air.go` lê `KeyE` direto); voo passa a ser só X e E vira interagir
-- [ ] HUD das minhas tarefas + seta na borda apontando a próxima + barra global de progresso (vitória tripulante em 100%)
-- [ ] Moedas: curta +2, longa +5, vitória +10 (números iniciais, mexer depois)
-- [ ] Impostor tem tarefas fake: animação igual, mas sem progresso e sem moeda
-- [ ] Som de tarefa pronta + toast + puff de pena (reaproveitar `feathers.go`/`toast.go`)
+- [x] Contrato Tiled: objetos de tarefa (`nome`, `tipo`, `tempo`) documentados no `AGENTS.md`, um por ponto da fazenda
+- [x] 3 tipos pra começar: segurar-E com barra (colher milho), levar item de A até B (feno no celeiro), ordem certa (ordenhar na sequência)
+- [x] Nova ação INTERAGIR no `engine/input` (remapeável, padrão E) — voo agora é só X
+- [x] HUD das minhas tarefas + seta na borda apontando a próxima + barra global de progresso (a vitória em 100% é checada na Fase 6)
+- [x] Moedas: curta +2, longa +5 (a vitória +10 fica na Fase 6)
+- [x] Impostor tem tarefas fake: animação igual, mas sem progresso e sem moeda
+- [x] Som de tarefa pronta + toast + puff de pena (som reaproveitado até a Fase 8)
 
 ### Fase 4 — Impostor: faca, corpo e cooldown
 - [ ] Nova ação MATAR no `engine/input` (remapeável, padrão F): só impostor, alcance ~24px, cooldown 25s com radial no HUD

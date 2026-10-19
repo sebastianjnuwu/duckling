@@ -25,6 +25,7 @@ func (p *Play) taskDraw(img *ebiten.Image) {
 	if !p.ghost() {
 		p.listDraw(img)
 	}
+	p.barTaskDraw(img)
 	p.arrowDraw(img)
 }
 

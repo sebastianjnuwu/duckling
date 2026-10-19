@@ -104,5 +104,7 @@
   "task.milho": "MAÍZ",
   "task.celeiro": "GRANERO",
   "task.ordenha": "ORDEÑO",
-  "task.feno": "HENO"
+  "task.feno": "HENO",
+  "task.done": "TAREA HECHA",
+  "task.coins": "MONEDAS"
 }
