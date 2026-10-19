@@ -1,6 +1,16 @@
 # Changelog — Duckling
 
 ## [Unreleased]
+### Added — Fase 5 (reunião, host)
+- Reunião autoritativa no host: reportar corpo (`report`, só com
+  corpo no chão) e botão de emergência (`call`, 1 por jogador por
+  partida) congelam o jogo e entram na fase `Meeting`
+- Discussão de 60s, votação de 30s; empate ou maioria "pular" não
+  ejetam ninguém; ejetado vira fantasma e a sabotagem ativa cai
+- Fim por ejetar todos os impostores (tripulantes ganham) ou por os
+  impostores alcançarem os tripulantes
+- Estado da reunião (motivo, quem chamou, morto, relógio e votos) vai
+  no snapshot; `Meet()`/`MyVote()` leem pra tela. Protocolo **v7**
 ### Added — Fase 1 (cor)
 - Cor do pato como matiz sobre a arte amarela (8 opções, `RotateHue`
   no `Strip`); vale no pato local, remotos, fantasmas e corpo
@@ -33,7 +43,7 @@
   acaba, a tecla fica no meio e os segundos enquanto espera
 - Som `gamekill`, puff de penas no corpo e toast de quem virou
   fantasma; o corpo usa o próprio sprite deitado e escurecido
-- Protocolo **v5** (borda no input: v6)
+- Protocolo **v5** (v6: borda no input; v7: reunião)
 - Ação **MATAR** (padrão `F`) remapeável e salva, com ícone próprio
   (`IconKill`, content_cut) e a chave `settings.kill` em en/es/pt
 - Ajustes: página de controles com 4 ações; reset e indicadores de

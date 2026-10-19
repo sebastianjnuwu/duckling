@@ -28,6 +28,18 @@ func (s *Session) hostHandle(addr string, m network.Msg) {
 		if id := s.peerID(addr); id > 0 {
 			s.setColor(id, m.Color)
 		}
+	case "report":
+		if id := s.peerID(addr); id > 0 {
+			s.Report(id, m.ID)
+		}
+	case "call":
+		if id := s.peerID(addr); id > 0 {
+			s.CallBell(id)
+		}
+	case "vote":
+		if id := s.peerID(addr); id > 0 {
+			s.Vote(id, m.ID)
+		}
 	case "sabotage":
 		if id := s.peerID(addr); id > 0 {
 			s.Sabotage(id, m.Sab)

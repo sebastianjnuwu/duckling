@@ -65,4 +65,14 @@ type Session struct {
 	edgeLast uint8
 	colors   map[int]int
 	color    int
+
+	meetReason     string
+	meetBy, meetOf int
+	meetAt         time.Time
+	voteOpen       bool
+	votes          map[int]int
+	calls          map[int]bool
+	meetMS         int
+	meetOpen       bool
+	meetAll        []network.Vote
 }

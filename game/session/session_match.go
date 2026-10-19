@@ -33,6 +33,8 @@ func (s *Session) Start(plan match.Plan) {
 	s.bodies, s.kills = nil, nil
 	s.killCd, s.cdAt = 0, time.Time{}
 	s.sabCd, s.lampLeft, s.gateLeft = 0, 0, 0
+	s.clearMeetLocked()
+	s.calls = map[int]bool{}
 	s.recountLocked()
 	done, total := s.done, s.total
 	type target struct {
@@ -80,6 +82,8 @@ func (s *Session) Reset() {
 	s.bodies, s.kills = nil, nil
 	s.killCd, s.cdAt = 0, time.Time{}
 	s.sabCd, s.lampLeft, s.gateLeft = 0, 0, 0
+	s.clearMeetLocked()
+	s.calls = map[int]bool{}
 	s.mu.Unlock()
 	s.broadcast(network.Msg{Ver: network.Version, Kind: "phase", Phase: int(match.Lobby)})
 }

@@ -2,6 +2,7 @@ package play
 
 import (
 	"duckling/engine/network"
+	"duckling/game/match"
 	"duckling/game/player"
 	"duckling/game/session"
 )
@@ -35,8 +36,9 @@ func (p *Play) netUpdate(x0, y0, x1, y1 int) {
 	p.d.SetColor(actor.Color(s.Color(s.ID())))
 	if s.IsHost() {
 		p.hostKills()
+		s.MeetStep()
 		for id, in := range s.HostInputs() {
-			if p.lock[id] > 0 {
+			if p.lock[id] > 0 || p.phase == match.Meeting || p.phase == match.End {
 				in = actor.In{}
 			}
 			d := p.remote(id)

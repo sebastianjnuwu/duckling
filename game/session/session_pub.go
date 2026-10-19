@@ -4,6 +4,7 @@ import (
 	"time"
 
 	"duckling/engine/network"
+	"duckling/game/match"
 	"duckling/game/player"
 )
 
@@ -26,6 +27,19 @@ func (s *Session) Publish(ps []network.Player) {
 		SabCd:  int(s.sabCd / time.Millisecond),
 		Lamp:   int(s.lampLeft / time.Millisecond),
 		Gate:   int(s.gateLeft / time.Millisecond),
+	}
+	if s.phase == match.Meeting {
+		el := time.Since(s.meetAt)
+		m.Meet, m.MeetBy, m.MeetOf = s.meetReason, s.meetBy, s.meetOf
+		m.MeetOpen = s.voteOpen
+		m.MeetLeft = int((DiscussTime - el) / time.Millisecond)
+		if s.voteOpen {
+			m.MeetLeft = int((DiscussTime + VoteTime - el) / time.Millisecond)
+		}
+		if m.MeetLeft < 0 {
+			m.MeetLeft = 0
+		}
+		m.Votes = s.meetVotesLocked()
 	}
 	s.mu.Unlock()
 	s.broadcast(m)

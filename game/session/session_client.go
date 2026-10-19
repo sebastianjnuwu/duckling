@@ -4,7 +4,6 @@ import (
 	"time"
 
 	"duckling/engine/network"
-	"duckling/game/match"
 )
 
 // session_client.go — o convidado: pede entrada (esperando a
@@ -60,50 +59,5 @@ func (s *Session) clientLoop() {
 			}
 			s.clientHandle(m)
 		}
-	}
-}
-
-func (s *Session) clientHandle(m network.Msg) {
-	switch m.Kind {
-	case "state":
-		fresh := make(map[int]network.Player, len(m.Players))
-		for _, p := range m.Players {
-			fresh[p.ID] = p
-		}
-		s.mu.Lock()
-		s.states, s.lastRecv = fresh, time.Now()
-		s.cdMS, s.bodies = m.Cd, m.Bodies
-		s.sabMS, s.lampMS, s.gateMS = m.SabCd, m.Lamp, m.Gate
-		if p, ok := fresh[s.id]; ok {
-			s.color = p.Color
-		}
-		s.mu.Unlock()
-	case "role":
-		role := match.Crew
-		if m.Role == "imp" {
-			role = match.Imp
-		}
-		s.mu.Lock()
-		s.plan.Put(s.id, role, m.Mates, m.Tasks, match.Pt{X: m.X, Y: m.Y})
-		s.phase = match.Phase(m.Phase)
-		s.mu.Unlock()
-	case "start", "phase":
-		s.mu.Lock()
-		s.phase = match.Phase(m.Phase)
-		if s.phase == match.Lobby {
-			s.plan.Clear()
-			s.done, s.total = 0, 0
-			s.bodies, s.cdMS, s.killCd = nil, 0, 0
-			s.sabMS, s.lampMS, s.gateMS = 0, 0, 0
-		}
-		s.mu.Unlock()
-	case "tasks":
-		s.mu.Lock()
-		s.done, s.total = m.Done, m.Total
-		s.mu.Unlock()
-	case "deny":
-		s.mu.Lock()
-		s.fatal = m.Reason
-		s.mu.Unlock()
 	}
 }

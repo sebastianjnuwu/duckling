@@ -13,7 +13,7 @@ const (
 	// GamePort é a porta da partida (join/input/state).
 	GamePort = 48218
 	// Version do protocolo: cliente de versão diferente não entra.
-	Version = 6
+	Version = 7
 )
 
 // Player é um pato num snapshot (posição, altitude, pose).
@@ -36,39 +36,53 @@ type Body struct {
 	Y  float64 `json:"y"`
 }
 
+// Vote é um voto da reunião (ID -1 = pular).
+type Vote struct {
+	By int `json:"by"`
+	ID int `json:"id"`
+}
+
 // Msg cobre os dois papéis: hello é a descoberta; join/deny/
 // welcome/input/state/leave são a partida; start/role/phase
 // levam a partida (fases e, só pro dono, o papel).
 type Msg struct {
-	Ver     int      `json:"v,omitempty"`
-	Kind    string   `json:"kind"`
-	Room    string   `json:"room,omitempty"`
-	Name    string   `json:"name,omitempty"`
-	Pass    string   `json:"pass,omitempty"`
-	Reason  string   `json:"reason,omitempty"`
-	ID      int      `json:"id,omitempty"`
-	Max     int      `json:"max,omitempty"`
-	Min     int      `json:"min,omitempty"`
-	N       int      `json:"n,omitempty"`
-	Color   int      `json:"c,omitempty"`
-	In      uint8    `json:"in,omitempty"`
-	Edge    uint8    `json:"e,omitempty"`
-	Phase   int      `json:"ph,omitempty"`
-	Role    string   `json:"role,omitempty"`
-	Mates   []int    `json:"mates,omitempty"`
-	Tasks   []int    `json:"tasks,omitempty"`
-	Task    int      `json:"task,omitempty"`
-	Done    int      `json:"done,omitempty"`
-	Total   int      `json:"total,omitempty"`
-	Cd      int      `json:"cd,omitempty"`
-	Bodies  []Body   `json:"bodies,omitempty"`
-	Sab     string   `json:"sab,omitempty"`
-	Lamp    int      `json:"lamp,omitempty"`
-	Gate    int      `json:"gate,omitempty"`
-	SabCd   int      `json:"sabcd,omitempty"`
-	X       float64  `json:"x,omitempty"`
-	Y       float64  `json:"y,omitempty"`
-	Players []Player `json:"p,omitempty"`
+	Ver      int      `json:"v,omitempty"`
+	Kind     string   `json:"kind"`
+	Room     string   `json:"room,omitempty"`
+	Name     string   `json:"name,omitempty"`
+	Pass     string   `json:"pass,omitempty"`
+	Reason   string   `json:"reason,omitempty"`
+	ID       int      `json:"id,omitempty"`
+	Max      int      `json:"max,omitempty"`
+	Min      int      `json:"min,omitempty"`
+	N        int      `json:"n,omitempty"`
+	Color    int      `json:"c,omitempty"`
+	In       uint8    `json:"in,omitempty"`
+	Edge     uint8    `json:"e,omitempty"`
+	Phase    int      `json:"ph,omitempty"`
+	Role     string   `json:"role,omitempty"`
+	Mates    []int    `json:"mates,omitempty"`
+	Tasks    []int    `json:"tasks,omitempty"`
+	Task     int      `json:"task,omitempty"`
+	Done     int      `json:"done,omitempty"`
+	Total    int      `json:"total,omitempty"`
+	Cd       int      `json:"cd,omitempty"`
+	Bodies   []Body   `json:"bodies,omitempty"`
+	Sab      string   `json:"sab,omitempty"`
+	Lamp     int      `json:"lamp,omitempty"`
+	Gate     int      `json:"gate,omitempty"`
+	SabCd    int      `json:"sabcd,omitempty"`
+	Meet     string   `json:"meet,omitempty"`
+	MeetBy   int      `json:"mby,omitempty"`
+	MeetOf   int      `json:"mof,omitempty"`
+	MeetLeft int      `json:"mleft,omitempty"`
+	MeetOpen bool     `json:"mopen,omitempty"`
+	Votes    []Vote   `json:"votes,omitempty"`
+	Skip     bool     `json:"skip,omitempty"`
+	Imp      bool     `json:"imp,omitempty"`
+	X        float64  `json:"x,omitempty"`
+	Y        float64  `json:"y,omitempty"`
+	Players  []Player `json:"p,omitempty"`
 }
 
 // Encode serializa pra mandar no UDP.
