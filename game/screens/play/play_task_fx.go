@@ -11,7 +11,31 @@ import (
 	"duckling/game/match"
 )
 
-// play_task_fx.go — recompensa da tarefa: moedas, som, aviso e penas.
+// play_task_fx.go — fechamento da tarefa: avisa o host e paga
+// (moedas, som, toast e penas).
+
+// finishTasks conta quem completou e avisa o host.
+func (p *Play) finishTasks() {
+	for i, st := range p.ts {
+		if st.Done() && !p.done[i] {
+			p.done[i] = true
+			p.report(i)
+			p.reward(i)
+		}
+	}
+}
+
+// report manda a conclusão: o host conta a dele, o cliente avisa.
+func (p *Play) report(i int) {
+	if p.sess == nil {
+		return
+	}
+	if p.sess.IsHost() {
+		p.sess.DoneTask(p.sess.ID(), i)
+		return
+	}
+	p.sess.SendTask(i)
+}
 
 const (
 	coinShort = 2 // tarefa curta

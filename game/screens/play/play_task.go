@@ -6,8 +6,8 @@ import (
 	"duckling/game/task"
 )
 
-// play_task.go — interação local: acha o ponto mais perto, roda a
-// mecânica e avisa o host quando termina.
+// play_task.go — interação local: qual ponto está no alcance e o
+// que a tecla segurada faz nele (a mecânica pura é de game/task).
 
 // syncTasks refaz o estado local quando a lista muda (o "role"
 // pode chegar antes ou depois do "start").
@@ -66,51 +66,4 @@ func (p *Play) taskUpdate(dt float64) {
 		p.ts[idx].Tap(false)
 	}
 	p.finishTasks()
-}
-
-// finishTasks conta quem completou e avisa o host.
-func (p *Play) finishTasks() {
-	for i, st := range p.ts {
-		if st.Done() && !p.done[i] {
-			p.done[i] = true
-			p.report(i)
-			p.reward(i)
-		}
-	}
-}
-
-// report manda a conclusão: o host conta a dele, o cliente avisa.
-func (p *Play) report(i int) {
-	if p.sess == nil {
-		return
-	}
-	if p.sess.IsHost() {
-		p.sess.DoneTask(p.sess.ID(), i)
-		return
-	}
-	p.sess.SendTask(i)
-}
-
-// nearestTask é o ponto incompleto mais perto dentro do alcance.
-func (p *Play) nearestTask() int {
-	best, bd := -1, taskReach
-	for i, st := range p.ts {
-		if st.Done() || st.Load {
-			continue
-		}
-		if d := p.dist(p.mp.Tasks[i].Center()); d < bd {
-			best, bd = i, d
-		}
-	}
-	return best
-}
-
-// carrying devolve a tarefa "carry" na mão (-1 = nenhuma).
-func (p *Play) carrying() int {
-	for i, st := range p.ts {
-		if st.Load && !st.Done() {
-			return i
-		}
-	}
-	return -1
 }

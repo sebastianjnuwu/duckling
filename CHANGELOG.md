@@ -26,6 +26,8 @@
 - Moedas no `settings.json` (`save.Coins/AddCoins`): curta +2,
   longa +5; ao concluir toca o sfx, mostra o toast (`task.done` +
   moedas) e solta um puff de penas no ponto (som próprio na Fase 8)
+- Refactor: `play_task*.go` e `save/coins.go` separados por
+  responsabilidade (teto de 100 linhas por arquivo)
 ### Added — Fase 2 (partida e papéis)
 - `game/match/`: máquina de fases (`lobby/jogando/reunião/fim`),
   sorteio de papel (AUTO: 1 impostor até 6 jogadores, 2 a partir

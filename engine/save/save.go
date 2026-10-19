@@ -27,20 +27,7 @@ type Data struct {
 	Coins    int            `json:"coins"`
 }
 
-var (
-	last  []byte
-	coins int
-)
-
-// Coins é o saldo local (a loja gasta na Fase 7).
-func Coins() int { return coins }
-
-// AddCoins soma ao saldo (negativo nunca; a loja usa outro caminho).
-func AddCoins(n int) {
-	if n > 0 {
-		coins += n
-	}
-}
+var last []byte
 
 func path() (string, bool) {
 	dir, err := os.UserConfigDir()
