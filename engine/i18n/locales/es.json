@@ -99,5 +99,10 @@
   "match.crew": "ERES TRIPULANTE",
   "match.imp": "ERES IMPOSTOR",
   "match.mates": "CÓMPLICES",
-  "match.alive": "VIVOS"
+  "match.alive": "VIVOS",
+  "task.title": "TAREAS",
+  "task.milho": "MAÍZ",
+  "task.celeiro": "GRANERO",
+  "task.ordenha": "ORDEÑO",
+  "task.feno": "HENO"
 }

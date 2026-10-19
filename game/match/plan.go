@@ -39,7 +39,7 @@ func Build(ids []int, spawns []image.Point, tasks []world.Task, imps int) Plan {
 	for i, id := range ids {
 		pl.Spawn[id] = PtAt(spawns, i)
 	}
-	pl.Tasks = assign(ids, pl.Roles, tasks)
+	pl.Tasks = assign(ids, tasks)
 	return pl
 }
 
@@ -55,9 +55,11 @@ func impostors(n, want int) int {
 	return min(want, max(1, (n-1)/2))
 }
 
-// assign dá 4 curtas + 2 longas por tripulante, girando a lista
-// pra não repetir o mesmo ponto pra todo mundo.
-func assign(ids []int, roles map[int]Role, ts []world.Task) map[int][]int {
+// assign dá 4 curtas + 2 longas por jogador, girando a lista pra
+// não repetir o mesmo ponto pra todo mundo. O impostor recebe as
+// mesmas (tarefa fake): a lista aparece igual, mas o host não
+// conta o progresso dele.
+func assign(ids []int, ts []world.Task) map[int][]int {
 	var short, long []int
 	for i, t := range ts {
 		if t.Long {
@@ -71,9 +73,6 @@ func assign(ids []int, roles map[int]Role, ts []world.Task) map[int][]int {
 	out := map[int][]int{}
 	si, li := 0, 0
 	for _, id := range ids {
-		if roles[id] != Crew {
-			continue
-		}
 		mine := []int{}
 		for k := 0; k < ShortTasks && len(short) > 0; k++ {
 			mine = append(mine, short[si%len(short)])

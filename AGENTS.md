@@ -28,7 +28,8 @@ Jogo de dedução social: patos com tarefas, um impostor no meio.
   interpola). `Set/Get` guarda a sessão atual (nil = solo).
 - `game/match/` — regras da partida: fases (`lobby/jogando/
   reunião/fim`), papéis (tripulante/impostor) e o plano que o
-  host sorteia (spawn, 4+2 tarefas por tripulante, comparsas).
+  host sorteia (spawn, 4+2 tarefas por jogador — fake pro
+  impostor — e comparsas).
 - `game/task/` — mecânica de uma tarefa sem tela/rede:
   `hold` (segurar pausa no soltar), `order` (soltar zera) e
   `carry` (pegar na origem, entregar no destino).

@@ -99,5 +99,10 @@
   "match.crew": "YOU ARE CREW",
   "match.imp": "YOU ARE IMPOSTOR",
   "match.mates": "MATES",
-  "match.alive": "ALIVE"
+  "match.alive": "ALIVE",
+  "task.title": "TASKS",
+  "task.milho": "CORN",
+  "task.celeiro": "BARN",
+  "task.ordenha": "MILKING",
+  "task.feno": "HAY"
 }

@@ -18,6 +18,11 @@
   e `tasks` (host manda concluídas/total); o host só aceita tarefa
   do próprio tripulante, ignora impostor/fantasma/duplicada e
   recalcula o total quando alguém cai (fantasma sai da conta)
+- Impostor recebe a mesma lista (tarefa fake): a interação e a
+  animação são iguais, mas o host não conta o progresso dele
+- HUD de tarefas: barra global do time no topo, lista das minhas
+  com ✓ (nomes traduzidos por `task.*`) e seta na borda apontando
+  pra tarefa mais perto fora da tela
 ### Added — Fase 2 (partida e papéis)
 - `game/match/`: máquina de fases (`lobby/jogando/reunião/fim`),
   sorteio de papel (AUTO: 1 impostor até 6 jogadores, 2 a partir

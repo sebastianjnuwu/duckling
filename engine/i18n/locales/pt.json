@@ -99,5 +99,10 @@
   "match.crew": "VOCÊ É TRIPULANTE",
   "match.imp": "VOCÊ É IMPOSTOR",
   "match.mates": "COMPARSAS",
-  "match.alive": "VIVOS"
+  "match.alive": "VIVOS",
+  "task.title": "TAREFAS",
+  "task.milho": "MILHO",
+  "task.celeiro": "CELEIRO",
+  "task.ordenha": "ORDENHA",
+  "task.feno": "FENO"
 }
