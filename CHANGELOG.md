@@ -1,6 +1,8 @@
 # Changelog — Duckling
 
 ## [Unreleased]
+### Docs
+- Fase 7 fechada no README (checkboxes da loja; fica só o teste manual)
 ### Added — Fase 7 (chapéu na reunião)
 - Chapéu também na lista da reunião, desenhado sobre o quadradinho
   da cor do pato

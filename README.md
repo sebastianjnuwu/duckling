@@ -91,12 +91,13 @@ O que já está pronto: 1 pato com física própria (corre/acelera/pula/voa) na 
 - [x] Condição checada no host a cada morte/ejeção/tarefa (`winLocked` no `Kill`, `MeetStep` e `DoneTask`); o cliente só lê o `Result` do `phase`/snapshot
 
 ### Fase 7 — Loja valendo
-- [ ] Desligar o `Disabled` do botão (`menu.go:71`) e tirar o "EM BREVE" (`shop.go`): grade de itens com preço, preview e botão comprar/equipar
-- [ ] Moeda e inventário no `settings.json` (`engine/save`): moedas, skin equipada, itens comprados — `Load/Apply` no boot, `Store` a cada mudança
-- [ ] Catálogo inicial: 4 cores de pato (exige desenhar `sprites/duck/<cor>/` com as mesmas 12 tiras) + 3 chapéus (arte nova desenhada sobre o sprite no `Draw`)
-- [ ] Preços iniciais: cor 50, chapéus 30/80/150; toast "sem moedas" quando não dá
-- [ ] Preview usando o pato do menu (`menu_media.go`); skin sincronizada na rede (campo no `hello`/`state` da Fase 1)
-- [ ] Chapéu aparece em todos: reunião, fazenda e fantasma
+- [x] Botão LOJA ligado (`menu.go`): grade de cartões (sem chapéu + 3) com nome, pato de preview vestindo a peça, preço/estado (preço, EQUIPAR, EQUIPADO) e clique direto no cartão
+- [x] Moedas e inventário no `settings.json` (`engine/save/hat.go`): moedas, chapéus comprados e o equipado — `Load/Apply` no boot, `Store` a cada compra/equipar
+- [x] Catálogo: 3 chapéus desenhados por código sobre o sprite (sem arte nova); as 4 cores saíram do plano porque a paleta do lobby já dá as 8 cores de graça (matiz) — a loja vende só os chapéus
+- [x] Preços: boné 30, palha 80, coroa 150 (sem chapéu = grátis); toast "sem moedas" quando não dá e "COMPRADO!" quando dá
+- [x] Preview no próprio cartão (pato da loja, mesmo sprite) e chapéu sincronizado na rede (protocolo v10: `hat` no join/welcome/snapshot)
+- [x] Chapéu aparece em todos: pato do menu, jogo (local e remotos), fantasma (translúcido) e lista da reunião
+- [ ] Teste manual: comprar/equipar, ver o saldo cair e o chapéu em 2 instâncias (menu + jogo + reunião)
 
 ### Fase 8 — Conteúdo e polimento
 - [ ] LOD de sprites: usar `16/32/64px` conforme o zoom (hoje só `128px` desenha; o resto só pesa o binário) + dar destino a `icons/duck/bottom/` (avatares da reunião? favicon web?)
