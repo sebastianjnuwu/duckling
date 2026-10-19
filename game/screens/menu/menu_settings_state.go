@@ -21,7 +21,7 @@ type Settings struct {
 	confirm             bool
 	cYes, cNo, cX       ui.Btn
 	page                int
-	keys                [7]ui.Btn
+	keys                [8]ui.Btn
 	cap                 int
 }
 
@@ -62,7 +62,7 @@ func newSettings() Settings {
 			X: 852, Y: 525, W: 48, H: 40,
 		},
 		reset: ui.Btn{
-			X: 510, Y: 472, W: 260, H: 40, Icon: ui.IconRefresh,
+			X: 510, Y: 518, W: 260, H: 40, Icon: ui.IconRefresh,
 		},
 		page: 0,
 		cap:  -1,
@@ -71,7 +71,7 @@ func newSettings() Settings {
 	s.cYes = ui.Btn{X: 380, Y: 390, W: 240, H: 64}
 	s.cNo = ui.Btn{X: 660, Y: 390, W: 240, H: 64}
 	s.cX = ui.Btn{X: 840, Y: 250, W: 44, H: 44}
-	ys := []float64{226, 288, 350, 412, 285, 347, 409}
+	ys := []float64{226, 288, 350, 412, 279, 337, 395, 453}
 	for i := range s.keys {
 		s.keys[i] = ui.Btn{X: 700, Y: ys[i], W: 200, H: 48}
 	}

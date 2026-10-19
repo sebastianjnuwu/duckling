@@ -42,6 +42,7 @@
   "settings.jump": "JUMP",
   "settings.fly": "FLY",
   "settings.interact": "INTERACT",
+  "settings.kill": "KILL",
   "settings.lang": "LANGUAGE",
   "settings.music": "MUSIC",
   "settings.sfx": "EFFECTS",

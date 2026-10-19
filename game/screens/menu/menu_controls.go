@@ -24,6 +24,7 @@ var keyRows = []struct {
 	{input.Jump, "settings.jump", ui.IconJump},
 	{input.Fly, "settings.fly", ui.IconFly},
 	{input.Interact, "settings.interact", ui.IconHand},
+	{input.Kill, "settings.kill", ui.IconKill},
 }
 
 func (m *Menu) controlsUpdate() {

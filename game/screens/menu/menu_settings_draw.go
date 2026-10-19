@@ -69,7 +69,7 @@ func (m *Menu) settingsDraw(img *ebiten.Image) {
 			}
 		} else {
 			for i := 4; i < len(keyRows); i++ {
-				y := 285.0 + float64(i-4)*62
+				y := 279.0 + float64(i-4)*58
 				ui.DrawIcon(img, keyRows[i].ic, 348, y+11, cream)
 				left(img, i18n.T(keyRows[i].key), m.font, 380, y+14)
 				s.keys[i].Draw(img, m.keyName(i), m.font)
@@ -97,7 +97,7 @@ func (m *Menu) settingsDraw(img *ebiten.Image) {
 			ebitenutil.DrawRect(
 				img,
 				620+float64(i)*28,
-				528,
+				566,
 				12,
 				12,
 				c,

@@ -33,6 +33,7 @@ var iconRunes = map[Icon]rune{
 	IconJump:    0xE256,
 	IconFly:     0xE539,
 	IconHand:    0xE925,
+	IconKill:    0xE14E, // content_cut
 }
 
 var (

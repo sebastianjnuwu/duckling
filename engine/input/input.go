@@ -18,12 +18,13 @@ const (
 	Jump
 	Fly
 	Interact
+	Kill
 )
 
 var keys = map[Action]ebiten.Key{
 	Up: ebiten.KeyW, Down: ebiten.KeyS, Left: ebiten.KeyA,
 	Right: ebiten.KeyD, Jump: ebiten.KeySpace, Fly: ebiten.KeyX,
-	Interact: ebiten.KeyE,
+	Interact: ebiten.KeyE, Kill: ebiten.KeyF,
 }
 
 var arrows = map[Action]ebiten.Key{

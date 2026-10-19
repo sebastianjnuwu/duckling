@@ -1,6 +1,11 @@
 # Changelog — Duckling
 
 ## [Unreleased]
+### Added — Fase 4 (impostor)
+- Ação **MATAR** (padrão `F`) remapeável e salva, com ícone próprio
+  (`IconKill`, content_cut) e a chave `settings.kill` em en/es/pt
+- Ajustes: página de controles com 4 ações; reset e indicadores de
+  página desceram pra caber
 ### Added — Fase 3 (tarefas)
 - Ação **INTERAGIR** (padrão `E`) em `engine/input/` (remapeável e
   salva em `settings.json`); o voo agora é só a tecla configurada
