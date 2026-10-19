@@ -38,6 +38,7 @@ func (d *Duck) Snap(x, y, z float64, dir int, fly bool) {
 func (d *Duck) DrawGhost(img *ebiten.Image, x, y, s float64) {
 	if st := d.cur(); st != nil {
 		st.DrawAlpha(img, x, y-d.z*s, s*d.def.Scale, 1, 0.45)
+		DrawHatGhost(img, d.hat, d.dir, x, y-d.z*s, s*d.def.Scale, d.hatAir())
 	}
 }
 

@@ -1,6 +1,12 @@
 # Changelog — Duckling
 
 ## [Unreleased]
+### Added — Fase 7 (catálogo de chapéus)
+- Catálogo em `game/player/hat.go`: boné 30, palha 80 e coroa 150,
+  desenhados por código sobre o sprite (`hat_draw.go`) — trocar por
+  arte depois não muda a API; o fantasma usa a versão translúcida
+- O pato guarda o chapéu (`SetHat`) e o desenho acompanha a ação
+  (voo sobe o chapéu, pulo desce)
 ### Added — Fase 7 (inventário de chapéus)
 - Inventário no `settings.json` (`engine/save/hat.go`): chapéus
   comprados e o equipado entram no `Current`/`Apply`; `SpendCoins`

@@ -17,6 +17,7 @@ type Duck struct {
 	def                                   Def
 	dir                                   int
 	col                                   Color
+	hat                                   Hat
 	moving                                bool
 	vx, vy                                float64
 	coyT, bufT                            float64
@@ -83,5 +84,6 @@ func (d *Duck) Draw(img *ebiten.Image, x, y, s float64) {
 	drawShadow(img, x, y, s, d.z-d.ground, d.ground)
 	if st := d.cur(); st != nil {
 		st.Draw(img, x, y-d.z*s, s*d.def.Scale, 1)
+		d.drawHat(img, x, y-d.z*s, s*d.def.Scale)
 	}
 }
