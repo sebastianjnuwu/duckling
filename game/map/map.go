@@ -21,7 +21,8 @@ import (
 //   grupo "COLLISION_WALL" ou classe "BARRIER" -> barreira
 //     (sem h = 1000; com h, respeita o valor)
 //   grupo "areas"     -> zonas ≥128px (teclas 1-5)
-//   objeto "spawn"    -> nascimento (sem ele, centro visível)
+//   objeto "spawn"    -> nascimento; vários = um ponto por pato
+//   grupo "tasks"     -> pontos de tarefa (prop "long" = longa)
 //   mapa prop "zoom"  -> zoom de gameplay (sem ela, Zoom)
 //   mapa prop "maxplayers" -> teto de jogadores (sem ela, 16)
 
@@ -29,11 +30,13 @@ type Map struct {
 	W, H   int
 	Areas  []Area
 	Solids []Solid
+	Tasks  []Task
 	zoom   float64
 	maxp   int
 	img    *ebiten.Image
 	view   image.Rectangle
 	sx, sy float64
+	spawns []image.Point
 }
 
 // Load lê ex: maps/spawn/spawn.tmx de dentro de assets.FS.
@@ -52,7 +55,7 @@ func Load(p string) (*Map, error) {
 	m := &Map{
 		W: doc.Width * doc.TileWidth, H: doc.Height * doc.TileHeight,
 		zoom: Zoom, maxp: 16,
-		img:  ebiten.NewImageFromImage(r.Result),
+		img: ebiten.NewImageFromImage(r.Result),
 	}
 	// Props do mapa (Map -> Properties): zoom e teto de jogadores.
 	// Sem elas, valem os padrões.
@@ -69,34 +72,6 @@ func Load(p string) (*Map, error) {
 	m.view = visualBounds(r.Result)
 	m.sx = float64(m.view.Min.X+m.view.Max.X) / 2
 	m.sy = float64(m.view.Min.Y+m.view.Max.Y) / 2
-	for _, g := range doc.ObjectGroups {
-		for _, o := range g.Objects {
-			// Offset da camada (Tiled): soma na origem do objeto,
-			// senão tudo sai deslocado no jogo.
-			oc := *o
-			oc.X += g.OffsetX
-			oc.Y += g.OffsetY
-			o := &oc
-			if o.Name == "spawn" || o.Class == "spawn" {
-				m.sx, m.sy = o.X, o.Y
-			}
-			if ar, ok := objRect(o); ok && ar.Dx() >= 128 && ar.Dy() >= 128 {
-				m.Areas = append(m.Areas, Area{Name: o.Name, Rect: ar})
-			}
-			// Grupo "collision": retângulos sólidos (cercas, paredes, água).
-			if groupIs(g, "collision") {
-				if sr, ok := objRect(o); ok {
-					h := solidH(o.Properties)
-					m.Solids = append(m.Solids, Solid{Rect: sr, H: h})
-				}
-			}
-			// "COLLISION_WALL" ou classe "BARRIER": barreira (sem h = 1000).
-			if groupIs(g, "COLLISION_WALL") || o.Class == "BARRIER" {
-				if sr, ok := objRect(o); ok {
-					m.Solids = append(m.Solids, Solid{Rect: sr, H: solidH(o.Properties)})
-				}
-			}
-		}
-	}
+	m.scan(doc)
 	return m, nil
 }
