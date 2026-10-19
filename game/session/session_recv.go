@@ -20,6 +20,14 @@ func (s *Session) States() []network.Player {
 	return out
 }
 
+// Me devolve o meu estado no último snapshot (ok = achado).
+func (s *Session) Me() (network.Player, bool) {
+	s.mu.Lock()
+	defer s.mu.Unlock()
+	p, ok := s.states[s.id]
+	return p, ok
+}
+
 // SendInput manda a entrada segurada pro host (no máximo 30/s).
 func (s *Session) SendInput(bits uint8) {
 	now := time.Now()

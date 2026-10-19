@@ -13,12 +13,13 @@ import (
 // host perdido. Chamado pelo play.
 func (s *Session) Tick() {
 	s.mu.Lock()
-	defer s.mu.Unlock()
 	now := time.Now()
+	lost := false
 	for addr, p := range s.peers {
 		if now.Sub(p.last) > peerTimeout {
 			if s.phase == match.Playing {
 				s.ghosts[p.id] = true
+				lost = true
 			}
 			delete(s.peers, addr)
 			s.events = append(s.events, "net.left")
@@ -26,6 +27,10 @@ func (s *Session) Tick() {
 	}
 	if !s.host && s.joined && s.fatal == "" && now.Sub(s.lastRecv) > peerTimeout {
 		s.fatal = "net.hostgone"
+	}
+	s.mu.Unlock()
+	if lost {
+		s.refreshTasks()
 	}
 }
 

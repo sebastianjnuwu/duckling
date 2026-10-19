@@ -28,6 +28,9 @@ func (s *Session) Start(plan match.Plan) {
 	s.mu.Lock()
 	s.plan, s.phase = plan, match.Playing
 	s.ghosts = map[int]bool{}
+	s.tasks = map[int]map[int]bool{}
+	s.recountLocked()
+	done, total := s.done, s.total
 	type target struct {
 		addr string
 		id   int
@@ -51,6 +54,7 @@ func (s *Session) Start(plan match.Plan) {
 		}))
 	}
 	s.broadcast(network.Msg{Ver: network.Version, Kind: "start", Phase: int(match.Playing)})
+	s.broadcast(tasksMsg(done, total))
 }
 
 // Finish encerra a partida (host) e abre a tela de fim.
@@ -67,6 +71,8 @@ func (s *Session) Reset() {
 	s.phase = match.Lobby
 	s.plan.Clear()
 	s.ghosts = map[int]bool{}
+	s.tasks = map[int]map[int]bool{}
+	s.done, s.total = 0, 0
 	s.mu.Unlock()
 	s.broadcast(network.Msg{Ver: network.Version, Kind: "phase", Phase: int(match.Lobby)})
 }

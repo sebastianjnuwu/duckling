@@ -7,6 +7,7 @@ import (
 	"duckling/game/match"
 	"duckling/game/player"
 	"duckling/game/session"
+	"duckling/game/task"
 
 	"github.com/hajimehoshi/ebiten/v2"
 	"github.com/hajimehoshi/ebiten/v2/inpututil"
@@ -38,6 +39,9 @@ type Play struct {
 	placed           bool
 	startB, endB     ui.Btn
 	backB            ui.Btn
+	ts               map[int]*task.State
+	done             map[int]bool
+	tids             []int
 }
 
 func (p *Play) Update() error {
@@ -56,6 +60,9 @@ func (p *Play) Update() error {
 		p.d.Update(x0, y0, x1, y1, p.mp.Solids, actor.LocalIn())
 	}
 	p.netUpdate(x0, y0, x1, y1)
+	if p.phase == match.Playing && p.canMove() {
+		p.taskUpdate(1.0 / 60.0)
+	}
 	p.toast.Update()
 	p.puff.Update()
 	p.follow()

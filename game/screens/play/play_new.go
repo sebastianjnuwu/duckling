@@ -6,6 +6,7 @@ import (
 	"duckling/game/map"
 	"duckling/game/player"
 	"duckling/game/session"
+	"duckling/game/task"
 
 	"github.com/hajimehoshi/ebiten/v2/text/v2"
 )
@@ -28,6 +29,8 @@ func NewPlay(font *text.GoTextFace, next func(string)) (*Play, error) {
 		rname:  map[int]string{},
 		rghost: map[int]bool{},
 		toast:  ui.Toast{Right: true},
+		ts:     map[int]*task.State{},
+		done:   map[int]bool{},
 	}
 	sx, sy := mp.Spawn()
 	p.d = actor.New(assets.Images, sx, sy, actor.Cast["duck"])

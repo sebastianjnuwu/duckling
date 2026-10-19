@@ -87,7 +87,12 @@ func (s *Session) clientHandle(m network.Msg) {
 		s.phase = match.Phase(m.Phase)
 		if s.phase == match.Lobby {
 			s.plan.Clear()
+			s.done, s.total = 0, 0
 		}
+		s.mu.Unlock()
+	case "tasks":
+		s.mu.Lock()
+		s.done, s.total = m.Done, m.Total
 		s.mu.Unlock()
 	case "deny":
 		s.mu.Lock()

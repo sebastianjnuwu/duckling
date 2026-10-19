@@ -13,7 +13,7 @@ const (
 	// GamePort é a porta da partida (join/input/state).
 	GamePort = 48218
 	// Version do protocolo: cliente de versão diferente não entra.
-	Version = 2
+	Version = 3
 )
 
 // Player é um pato num snapshot (posição, altitude, pose).
@@ -47,6 +47,9 @@ type Msg struct {
 	Role    string   `json:"role,omitempty"`
 	Mates   []int    `json:"mates,omitempty"`
 	Tasks   []int    `json:"tasks,omitempty"`
+	Task    int      `json:"task,omitempty"`
+	Done    int      `json:"done,omitempty"`
+	Total   int      `json:"total,omitempty"`
 	X       float64  `json:"x,omitempty"`
 	Y       float64  `json:"y,omitempty"`
 	Players []Player `json:"p,omitempty"`

@@ -20,15 +20,18 @@ Jogo de dedução social: patos com tarefas, um impostor no meio.
   `Store` a cada mudança. Sem arquivo = defaults ligados.
 - `engine/network/` — mensagens JSON por UDP (`msg.go`:
   `hello/join/deny/welcome/input/state/leave` + `start/role/
-  phase`) + descoberta LAN (`discover.go`: anuncia/escuta no
-  48217) + socket da partida (`endpoint.go`: host/cliente no
-  48218).
+  phase/task/tasks`) + descoberta LAN (`discover.go`: anuncia e
+  escuta no 48217) + socket da partida (`endpoint.go`: host e
+  cliente no 48218).
 - `game/session/` — partida LAN: host autoritativo (simula todos
   e distribui snapshot 15/s) ou cliente (manda input 30/s e
   interpola). `Set/Get` guarda a sessão atual (nil = solo).
 - `game/match/` — regras da partida: fases (`lobby/jogando/
   reunião/fim`), papéis (tripulante/impostor) e o plano que o
   host sorteia (spawn, 4+2 tarefas por tripulante, comparsas).
+- `game/task/` — mecânica de uma tarefa sem tela/rede:
+  `hold` (segurar pausa no soltar), `order` (soltar zera) e
+  `carry` (pegar na origem, entregar no destino).
 - `game/screens/loading|menu|play|shop/` — uma pasta
   por tela (`Update() error` + `Draw(*ebiten.Image)`).
   O curral (salas + novo jogo) é modal do menu.

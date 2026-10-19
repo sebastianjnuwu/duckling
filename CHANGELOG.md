@@ -11,6 +11,13 @@
   `Dest` (prop `to_x`/`to_y` do carry) + `Center()`/`Target()`;
   `spawn.tmx` agora tem 5 curtas (4 milho `hold` + 1 feno `carry`)
   e 2 longas (celeiro `hold`, ordenha `order`)
+- `game/task/`: mecânica sem tela/rede (`hold` pausa ao soltar,
+  `order` zera ao soltar, `carry` pega e entrega); `play_task.go`
+  acha o ponto mais perto (46px) e roda com a ação INTERAGIR
+- Protocolo v3: `task` (convidado avisa que terminou, reenviado 3x)
+  e `tasks` (host manda concluídas/total); o host só aceita tarefa
+  do próprio tripulante, ignora impostor/fantasma/duplicada e
+  recalcula o total quando alguém cai (fantasma sai da conta)
 ### Added — Fase 2 (partida e papéis)
 - `game/match/`: máquina de fases (`lobby/jogando/reunião/fim`),
   sorteio de papel (AUTO: 1 impostor até 6 jogadores, 2 a partir

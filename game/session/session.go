@@ -75,6 +75,9 @@ type Session struct {
 	phase    match.Phase
 	plan     match.Plan
 	ghosts   map[int]bool
+	tasks    map[int]map[int]bool
+	done     int
+	total    int
 }
 
 // IsHost diz se esta máquina é a dona da sala.

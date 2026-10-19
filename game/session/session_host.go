@@ -20,6 +20,7 @@ func Host(name, room, pass string, min, max, imps int) (*Session, error) {
 		min: min, max: max, imps: imps,
 		ep: ep, stop: make(chan struct{}), nextID: 1,
 		peers: map[string]*peer{}, ghosts: map[int]bool{},
+		tasks: map[int]map[int]bool{},
 	}
 	go s.announce()
 	go s.hostLoop()
@@ -66,5 +67,16 @@ func (s *Session) hostHandle(addr string, m network.Msg) {
 		s.mu.Unlock()
 	case "leave":
 		s.drop(addr)
+	case "task":
+		s.mu.Lock()
+		id := 0
+		if p := s.peers[addr]; p != nil {
+			id = p.id
+			p.last = time.Now()
+		}
+		s.mu.Unlock()
+		if id > 0 {
+			s.DoneTask(id, m.Task)
+		}
 	}
 }

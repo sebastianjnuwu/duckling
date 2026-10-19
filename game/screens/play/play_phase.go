@@ -26,6 +26,7 @@ func (p *Play) syncPhase() {
 			p.placed = true
 		}
 	}
+	p.syncTasks()
 }
 
 // canMove trava o pato no fim (reunião entra na Fase 5).
