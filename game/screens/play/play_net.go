@@ -59,7 +59,7 @@ func (p *Play) netUpdate(x0, y0, x1, y1 int) {
 		s.Publish(p.snapshot())
 		return
 	}
-	s.SendInput(actor.LocalIn().Encode())
+	s.SendInput(actor.LocalIn())
 	for _, pl := range s.States() {
 		p.rghost[pl.ID] = pl.Ghost
 		if pl.ID == s.ID() {

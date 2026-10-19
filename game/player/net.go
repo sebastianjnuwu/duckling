@@ -60,6 +60,18 @@ func (in In) Encode() uint8 {
 	return b
 }
 
+// Edges devolve só as bordas (pulo/voo apertados agora).
+func (in In) Edges() uint8 {
+	var b uint8
+	if in.JumpEdge {
+		b |= BitJump
+	}
+	if in.FlyEdge {
+		b |= BitFly
+	}
+	return b
+}
+
 // DecodeIn monta a entrada dos bits segurados + bits de borda.
 func DecodeIn(cur, edge uint8) In {
 	return In{

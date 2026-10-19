@@ -1,6 +1,10 @@
 # Changelog — Duckling
 
 ## [Unreleased]
+### Added — Fase 1 (rede)
+- Borda de pulo/voo vai explícita no `input` e o cliente reenvia uma
+  vez; o host descarta repetição em 120ms (`session_input.go`)
+- `kill` reenviado 3× (tarefa já era)
 ### Added — Fase 4 (impostor)
 - Núcleo do **MATAR** autoritativo: o convidado pede (`kill`), o
   host confere fase, papel, alvo vivo, alcance e cooldown (25s)
@@ -20,7 +24,7 @@
   acaba, a tecla fica no meio e os segundos enquanto espera
 - Som `gamekill`, puff de penas no corpo e toast de quem virou
   fantasma; o corpo usa o próprio sprite deitado e escurecido
-- Protocolo **v5**
+- Protocolo **v5** (borda no input: v6)
 - Ação **MATAR** (padrão `F`) remapeável e salva, com ícone próprio
   (`IconKill`, content_cut) e a chave `settings.kill` em en/es/pt
 - Ajustes: página de controles com 4 ações; reset e indicadores de

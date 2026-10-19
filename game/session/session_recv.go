@@ -4,6 +4,7 @@ import (
 	"time"
 
 	"duckling/engine/network"
+	"duckling/game/player"
 )
 
 // session_recv.go — o lado do convidado na partida: ler o
@@ -28,8 +29,11 @@ func (s *Session) Me() (network.Player, bool) {
 	return p, ok
 }
 
-// SendInput manda a entrada segurada pro host (no máximo 30/s).
-func (s *Session) SendInput(bits uint8) {
+// SendInput manda a entrada segurada + as bordas reenviadas (30/s).
+func (s *Session) SendInput(in actor.In) {
+	if s.host || s.ep == nil {
+		return
+	}
 	now := time.Now()
 	s.mu.Lock()
 	if now.Sub(s.sentIn) < inputEvery {
@@ -37,6 +41,10 @@ func (s *Session) SendInput(bits uint8) {
 		return
 	}
 	s.sentIn = now
+	edge := in.Edges() | s.edgeLast
+	s.edgeLast = in.Edges()
 	s.mu.Unlock()
-	_ = s.ep.Send(network.Encode(network.Msg{Ver: network.Version, Kind: "input", In: bits}))
+	_ = s.ep.Send(network.Encode(network.Msg{
+		Ver: network.Version, Kind: "input", In: in.Encode(), Edge: edge,
+	}))
 }

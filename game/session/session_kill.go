@@ -77,5 +77,10 @@ func (s *Session) SendKill(target int) {
 		return
 	}
 	data := network.Encode(network.Msg{Ver: network.Version, Kind: "kill", ID: target})
-	go func() { _ = s.ep.Send(data) }()
+	go func() {
+		for i := 0; i < 3; i++ {
+			_ = s.ep.Send(data)
+			time.Sleep(60 * time.Millisecond)
+		}
+	}()
 }

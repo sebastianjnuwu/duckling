@@ -18,6 +18,8 @@ type peer struct {
 	prev uint8 // bits do pacote anterior
 	edge uint8 // borda pendente (consumida no HostInputs)
 	last time.Time
+	// Filtro de borda repetida (reenvio do cliente).
+	jumpAt, flyAt time.Time
 }
 
 type Session struct {
@@ -60,4 +62,5 @@ type Session struct {
 	sabMS    int
 	lampMS   int
 	gateMS   int
+	edgeLast uint8
 }

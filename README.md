@@ -42,7 +42,7 @@ O que já está pronto: 1 pato com física própria (corre/acelera/pula/voa) na 
 - [x] Anúncio LAN valendo (`discover.go`): nome da sala, nº de jogadores, tem senha?, intervalo de 500ms; portas fixas 48217 (descoberta) e 48218 (partida)
 - [x] Salas reais no curral: criar (nome/senha/min/max), entrar com senha, sair; se o dono sai, a sala fecha (sem migração por enquanto). Mapa ainda é fixo (`spawn`)
 - [x] `menu_rooms.go` listando as salas achadas na rede (com botão de atualizar), com cadeado, paginação e toast de erro ("senha errada", "sala cheia")
-- [ ] Snapshot de estado 10–15/s com interpolação nos patos remotos (feito: 15/s + interpolação); faltam eventos (pulo/kill/tarefa/voto) com reenvio simples
+- [x] Snapshot de estado 10–15/s com interpolação nos patos remotos (feito: 15/s + interpolação); pulo/voo vão como borda própria reenviada 1× (host filtra repetição em 120ms), kill e tarefa vão 3×; o voto usa o mesmo reenvio quando existir (Fase 5)
 - [x] Timeout de 5s sem pacote = caiu (some do lobby e o cliente volta com aviso; fantasma de partida fica pra Fase 2)
 - [x] Nome do jogador: campo de texto no lobby (teclado físico) — já existia e agora vale no join
 - [ ] Escolha de cor no lobby com trava de repetido (cores = pastas `sprites/duck/<cor>/`, hoje só existe `yellow`)

@@ -58,13 +58,7 @@ func (s *Session) hostHandle(addr string, m network.Msg) {
 	case "join":
 		s.hostJoin(addr, m)
 	case "input":
-		s.mu.Lock()
-		if p := s.peers[addr]; p != nil {
-			p.edge |= m.In &^ p.in
-			p.prev, p.in = p.in, m.In
-			p.last = time.Now()
-		}
-		s.mu.Unlock()
+		s.hostInput(addr, m)
 	case "leave":
 		s.drop(addr)
 	case "task":
