@@ -21,6 +21,7 @@ func (p *Play) syncSession() {
 	p.sess = s
 	p.rem = map[int]*actor.Duck{}
 	p.rname = map[int]string{}
+	p.rghost = map[int]bool{}
 	id := 0
 	if s != nil {
 		id = s.ID()
@@ -48,11 +49,15 @@ func (p *Play) netUpdate(x0, y0, x1, y1 int) {
 		for id, in := range s.HostInputs() {
 			p.remote(id).Update(x0, y0, x1, y1, p.mp.Solids, in)
 		}
+		for id := range p.rem {
+			p.rghost[id] = s.Ghost(id)
+		}
 		s.Publish(p.snapshot())
 		return
 	}
 	s.SendInput(actor.LocalIn().Encode())
 	for _, pl := range s.States() {
+		p.rghost[pl.ID] = pl.Ghost
 		if pl.ID == s.ID() {
 			p.reconcile(pl)
 			continue

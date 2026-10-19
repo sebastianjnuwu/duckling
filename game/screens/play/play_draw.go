@@ -6,6 +6,7 @@ import (
 
 	"duckling/content"
 	"duckling/engine/rendering"
+	"duckling/game/match"
 	"duckling/game/player"
 
 	"github.com/hajimehoshi/ebiten/v2"
@@ -23,7 +24,12 @@ func (p *Play) Draw(img *ebiten.Image) {
 	p.mp.Draw(img, p.camX, p.camY, p.zoom)
 	for _, id := range p.remoteIDs() {
 		d := p.rem[id]
-		d.Draw(img, (d.Px-p.camX)*p.zoom, (d.Py-p.camY)*p.zoom, p.zoom)
+		x, y := (d.Px-p.camX)*p.zoom, (d.Py-p.camY)*p.zoom
+		if p.rghost[id] {
+			d.DrawGhost(img, x, y, p.zoom)
+		} else {
+			d.Draw(img, x, y, p.zoom)
+		}
 		p.nameTag(img, d, p.rname[id])
 	}
 	p.d.Draw(img, (p.d.Px-p.camX)*p.zoom, (p.d.Py-p.camY)*p.zoom, p.zoom)
@@ -32,6 +38,11 @@ func (p *Play) Draw(img *ebiten.Image) {
 	// Raio-X: sólidos em vermelho, pés do pato em verde.
 	if p.dbg {
 		p.drawDbg(img)
+	}
+	p.hudDraw(img)
+	p.hostDraw(img)
+	if p.phase == match.End {
+		p.overDraw(img)
 	}
 	if p.confirm {
 		p.confirmDraw(img)

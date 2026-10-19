@@ -4,6 +4,7 @@ import (
 	"duckling/content"
 	"duckling/engine/rendering"
 	"duckling/game/map"
+	"duckling/game/match"
 	"duckling/game/player"
 	"duckling/game/session"
 
@@ -14,6 +15,7 @@ import (
 
 // play.go — tela do jogo: o pato anda no WASD, a câmera segue.
 // LAN: o host simula todo mundo; o cliente manda input e interpola.
+// A fase (match) manda: lobby livre, partida, fim.
 
 type Play struct {
 	next             func(string)
@@ -30,34 +32,17 @@ type Play struct {
 	sess             *session.Session
 	rem              map[int]*actor.Duck
 	rname            map[int]string
+	rghost           map[int]bool
 	toast            ui.Toast
-}
-
-func NewPlay(font *text.GoTextFace, next func(string)) (*Play, error) {
-	mp, err := world.Open("spawn")
-	if err != nil {
-		return nil, err
-	}
-	p := &Play{next: next, font: font, mp: mp,
-		yes:   ui.Btn{X: 380, Y: 390, W: 240, H: 64},
-		no:    ui.Btn{X: 660, Y: 390, W: 240, H: 64},
-		qx:    ui.Btn{X: 840, Y: 250, W: 44, H: 44},
-		rem:   map[int]*actor.Duck{},
-		rname: map[int]string{},
-		toast: ui.Toast{Right: true},
-	}
-	sx, sy := mp.Spawn()
-	p.d = actor.New(assets.Images, sx, sy, actor.Cast["duck"])
-	p.sess = session.Get()
-	// Intro: nasce mostrando o mapa todo, desce até o pato.
-	p.zoom = min(1280/float64(mp.W), 720/float64(mp.H))
-	p.zFrom = p.zoom
-	p.follow()
-	return p, nil
+	phase            match.Phase
+	placed           bool
+	startB, endB     ui.Btn
+	backB            ui.Btn
 }
 
 func (p *Play) Update() error {
 	p.syncSession()
+	p.syncPhase()
 	if p.confirm {
 		p.confirmUpdate()
 		return nil
@@ -67,7 +52,9 @@ func (p *Play) Update() error {
 		p.d.Load(assets.Images)
 	}
 	x0, y0, x1, y1 := p.bounds()
-	p.d.Update(x0, y0, x1, y1, p.mp.Solids, actor.LocalIn())
+	if p.canMove() {
+		p.d.Update(x0, y0, x1, y1, p.mp.Solids, actor.LocalIn())
+	}
 	p.netUpdate(x0, y0, x1, y1)
 	p.toast.Update()
 	p.puff.Update()
@@ -75,6 +62,10 @@ func (p *Play) Update() error {
 	if p.leaveIfBroken() {
 		return nil
 	}
+	if p.phase == match.End {
+		return p.overUpdate()
+	}
+	p.hostUpdate()
 	if inpututil.IsKeyJustPressed(ebiten.KeyEscape) {
 		p.confirm = true
 	}
@@ -82,14 +73,6 @@ func (p *Play) Update() error {
 	if inpututil.IsKeyJustPressed(ebiten.KeyF3) {
 		p.dbg = !p.dbg
 	}
-	keys := []ebiten.Key{ebiten.Key1, ebiten.Key2, ebiten.Key3, ebiten.Key4, ebiten.Key5}
-	for i, k := range keys {
-		if inpututil.IsKeyJustPressed(k) && i < len(p.mp.Areas) {
-			p.area = i
-			r := p.mp.Areas[i].Rect
-			p.d.Px, p.d.Py = float64(r.Min.X+r.Max.X)/2, float64(r.Min.Y+r.Max.Y)/2
-			p.follow()
-		}
-	}
+	p.areaKeys()
 	return nil
 }
