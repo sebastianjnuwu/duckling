@@ -7,6 +7,8 @@ import (
 	"duckling/content"
 	"duckling/engine/i18n"
 	"duckling/engine/rendering"
+	"duckling/engine/save"
+	"duckling/game/player"
 
 	"github.com/hajimehoshi/ebiten/v2"
 )
@@ -57,7 +59,9 @@ func (m *Menu) drawDuck(img *ebiten.Image) {
 	x := -220 + (340+220)*e
 	y := 370 + bob*10
 	m.drawGround(img, x, bob, p)
-	m.duck.Draw(img, x, y, 1.25+1.25*e, 1)
+	sc := 1.25 + 1.25*e
+	m.duck.Draw(img, x, y, sc, 1)
+	actor.DrawHat(img, actor.Hat(save.Hat()), 0, x, y, sc, 0)
 }
 
 // drawBtn desliza o botão da direita com atraso, escalonado.

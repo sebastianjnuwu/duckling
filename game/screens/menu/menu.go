@@ -68,7 +68,6 @@ func NewMenu(font *text.GoTextFace, next func(string)) (*Menu, error) {
 	}
 	// Em breve: sem clique, apagados.
 	m.online.Disabled = true
-	m.shop.Disabled = true
 	r, err := NewRoomState(font, next)
 	if err != nil {
 		return nil, err

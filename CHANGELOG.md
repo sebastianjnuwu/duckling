@@ -1,6 +1,13 @@
 # Changelog — Duckling
 
 ## [Unreleased]
+### Added — Fase 7 (tela da loja)
+- Loja valendo (`game/screens/shop/`): cartões com nome, pato de
+  preview vestindo a peça, preço/estado (preço, EQUIPAR, EQUIPADO),
+  saldo no topo e toast de moedas insuficientes
+- Botão LOJA do menu ligado (saiu o `Disabled` e o "EM BREVE") e o
+  pato do menu veste o chapéu equipado; i18n `shop.*`/`hat.*` nas
+  3 línguas
 ### Changed — Fase 7 (chapéu na rede)
 - Protocolo **v10**: o `hat` viaja no join/welcome e no snapshot;
   `session.Hat(id)` e `RosterEntry.Hat` dão o chapéu de cada pato
