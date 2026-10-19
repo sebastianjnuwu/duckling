@@ -1,6 +1,10 @@
 # Changelog — Duckling
 
 ## [Unreleased]
+### Added — Fase 7 (inventário de chapéus)
+- Inventário no `settings.json` (`engine/save/hat.go`): chapéus
+  comprados e o equipado entram no `Current`/`Apply`; `SpendCoins`
+  desconta do saldo
 ### Added — Fase 6 (moedas e botões do fim)
 - Bônus de vitória: +10 moedas pro lado vencedor, creditado uma vez
   na tela de fim e salvo (`save.AddCoins`/`Store`)

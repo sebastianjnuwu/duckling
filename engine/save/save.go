@@ -25,6 +25,8 @@ type Data struct {
 	SfxVol   float64        `json:"sfxVol"`
 	Keys     map[string]int `json:"keys"`
 	Coins    int            `json:"coins"`
+	Hats     []int          `json:"hats,omitempty"`
+	Hat      int            `json:"hat,omitempty"`
 }
 
 var last []byte
@@ -65,12 +67,17 @@ func Apply(d Data) {
 	audio.SetSfxVolume(d.SfxVol)
 	input.LoadCodes(d.Keys)
 	coins = d.Coins
+	loadHats(d.Hats)
+	hat = d.Hat
+	if !HatOwned(hat) {
+		hat = 0
+	}
 	last, _ = json.MarshalIndent(d, "", "  ")
 }
 
 // Current fotografa o estado atual.
 func Current() Data {
-	return Data{Version, i18n.Lang, audio.MusicOn(), audio.MusicVolume(), audio.SfxOn(), audio.SfxVolume(), input.Codes(), coins}
+	return Data{Version, i18n.Lang, audio.MusicOn(), audio.MusicVolume(), audio.SfxOn(), audio.SfxVolume(), input.Codes(), coins, hatList(), hat}
 }
 
 // Store grava o estado atual (atômico, só se mudou).

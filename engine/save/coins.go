@@ -14,3 +14,12 @@ func AddCoins(n int) {
 		coins += n
 	}
 }
+
+// SpendCoins desconta n se der (false = saldo curto).
+func SpendCoins(n int) bool {
+	if n < 0 || coins < n {
+		return false
+	}
+	coins -= n
+	return true
+}
