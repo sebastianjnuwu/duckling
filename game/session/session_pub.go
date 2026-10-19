@@ -23,8 +23,6 @@ func (s *Session) Publish(ps []network.Player) {
 	m := network.Msg{
 		Ver: network.Version, Kind: "state", Players: ps,
 		Phase:  int(s.phase),
-		Win:    s.result.Winner,
-		Why:    s.result.Reason,
 		Cd:     int(s.killCd / time.Millisecond),
 		Bodies: append([]network.Body(nil), s.bodies...),
 		SabCd:  int(s.sabCd / time.Millisecond),
@@ -44,6 +42,10 @@ func (s *Session) Publish(ps []network.Player) {
 		}
 		m.Votes = s.meetVotesLocked()
 		m.Chats = append([]network.Chat(nil), s.chats...)
+	}
+	if s.phase == match.End {
+		m.Win, m.Why = s.result.Winner, s.result.Reason
+		m.Roles = s.reveal
 	}
 	s.mu.Unlock()
 	s.broadcast(m)

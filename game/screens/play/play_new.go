@@ -24,7 +24,6 @@ func NewPlay(font *text.GoTextFace, next func(string)) (*Play, error) {
 		qx:       ui.Btn{X: 840, Y: 250, W: 44, H: 44},
 		startB:   ui.Btn{X: 520, Y: 22, W: 240, H: 48, Icon: ui.IconPlay},
 		endB:     ui.Btn{X: 1050, Y: 22, W: 210, H: 44, Icon: ui.IconDoor},
-		backB:    ui.Btn{X: 500, Y: 430, W: 280, H: 56, Icon: ui.IconPlay},
 		rem:      map[int]*actor.Duck{},
 		rname:    map[int]string{},
 		rghost:   map[int]bool{},

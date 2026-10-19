@@ -84,8 +84,9 @@ O que já está pronto: 1 pato com física própria (corre/acelera/pula/voa) na 
 - [ ] Teste manual com 2 instâncias da GUI: sino, reportar corpo, votar, ler o chat e ver a ejeção
 
 ### Fase 6 — Fim de jogo
-- [ ] Nova tela `game/screens/over/`: quem venceu + motivo (tarefas 100% / impostores zerados / tripulantes ≤ impostores)
-- [ ] Revelar a lista completa de papéis + stats da partida (tarefas feitas, kills, quem votou em quem)
+- [x] Tela `game/screens/over/` (pasta própria): quem venceu e o motivo (tarefas 100% / impostores zerados / tripulantes ≤ impostores), no lugar do overlay mínimo que era do play
+- [x] Lista completa de papéis (revelada pelo host no `phase`) + stats: tarefas feitas, mortes e os votos da última reunião (quem votou em quem / pular)
+- [ ] Teste manual com 2 instâncias da GUI: ver a tela de fim, voltar pro lobby e conferir papéis/votos
 - [ ] Moedas creditadas e salvas; botões revanche (mesma sala, volta ao lobby) e menu
 - [ ] Condição checada no host a cada morte/ejeção/tarefa (não no cliente — anti-"vitória fantasma")
 

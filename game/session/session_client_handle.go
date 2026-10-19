@@ -24,10 +24,13 @@ func (s *Session) clientHandle(m network.Msg) {
 		// O snapshot também carrega a fase: se um "phase" se perder,
 		// reunião/fim/volta chegam do mesmo jeito (lobby fica com a
 		// mensagem explícita pra não voltar por pacote atrasado).
-		if m.Phase != int(match.Lobby) {
+		if m.Phase != int(match.Lobby) && s.phase != match.End {
 			s.phase = match.Phase(m.Phase)
 		}
-		s.result = match.Result{Winner: m.Win, Reason: m.Why}
+		if m.Phase == int(match.End) {
+			s.result = match.Result{Winner: m.Win, Reason: m.Why}
+			s.reveal = m.Roles
+		}
 		s.meetMS, s.meetOpen = m.MeetLeft, m.MeetOpen
 		s.meetReason, s.meetBy, s.meetOf = m.Meet, m.MeetBy, m.MeetOf
 		s.meetAll = m.Votes
@@ -50,6 +53,7 @@ func (s *Session) clientHandle(m network.Msg) {
 		s.phase = match.Phase(m.Phase)
 		if m.Win != "" || m.Phase == int(match.End) {
 			s.result = match.Result{Winner: m.Win, Reason: m.Why}
+			s.reveal = m.Roles
 		}
 		if m.Meet != "" {
 			s.meetMS, s.meetOpen = m.MeetLeft, m.MeetOpen
@@ -63,6 +67,7 @@ func (s *Session) clientHandle(m network.Msg) {
 			s.sabMS, s.lampMS, s.gateMS = 0, 0, 0
 			s.meetMS, s.meetOpen, s.meetAll = 0, false, nil
 			s.meetReason, s.meetBy, s.meetOf = "", 0, 0
+			s.result, s.reveal = match.Result{}, nil
 		}
 		s.mu.Unlock()
 	case "tasks":

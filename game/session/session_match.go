@@ -36,7 +36,7 @@ func (s *Session) Start(plan match.Plan) {
 	s.clearMeetLocked()
 	s.calls = map[int]bool{}
 	s.chats, s.ejectDone = nil, false
-	s.result, s.killsN, s.lastVotes = match.Result{}, 0, nil
+	s.result, s.killsN, s.lastVotes, s.reveal = match.Result{}, 0, nil, nil
 	s.recountLocked()
 	done, total := s.done, s.total
 	type target struct {
@@ -82,7 +82,7 @@ func (s *Session) Reset() {
 	s.clearMeetLocked()
 	s.calls = map[int]bool{}
 	s.chats, s.ejectDone = nil, false
-	s.result, s.killsN, s.lastVotes = match.Result{}, 0, nil
+	s.result, s.killsN, s.lastVotes, s.reveal = match.Result{}, 0, nil, nil
 	s.mu.Unlock()
 	// Repete a fase: um pacote perdido no fim/lobby deixaria o
 	// convidado preso na tela de resultado.

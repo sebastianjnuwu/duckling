@@ -38,7 +38,6 @@ type Play struct {
 	phase            match.Phase
 	placed           bool
 	startB, endB     ui.Btn
-	backB            ui.Btn
 	ts               map[int]*task.State
 	done             map[int]bool
 	tids             []int
@@ -83,7 +82,9 @@ func (p *Play) Update() error {
 		return nil
 	}
 	if p.phase == match.End {
-		return p.overUpdate()
+		// A tela de fim tem pasta própria; o play volta no lobby.
+		p.next("over")
+		return nil
 	}
 	p.hostUpdate()
 	p.colorUpdate()

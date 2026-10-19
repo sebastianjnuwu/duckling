@@ -6,6 +6,7 @@ import (
 	"duckling/engine/audio"
 	"duckling/game/screens/loading"
 	"duckling/game/screens/menu"
+	"duckling/game/screens/over"
 	"duckling/game/screens/play"
 	"duckling/game/screens/shop"
 
@@ -46,6 +47,8 @@ func UI() (*Game, error) {
 	}
 	g.Add("play", pl)
 	g.Add("shop", shop.NewShop(ld.Font(), g.switchTo))
+	ov := over.NewOver(ld.Font(), g.switchTo)
+	g.Add("over", ov)
 
 	g.cur = "loading"
 

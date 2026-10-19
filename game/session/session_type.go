@@ -56,6 +56,7 @@ type Session struct {
 	killsN    int
 	result    match.Result
 	lastVotes []network.Vote
+	reveal    []network.RoleLine
 	killCd    time.Duration
 	cdAt      time.Time
 	cdMS      int

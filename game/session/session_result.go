@@ -1,6 +1,8 @@
 package session
 
 import (
+	"sort"
+
 	"duckling/engine/network"
 	"duckling/game/match"
 )
@@ -68,12 +70,37 @@ func (s *Session) winLocked() match.Result {
 func (s *Session) finish(r match.Result) {
 	s.mu.Lock()
 	s.phase, s.result = match.End, r
-	s.mu.Unlock()
+	s.reveal = s.revealLocked()
 	m := network.Msg{
 		Ver: network.Version, Kind: "phase", Phase: int(match.End),
-		Win: r.Winner, Why: r.Reason,
+		Win: r.Winner, Why: r.Reason, Roles: s.reveal,
 	}
+	s.mu.Unlock()
 	for i := 0; i < 3; i++ {
 		s.broadcast(m)
 	}
+}
+
+// Reveal devolve os papéis de todos (host: do plano; cliente: do fim).
+func (s *Session) Reveal() []network.RoleLine {
+	s.mu.Lock()
+	defer s.mu.Unlock()
+	if s.host {
+		return s.revealLocked()
+	}
+	return append([]network.RoleLine(nil), s.reveal...)
+}
+
+// revealLocked monta a lista de papéis ordenada por id (host).
+func (s *Session) revealLocked() []network.RoleLine {
+	out := make([]network.RoleLine, 0, len(s.plan.Roles))
+	for id, r := range s.plan.Roles {
+		role := "crew"
+		if r == match.Imp {
+			role = "imp"
+		}
+		out = append(out, network.RoleLine{ID: id, Role: role})
+	}
+	sort.Slice(out, func(i, j int) bool { return out[i].ID < out[j].ID })
+	return out
 }

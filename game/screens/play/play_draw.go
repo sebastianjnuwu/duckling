@@ -6,7 +6,6 @@ import (
 
 	"duckling/content"
 	"duckling/engine/rendering"
-	"duckling/game/match"
 	"duckling/game/player"
 
 	"github.com/hajimehoshi/ebiten/v2"
@@ -54,9 +53,6 @@ func (p *Play) Draw(img *ebiten.Image) {
 	p.sabDraw(img)
 	p.hostDraw(img)
 	p.colorDraw(img)
-	if p.phase == match.End {
-		p.overDraw(img)
-	}
 	if p.confirm {
 		p.confirmDraw(img)
 	}

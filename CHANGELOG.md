@@ -1,6 +1,16 @@
 # Changelog — Duckling
 
 ## [Unreleased]
+### Added — Fase 6 (tela de fim)
+- Tela `game/screens/over/` (pasta própria, registrada no `UI()`):
+  quem venceu e o motivo, tarefas feitas e mortes, a lista completa
+  de papéis (com cor, riscado pra quem caiu) e os votos da última
+  reunião ("quem > alvo" ou PULAR)
+- O play entrega a fase `End` pra tela; o dono volta pro lobby pelo
+  botão e os convidados acompanham sozinhos (a tela sai quando a
+  fase muda)
+- `Finish()` revela os papéis no `phase` e no snapshot; o botão
+  ENCERRAR do dono usa `Stop()` (fim sem vencedor)
 ### Added — Fase 6 (fim de jogo, regras)
 - `match.Result` (vencedor + motivo: tarefas 100%, impostor
   ejetado, impostores em maioria) decidido no host; `Finish()`
