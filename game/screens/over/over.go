@@ -74,16 +74,18 @@ func (o *Over) Update() error {
 	return nil
 }
 
-// pay credita o bônus de vitória uma vez pro lado vencedor.
+// pay credita o bônus de vitória uma vez e toca o som do desfecho.
 func (o *Over) pay(s *session.Session) {
 	o.paid = true
 	r := s.Result()
 	role, ok := s.Role(s.ID())
-	if !ok {
-		return
+	won := ok && ((r.Winner == match.WinCrew && role == match.Crew) ||
+		(r.Winner == match.WinImp && role == match.Imp))
+	if won {
+		_ = audio.Play("gamewinning")
+	} else {
+		_ = audio.Play("gameover")
 	}
-	won := (r.Winner == match.WinCrew && role == match.Crew) ||
-		(r.Winner == match.WinImp && role == match.Imp)
 	if !won {
 		return
 	}

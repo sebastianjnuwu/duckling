@@ -1,6 +1,10 @@
 # Changelog — Duckling
 
 ## [Unreleased]
+### Added — Fase 8 (sons de partida)
+- Sons que já vinham no pacote agora tocam: `gamestart` quando a
+  partida começa e, no desfecho, `gamewinning` pro lado vencedor e
+  `gameover` pra quem perdeu ou viu a sala encerrar (1× por partida)
 ### Docs
 - Fase 7 fechada no README (checkboxes da loja; fica só o teste manual)
 ### Added — Fase 7 (chapéu na reunião)

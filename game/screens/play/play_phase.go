@@ -1,6 +1,7 @@
 package play
 
 import (
+	"duckling/engine/audio"
 	"duckling/game/match"
 	"duckling/game/player"
 )
@@ -15,6 +16,9 @@ func (p *Play) syncPhase() {
 	}
 	if ph != p.phase {
 		p.phase, p.placed = ph, false
+		if ph == match.Playing {
+			_ = audio.Play("gamestart")
+		}
 		if ph == match.Lobby {
 			p.resetCast()
 		}
