@@ -175,4 +175,7 @@
   <object id="83" name="N_RIGHT" x="444" y="96" width="46" height="18"/>
   <object id="84" name="S_LEFT" x="16" y="417" width="53" height="18"/>
  </objectgroup>
+ <objectgroup id="16" name="bell">
+  <object id="90" name="bell" x="414" y="372" width="24" height="24"/>
+ </objectgroup>
 </map>

@@ -23,6 +23,7 @@ func (p *Play) Draw(img *ebiten.Image) {
 	}
 	p.mp.Draw(img, p.camX, p.camY, p.zoom)
 	p.gateDraw(img)
+	p.bellDraw(img)
 	p.deadDraw(img)
 	for _, id := range p.remoteIDs() {
 		d := p.rem[id]
@@ -47,6 +48,7 @@ func (p *Play) Draw(img *ebiten.Image) {
 		p.drawDbg(img)
 	}
 	p.hudDraw(img)
+	p.reportDraw(img)
 	p.taskDraw(img)
 	p.killDraw(img)
 	p.sabDraw(img)
@@ -58,6 +60,7 @@ func (p *Play) Draw(img *ebiten.Image) {
 	if p.confirm {
 		p.confirmDraw(img)
 	}
+	p.meetDraw(img)
 	p.toast.Draw(img, p.font)
 }
 

@@ -20,6 +20,11 @@ func (s *Session) Vote(by, target int) bool {
 	if target != SkipVote && (target == by || s.ghosts[target]) {
 		return false
 	}
+	if target != SkipVote {
+		if _, ok := s.plan.Roles[target]; !ok {
+			return false
+		}
+	}
 	if s.votes == nil {
 		s.votes = map[int]int{}
 	}

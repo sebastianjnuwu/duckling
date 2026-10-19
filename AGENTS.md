@@ -67,6 +67,8 @@ Jogo de dedução social: patos com tarefas, um impostor no meio.
 - Grupo `areas` (retângulos ≥128px) = zonas das teclas 1-5.
 - Grupo `gates` = porteiras que a sabotagem fecha; viram colisão
   total (H 1000) e desenho enquanto durar.
+- Grupo `bell` = botão de emergência (1 uso por jogador por
+  partida); o objeto vira ponto no mundo e ganha ícone.
 - Objeto `spawn` = nascimento (sem ele, centro visível).
   Vários = um ponto por pato (o host distribui no começar).
 - Grupo `tasks` = pontos de tarefa: prop `long` (bool), `time`

@@ -24,6 +24,7 @@ import (
 //   objeto "spawn"    -> nascimento; vários = um ponto por pato
 //   grupo "tasks"     -> pontos de tarefa (prop "long" = longa)
 //   grupo "gates"     -> porteiras que a sabotagem fecha (retângulos)
+//   grupo "bell"      -> botão de emergência (1 uso por jogador)
 //   mapa prop "zoom"  -> zoom de gameplay (sem ela, Zoom)
 //   mapa prop "maxplayers" -> teto de jogadores (sem ela, 16)
 
@@ -33,6 +34,7 @@ type Map struct {
 	Solids []Solid
 	Tasks  []Task
 	Gates  []image.Rectangle
+	Bells  []image.Point
 	zoom   float64
 	maxp   int
 	img    *ebiten.Image

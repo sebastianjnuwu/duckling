@@ -75,6 +75,7 @@ func (s *Session) MeetStep() {
 	end := false
 	if !skip {
 		s.ghosts[id] = true
+		s.lampLeft, s.gateLeft = 0, 0
 		s.recountLocked()
 		end = s.impWinLocked() || s.crewWinLocked()
 	}

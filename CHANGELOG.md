@@ -14,6 +14,19 @@
 - Lista da reunião (`Roster`) com nome/cor/morto, 12 falas prontas
   (o host valida; fantasma é mudo) e o resultado da ejeção (`eject`),
   entregue uma vez pra tela. Protocolo **v8**
+### Added — Fase 5 (reunião, tela e gatilhos)
+- Reunião por cima do mundo congelado (`play_meet*.go`): motivo
+  (corpo e quem chamou), relógio 60s/30s, lista com cor e morto
+  riscado, voto por clique com contagem ao vivo, pular e 12 frases
+  prontas em 3 idiomas
+- A tecla INTERAGIR (remapeável) reporta um corpo por perto ou chama
+  o sino; sem alvo ela continua sendo da tarefa
+- Sino no Tiled: grupo `bell` (1 uso por jogador), com o sino no
+  mapa spawn; o objeto é desenhado no mundo
+- Resultado da votação em toast/som ("era impostor", "era
+  tripulante" ou "ninguém saiu")
+- Corpos somem quando a reunião abre, sabotagem ativa cai ao ejetar
+  e voto em id inexistente é recusado
 ### Added — Fase 1 (cor)
 - Cor do pato como matiz sobre a arte amarela (8 opções, `RotateHue`
   no `Strip`); vale no pato local, remotos, fantasmas e corpo

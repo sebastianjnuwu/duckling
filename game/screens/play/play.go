@@ -48,12 +48,14 @@ type Play struct {
 	dark             *ui.Dark
 	sabLamp, sabGate ui.Btn
 	lampOn, gateOn   bool
+	meetOn           bool
+	bellUsed         bool
 }
 
 func (p *Play) Update() error {
 	p.syncSession()
 	p.syncPhase()
-	if p.confirm {
+	if p.confirm && p.phase != match.Meeting {
 		p.confirmUpdate()
 		return nil
 	}
@@ -67,12 +69,12 @@ func (p *Play) Update() error {
 		p.d.Update(x0, y0, x1, y1, p.solids(), actor.LocalIn())
 	}
 	p.netUpdate(x0, y0, x1, y1)
+	p.meetUpdate()
 	p.deadUpdate()
 	p.sabUpdate()
 	p.sabFx()
 	if p.phase == match.Playing && p.canMove() {
-		p.taskUpdate(1.0 / 60.0)
-		p.killUpdate()
+		p.actUpdate()
 	}
 	p.toast.Update()
 	p.puff.Update()
@@ -85,7 +87,7 @@ func (p *Play) Update() error {
 	}
 	p.hostUpdate()
 	p.colorUpdate()
-	if inpututil.IsKeyJustPressed(ebiten.KeyEscape) {
+	if p.phase != match.Meeting && inpututil.IsKeyJustPressed(ebiten.KeyEscape) {
 		p.confirm = true
 	}
 	// F3 liga o raio-X das colisões.

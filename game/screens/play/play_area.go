@@ -1,6 +1,8 @@
 package play
 
 import (
+	"duckling/game/match"
+
 	"github.com/hajimehoshi/ebiten/v2"
 	"github.com/hajimehoshi/ebiten/v2/inpututil"
 )
@@ -9,6 +11,9 @@ import (
 // (mapa de teste); sem áreas, não faz nada.
 
 func (p *Play) areaKeys() {
+	if p.phase == match.Meeting {
+		return
+	}
 	keys := []ebiten.Key{ebiten.Key1, ebiten.Key2, ebiten.Key3, ebiten.Key4, ebiten.Key5}
 	for i, k := range keys {
 		if inpututil.IsKeyJustPressed(k) && i < len(p.mp.Areas) {

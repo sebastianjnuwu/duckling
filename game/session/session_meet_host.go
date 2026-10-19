@@ -27,6 +27,7 @@ func (s *Session) startMeetLocked(reason string, by, of int) {
 	s.meetReason, s.meetBy, s.meetOf = reason, by, of
 	s.meetAt, s.voteOpen = time.Now(), false
 	s.votes, s.chats = map[int]int{}, nil
+	s.bodies = nil
 	s.phase = match.Meeting
 }
 

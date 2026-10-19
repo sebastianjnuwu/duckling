@@ -75,12 +75,12 @@ O que já está pronto: 1 pato com física própria (corre/acelera/pula/voa) na 
 - [x] Cooldowns pausam durante a reunião e resetam ao voltar pra fazenda
 
 ### Fase 5 — Reunião: corpo achado, dedo apontado
-- [ ] Nova tela `game/screens/meet/` (padrão da casa: `Update/Draw` + `Add` no `UI()`): motivo no topo (quem achou o corpo e onde / quem apertou o botão do celeiro)
-- [ ] Gatilhos: ação REPORTAR perto de corpo + botão de emergência no celeiro (objeto no Tiled, 1 uso por jogador por partida)
-- [ ] Lista de vivos com avatar (usar `images/icons/duck/transparent/`?), nome e cor; morto/fantasma aparece riscado e mudo
-- [ ] Discussão 60s com chat só de frases prontas (~12 frases × `en/es/pt.json`, regra do i18n) — sem teclado livre
-- [ ] Votação aberta 30s com contagem ao vivo, pular permitido; empate ou maioria skip = ninguém sai
-- [ ] Ejetado revela o papel ("era / não era o impostor"), vira fantasma, sabotagem ativa é desfeita
+- [x] Reunião por cima do mundo congelado (`play_meet*.go`): motivo no topo (quem achou o corpo e o morto / quem apertou o sino), relógio da fase e o mundo parado — modal em vez de tela própria porque o host precisa continuar publicando o snapshot durante a reunião
+- [x] Gatilhos: INTERAGIR perto de corpo reporta e perto do sino chama (remapeável, sem ação nova); sino no Tiled pelo grupo `bell`, 1 uso por jogador por partida
+- [x] Lista de vivos com nome e cor; morto/fantasma aparece riscado e mudo (lista em até 2 colunas se passar de 8)
+- [x] Discussão 60s com chat só de frases prontas (12 frases × `en/es/pt.json`, regra do i18n) — sem teclado livre
+- [x] Votação aberta 30s com contagem ao vivo, pular permitido; empate ou maioria skip = ninguém sai
+- [x] Ejetado revela o papel em toast/som, vira fantasma e a sabotagem ativa é desfeita; os corpos somem quando a reunião abre
 
 ### Fase 6 — Fim de jogo
 - [ ] Nova tela `game/screens/over/`: quem venceu + motivo (tarefas 100% / impostores zerados / tripulantes ≤ impostores)

@@ -1,6 +1,8 @@
 package world
 
 import (
+	"image"
+
 	"github.com/lafriks/go-tiled"
 )
 
@@ -28,6 +30,15 @@ func (m *Map) scan(doc *tiled.Map) {
 			if groupIs(g, "gates") {
 				if gr, ok := objRect(o); ok {
 					m.Gates = append(m.Gates, gr)
+				}
+				continue
+			}
+			// Grupo "bell": botão de emergência (objeto ou retângulo).
+			if groupIs(g, "bell") {
+				if br, ok := objRect(o); ok {
+					m.Bells = append(m.Bells, image.Pt(br.Min.X+br.Dx()/2, br.Min.Y+br.Dy()/2))
+				} else {
+					m.Bells = append(m.Bells, image.Pt(int(o.X), int(o.Y)))
 				}
 				continue
 			}
