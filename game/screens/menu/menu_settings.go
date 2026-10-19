@@ -3,8 +3,8 @@ package menu
 import (
 	"duckling/engine/audio"
 	"duckling/engine/i18n"
-	"duckling/engine/save"
 	"duckling/engine/rendering"
+	"duckling/engine/save"
 
 	"github.com/hajimehoshi/ebiten/v2"
 	"github.com/hajimehoshi/ebiten/v2/inpututil"

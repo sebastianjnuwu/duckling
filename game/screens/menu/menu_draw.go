@@ -32,7 +32,8 @@ func (m *Menu) Draw(img *ebiten.Image) {
 	m.drawBtn(img, m.quit, i18n.T("menu.quit"), 0.45)
 	m.fx.Draw(img)
 
-	switch m.state {	case stSettings:
+	switch m.state {
+	case stSettings:
 		m.settingsDraw(img)
 	case stQuit:
 		m.quitDraw(img)
