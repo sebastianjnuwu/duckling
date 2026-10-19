@@ -1,9 +1,8 @@
 package session
 
 import (
-	"time"
-
 	"duckling/engine/network"
+	"duckling/game/player"
 )
 
 // session_host.go — o dono da sala: aceita join, guarda o input
@@ -20,7 +19,8 @@ func Host(name, room, pass string, min, max, imps int) (*Session, error) {
 		min: min, max: max, imps: imps,
 		ep: ep, stop: make(chan struct{}), nextID: 1,
 		peers: map[string]*peer{}, ghosts: map[int]bool{},
-		tasks: map[int]map[int]bool{},
+		tasks:  map[int]map[int]bool{},
+		colors: map[int]int{0: int(actor.Yellow)},
 	}
 	go s.announce()
 	go s.hostLoop()
@@ -49,50 +49,6 @@ func (s *Session) hostLoop() {
 				continue
 			}
 			s.hostHandle(pkt.From, m)
-		}
-	}
-}
-
-func (s *Session) hostHandle(addr string, m network.Msg) {
-	switch m.Kind {
-	case "join":
-		s.hostJoin(addr, m)
-	case "input":
-		s.hostInput(addr, m)
-	case "leave":
-		s.drop(addr)
-	case "task":
-		s.mu.Lock()
-		id := 0
-		if p := s.peers[addr]; p != nil {
-			id = p.id
-			p.last = time.Now()
-		}
-		s.mu.Unlock()
-		if id > 0 {
-			s.DoneTask(id, m.Task)
-		}
-	case "kill":
-		s.mu.Lock()
-		id := 0
-		if p := s.peers[addr]; p != nil {
-			id = p.id
-			p.last = time.Now()
-		}
-		s.mu.Unlock()
-		if id > 0 {
-			s.AskKill(id, m.ID)
-		}
-	case "sabotage":
-		s.mu.Lock()
-		id := 0
-		if p := s.peers[addr]; p != nil {
-			id = p.id
-			p.last = time.Now()
-		}
-		s.mu.Unlock()
-		if id > 0 {
-			s.Sabotage(id, m.Sab)
 		}
 	}
 }

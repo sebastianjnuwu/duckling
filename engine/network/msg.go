@@ -26,6 +26,7 @@ type Player struct {
 	Dir   int     `json:"d,omitempty"`
 	Fly   bool    `json:"f,omitempty"`
 	Ghost bool    `json:"g,omitempty"`
+	Color int     `json:"c,omitempty"`
 }
 
 // Body é um corpo caído no mundo (posição onde morreu).
@@ -49,6 +50,7 @@ type Msg struct {
 	Max     int      `json:"max,omitempty"`
 	Min     int      `json:"min,omitempty"`
 	N       int      `json:"n,omitempty"`
+	Color   int      `json:"c,omitempty"`
 	In      uint8    `json:"in,omitempty"`
 	Edge    uint8    `json:"e,omitempty"`
 	Phase   int      `json:"ph,omitempty"`

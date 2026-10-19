@@ -63,4 +63,6 @@ type Session struct {
 	lampMS   int
 	gateMS   int
 	edgeLast uint8
+	colors   map[int]int
+	color    int
 }

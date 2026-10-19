@@ -36,7 +36,7 @@ func Join(addr, name, pass string) (*Session, error) {
 			switch m.Kind {
 			case "welcome":
 				s.id, s.room, s.max = m.ID, m.Room, m.Max
-				s.min = m.Min
+				s.min, s.color = m.Min, m.Color
 				s.joined, s.lastRecv = true, time.Now()
 				go s.clientLoop()
 				return s, nil
@@ -74,6 +74,9 @@ func (s *Session) clientHandle(m network.Msg) {
 		s.states, s.lastRecv = fresh, time.Now()
 		s.cdMS, s.bodies = m.Cd, m.Bodies
 		s.sabMS, s.lampMS, s.gateMS = m.SabCd, m.Lamp, m.Gate
+		if p, ok := fresh[s.id]; ok {
+			s.color = p.Color
+		}
 		s.mu.Unlock()
 	case "role":
 		role := match.Crew

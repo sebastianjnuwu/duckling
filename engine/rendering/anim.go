@@ -14,6 +14,7 @@ type Strip struct {
 	frames []*ebiten.Image
 	i, t   int
 	rate   int
+	hue    float64
 }
 
 func NewStrip(img *ebiten.Image, cell, cols, start, n, rate int) *Strip {
@@ -74,6 +75,16 @@ func (s *Strip) Empty() bool {
 	return len(s.frames) == 0
 }
 
+// Hue gira o matiz do desenho (0 = cor da arte; cor do pato).
+func (s *Strip) Hue(h float64) { s.hue = h }
+
+// tint aplica o matiz no desenho, se houver.
+func (s *Strip) tint(op *ebiten.DrawImageOptions) {
+	if s.hue != 0 {
+		op.ColorM.RotateHue(s.hue)
+	}
+}
+
 // DrawFallen desenha o frame base deitado (corpo caído) e escuro.
 func (s *Strip) DrawFallen(img *ebiten.Image, x, y, scale float64) {
 	if len(s.frames) == 0 {
@@ -82,6 +93,7 @@ func (s *Strip) DrawFallen(img *ebiten.Image, x, y, scale float64) {
 	fr := s.frames[0]
 	dw, dh := float64(fr.Bounds().Dx()), float64(fr.Bounds().Dy())
 	op := &ebiten.DrawImageOptions{Filter: ebiten.FilterNearest}
+	s.tint(op)
 	op.GeoM.Translate(-dw/2, -dh/2)
 	op.GeoM.Scale(scale, scale)
 	op.GeoM.Rotate(math.Pi / 2)
@@ -99,6 +111,7 @@ func (s *Strip) Draw(img *ebiten.Image, x, y, scale, face float64) {
 	fr := s.frames[s.i]
 	dw, dh := float64(fr.Bounds().Dx()), float64(fr.Bounds().Dy())
 	op := &ebiten.DrawImageOptions{Filter: ebiten.FilterNearest}
+	s.tint(op)
 	op.GeoM.Translate(-dw/2, -dh/2)
 	op.GeoM.Scale(scale*face, scale)
 	op.GeoM.Translate(x, y)

@@ -14,6 +14,7 @@ func (s *Strip) DrawAlpha(img *ebiten.Image, x, y, scale, face, alpha float64) {
 	fr := s.frames[s.i]
 	dw, dh := float64(fr.Bounds().Dx()), float64(fr.Bounds().Dy())
 	op := &ebiten.DrawImageOptions{Filter: ebiten.FilterNearest}
+	s.tint(op)
 	op.ColorScale.ScaleAlpha(float32(alpha))
 	op.GeoM.Translate(-dw/2, -dh/2)
 	op.GeoM.Scale(scale*face, scale)

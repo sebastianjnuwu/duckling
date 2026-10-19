@@ -1,6 +1,11 @@
 # Changelog — Duckling
 
 ## [Unreleased]
+### Added — Fase 1 (cor)
+- Cor do pato como matiz sobre a arte amarela (8 opções, `RotateHue`
+  no `Strip`); vale no pato local, remotos, fantasmas e corpo
+- O host guarda as cores, dá a primeira livre ao entrar, troca só se
+  estiver livre (`session_color.go`) e manda no `welcome` + snapshot
 ### Added — Fase 1 (rede)
 - Borda de pulo/voo vai explícita no `input` e o cliente reenvia uma
   vez; o host descarta repetição em 120ms (`session_input.go`)

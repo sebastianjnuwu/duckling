@@ -16,6 +16,7 @@ type Duck struct {
 	fx                                    ui.Sparks
 	def                                   Def
 	dir                                   int
+	col                                   Color
 	moving                                bool
 	vx, vy                                float64
 	coyT, bufT                            float64
@@ -58,6 +59,9 @@ func (d *Duck) Load(imgs map[string]*ebiten.Image) {
 	d.jumpUp = ui.NewHStrip(imgs[p+"/jump_up"], 8)
 	d.jumpLeft = ui.NewHStrip(imgs[p+"/jump_left"], 8)
 	d.jumpRight = ui.NewHStrip(imgs[p+"/jump_right"], 8)
+	for _, s := range d.strips() {
+		s.Hue(d.col.Hue())
+	}
 }
 
 // Ok diz se o sprite já carregou.

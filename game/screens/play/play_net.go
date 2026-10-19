@@ -1,9 +1,6 @@
 package play
 
 import (
-	"math"
-
-	"duckling/content"
 	"duckling/engine/network"
 	"duckling/game/player"
 	"duckling/game/session"
@@ -29,29 +26,22 @@ func (p *Play) syncSession() {
 	p.d.Px, p.d.Py = p.spawnAt(id)
 }
 
-// spawnAt espalha os patos num anel em volta do spawn padrão.
-func (p *Play) spawnAt(id int) (float64, float64) {
-	sx, sy := p.mp.Spawn()
-	if id <= 0 {
-		return sx, sy
-	}
-	a := float64(id) * (math.Pi * 2 / 8)
-	return sx + math.Cos(a)*48, sy + math.Sin(a)*48
-}
-
 func (p *Play) netUpdate(x0, y0, x1, y1 int) {
 	s := p.sess
 	if s == nil {
 		return
 	}
 	s.Tick()
+	p.d.SetColor(actor.Color(s.Color(s.ID())))
 	if s.IsHost() {
 		p.hostKills()
 		for id, in := range s.HostInputs() {
 			if p.lock[id] > 0 {
 				in = actor.In{}
 			}
-			p.remote(id).Update(x0, y0, x1, y1, p.solids(), in)
+			d := p.remote(id)
+			d.SetColor(actor.Color(s.Color(id)))
+			d.Update(x0, y0, x1, y1, p.solids(), in)
 		}
 		for id := range p.rem {
 			p.rghost[id] = s.Ghost(id)
@@ -66,26 +56,11 @@ func (p *Play) netUpdate(x0, y0, x1, y1 int) {
 			p.reconcile(pl)
 			continue
 		}
-		p.remote(pl.ID).Interp(pl.X, pl.Y, pl.Z, pl.Dir, pl.Fly)
+		d := p.remote(pl.ID)
+		d.Interp(pl.X, pl.Y, pl.Z, pl.Dir, pl.Fly)
+		d.SetColor(actor.Color(pl.Color))
 		p.rname[pl.ID] = pl.Name
 	}
-}
-
-// remote devolve (criando na hora) o pato de um jogador.
-func (p *Play) remote(id int) *actor.Duck {
-	d := p.rem[id]
-	if d == nil {
-		sx, sy := p.spawnAt(id)
-		d = actor.New(assets.Images, sx, sy, actor.Cast["duck"])
-		p.rem[id] = d
-		if p.sess != nil && p.sess.IsHost() {
-			p.rname[id] = p.sess.PeerName(id)
-		}
-	}
-	if !d.Ok() {
-		d.Load(assets.Images)
-	}
-	return d
 }
 
 // reconcile corrige o pato local só quando a divergência é grande.

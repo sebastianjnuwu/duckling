@@ -5,6 +5,7 @@ import (
 
 	"duckling/engine/network"
 	"duckling/game/match"
+	"duckling/game/player"
 )
 
 // session_join.go — a porta de entrada: valida versão e senha,
@@ -34,25 +35,31 @@ func (s *Session) hostJoin(addr string, m network.Msg) {
 	}
 	p := s.peers[addr]
 	if p == nil {
+		if s.colors == nil {
+			s.colors = map[int]int{0: int(actor.Yellow)}
+		}
 		p = &peer{id: s.nextID, name: clip(m.Name)}
 		s.nextID++
 		s.peers[addr] = p
+		s.colors[p.id] = s.freeColorLocked()
 		s.events = append(s.events, "net.joined")
 	}
 	p.last = time.Now()
 	id := p.id
 	min := s.min
+	color := s.colors[id]
 	s.mu.Unlock()
 	_ = s.ep.SendTo(addr, network.Encode(network.Msg{
 		Ver: network.Version, Kind: "welcome", ID: id, Room: s.room,
-		Max: s.max, Min: min,
+		Max: s.max, Min: min, Color: color,
 	}))
 }
 
 func (s *Session) drop(addr string) {
 	s.mu.Lock()
-	if _, ok := s.peers[addr]; ok {
+	if p, ok := s.peers[addr]; ok {
 		delete(s.peers, addr)
+		delete(s.colors, p.id)
 		s.events = append(s.events, "net.left")
 	}
 	s.mu.Unlock()
