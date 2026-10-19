@@ -2,9 +2,6 @@ package actor
 
 import (
 	"duckling/engine/input"
-
-	"github.com/hajimehoshi/ebiten/v2"
-	"github.com/hajimehoshi/ebiten/v2/inpututil"
 )
 
 // net.go — entrada de um pato (local ou vinda da rede) e o
@@ -26,15 +23,16 @@ type In struct {
 	JumpEdge, FlyEdge     bool
 }
 
-// LocalIn lê o teclado: WASD/setas, pulo e voo (E é alternativo).
+// LocalIn lê o teclado: WASD/setas, pulo e voo (E virou a ação
+// de interagir; voo fica só na tecla configurada).
 func LocalIn() In {
 	return In{
 		Up: input.Held(input.Up), Down: input.Held(input.Down),
 		Left: input.Held(input.Left), Right: input.Held(input.Right),
 		Jump:     input.Held(input.Jump),
-		Fly:      input.Held(input.Fly) || ebiten.IsKeyPressed(ebiten.KeyE),
+		Fly:      input.Held(input.Fly),
 		JumpEdge: input.JustPressed(input.Jump),
-		FlyEdge:  input.JustPressed(input.Fly) || inpututil.IsKeyJustPressed(ebiten.KeyE),
+		FlyEdge:  input.JustPressed(input.Fly),
 	}
 }
 

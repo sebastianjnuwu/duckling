@@ -23,6 +23,7 @@ var keyRows = []struct {
 	{input.Right, "settings.right", ui.IconRight},
 	{input.Jump, "settings.jump", ui.IconJump},
 	{input.Fly, "settings.fly", ui.IconFly},
+	{input.Interact, "settings.interact", ui.IconHand},
 }
 
 func (m *Menu) controlsUpdate() {
@@ -42,7 +43,7 @@ func (m *Menu) controlsUpdate() {
 	}
 	lo, hi := 0, 4
 	if s.page != movePage() {
-		lo, hi = 4, 6
+		lo, hi = 4, len(keyRows)
 	}
 	for i := lo; i < hi; i++ {
 		if s.keys[i].Update() {

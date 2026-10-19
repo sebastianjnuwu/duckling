@@ -32,6 +32,7 @@ const (
 	IconRight
 	IconJump
 	IconFly
+	IconHand
 )
 
 // DrawIcon desenha o ícone da fonte numa caixa 24x24 em (x,y).

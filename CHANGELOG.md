@@ -1,6 +1,12 @@
 # Changelog — Duckling
 
 ## [Unreleased]
+### Added — Fase 3 (tarefas)
+- Ação **INTERAGIR** (padrão `E`) em `engine/input/` (remapeável e
+  salva em `settings.json`); o voo agora é só a tecla configurada
+  (`X`), sem o atalho antigo no `E`
+- Ajustes: 3ª linha de teclas na página de controles com ícone novo
+  (`IconHand`) e a chave `settings.interact` em en/es/pt
 ### Added — Fase 2 (partida e papéis)
 - `game/match/`: máquina de fases (`lobby/jogando/reunião/fim`),
   sorteio de papel (AUTO: 1 impostor até 6 jogadores, 2 a partir

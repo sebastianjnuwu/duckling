@@ -9,6 +9,7 @@ import (
 var actionNames = map[Action]string{
 	Up: "up", Down: "down", Left: "left",
 	Right: "right", Jump: "jump", Fly: "fly",
+	Interact: "interact",
 }
 
 // Codes exporta pra save; LoadCodes importa (ignora lixo).
@@ -32,7 +33,7 @@ func LoadCodes(m map[string]int) {
 	}
 }
 
-// Reset volta aos padrões (WASD, espaço, X).
+// Reset volta aos padrões (WASD, espaço, X, E).
 func Reset() {
 	Set(Up, ebiten.KeyW)
 	Set(Down, ebiten.KeyS)
@@ -40,4 +41,5 @@ func Reset() {
 	Set(Right, ebiten.KeyD)
 	Set(Jump, ebiten.KeySpace)
 	Set(Fly, ebiten.KeyX)
+	Set(Interact, ebiten.KeyE)
 }
