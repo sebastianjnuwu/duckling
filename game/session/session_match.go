@@ -35,6 +35,7 @@ func (s *Session) Start(plan match.Plan) {
 	s.sabCd, s.lampLeft, s.gateLeft = 0, 0, 0
 	s.clearMeetLocked()
 	s.calls = map[int]bool{}
+	s.chats, s.ejectDone = nil, false
 	s.recountLocked()
 	done, total := s.done, s.total
 	type target struct {
@@ -84,6 +85,7 @@ func (s *Session) Reset() {
 	s.sabCd, s.lampLeft, s.gateLeft = 0, 0, 0
 	s.clearMeetLocked()
 	s.calls = map[int]bool{}
+	s.chats, s.ejectDone = nil, false
 	s.mu.Unlock()
 	s.broadcast(network.Msg{Ver: network.Version, Kind: "phase", Phase: int(match.Lobby)})
 }

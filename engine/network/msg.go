@@ -13,7 +13,7 @@ const (
 	// GamePort é a porta da partida (join/input/state).
 	GamePort = 48218
 	// Version do protocolo: cliente de versão diferente não entra.
-	Version = 7
+	Version = 8
 )
 
 // Player é um pato num snapshot (posição, altitude, pose).
@@ -40,6 +40,12 @@ type Body struct {
 type Vote struct {
 	By int `json:"by"`
 	ID int `json:"id"`
+}
+
+// Chat é uma frase pronta dita na reunião (key = chave i18n).
+type Chat struct {
+	By  int    `json:"by"`
+	Key string `json:"key"`
 }
 
 // Msg cobre os dois papéis: hello é a descoberta; join/deny/
@@ -78,6 +84,9 @@ type Msg struct {
 	MeetLeft int      `json:"mleft,omitempty"`
 	MeetOpen bool     `json:"mopen,omitempty"`
 	Votes    []Vote   `json:"votes,omitempty"`
+	Chats    []Chat   `json:"chats,omitempty"`
+	By       int      `json:"by,omitempty"`
+	Say      string   `json:"say,omitempty"`
 	Skip     bool     `json:"skip,omitempty"`
 	Imp      bool     `json:"imp,omitempty"`
 	X        float64  `json:"x,omitempty"`

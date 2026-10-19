@@ -78,6 +78,7 @@ func (s *Session) MeetStep() {
 		s.recountLocked()
 		end = s.impWinLocked() || s.crewWinLocked()
 	}
+	s.ejectID, s.ejectSkip, s.ejectImp, s.ejectDone = id, skip, imp, true
 	s.mu.Unlock()
 	s.broadcast(network.Msg{
 		Ver: network.Version, Kind: "eject", ID: id, Skip: skip, Imp: imp,

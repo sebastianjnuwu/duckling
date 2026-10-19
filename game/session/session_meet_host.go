@@ -26,14 +26,14 @@ func (s *Session) hasBodyLocked(of int) bool {
 func (s *Session) startMeetLocked(reason string, by, of int) {
 	s.meetReason, s.meetBy, s.meetOf = reason, by, of
 	s.meetAt, s.voteOpen = time.Now(), false
-	s.votes = map[int]int{}
+	s.votes, s.chats = map[int]int{}, nil
 	s.phase = match.Meeting
 }
 
 func (s *Session) clearMeetLocked() {
 	s.meetReason, s.meetBy, s.meetOf = "", 0, 0
 	s.voteOpen = false
-	s.votes = nil
+	s.votes, s.chats = nil, nil
 }
 
 func phaseMsg(ph match.Phase) network.Msg {

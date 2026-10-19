@@ -75,4 +75,9 @@ type Session struct {
 	meetMS         int
 	meetOpen       bool
 	meetAll        []network.Vote
+	chats          []network.Chat
+	ejectID        int
+	ejectSkip      bool
+	ejectImp       bool
+	ejectDone      bool
 }

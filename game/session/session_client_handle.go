@@ -24,6 +24,7 @@ func (s *Session) clientHandle(m network.Msg) {
 		s.meetMS, s.meetOpen = m.MeetLeft, m.MeetOpen
 		s.meetReason, s.meetBy, s.meetOf = m.Meet, m.MeetBy, m.MeetOf
 		s.meetAll = m.Votes
+		s.chats = m.Chats
 		if p, ok := fresh[s.id]; ok {
 			s.color = p.Color
 		}
@@ -52,6 +53,11 @@ func (s *Session) clientHandle(m network.Msg) {
 	case "tasks":
 		s.mu.Lock()
 		s.done, s.total = m.Done, m.Total
+		s.mu.Unlock()
+	case "eject":
+		s.mu.Lock()
+		s.ejectID, s.ejectSkip, s.ejectImp = m.ID, m.Skip, m.Imp
+		s.ejectDone = true
 		s.mu.Unlock()
 	case "deny":
 		s.mu.Lock()

@@ -12,6 +12,7 @@ const (
 	stateEvery  = 66 * time.Millisecond // 15 snapshots/s
 	inputEvery  = 33 * time.Millisecond // 30 inputs/s
 	peerTimeout = 5 * time.Second       // 5s mudo = caiu
+	chatKeep    = 24                    // falas guardadas na reunião
 )
 
 var (

@@ -40,6 +40,10 @@ func (s *Session) hostHandle(addr string, m network.Msg) {
 		if id := s.peerID(addr); id > 0 {
 			s.Vote(id, m.ID)
 		}
+	case "say":
+		if id := s.peerID(addr); id > 0 {
+			s.Say(id, m.Say)
+		}
 	case "sabotage":
 		if id := s.peerID(addr); id > 0 {
 			s.Sabotage(id, m.Sab)

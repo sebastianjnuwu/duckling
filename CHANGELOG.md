@@ -11,6 +11,9 @@
   impostores alcançarem os tripulantes
 - Estado da reunião (motivo, quem chamou, morto, relógio e votos) vai
   no snapshot; `Meet()`/`MyVote()` leem pra tela. Protocolo **v7**
+- Lista da reunião (`Roster`) com nome/cor/morto, 12 falas prontas
+  (o host valida; fantasma é mudo) e o resultado da ejeção (`eject`),
+  entregue uma vez pra tela. Protocolo **v8**
 ### Added — Fase 1 (cor)
 - Cor do pato como matiz sobre a arte amarela (8 opções, `RotateHue`
   no `Strip`); vale no pato local, remotos, fantasmas e corpo

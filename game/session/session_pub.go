@@ -40,6 +40,7 @@ func (s *Session) Publish(ps []network.Player) {
 			m.MeetLeft = 0
 		}
 		m.Votes = s.meetVotesLocked()
+		m.Chats = append([]network.Chat(nil), s.chats...)
 	}
 	s.mu.Unlock()
 	s.broadcast(m)
