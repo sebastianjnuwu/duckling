@@ -7,6 +7,10 @@
   (`X`), sem o atalho antigo no `E`
 - Ajustes: 3ª linha de teclas na página de controles com ícone novo
   (`IconHand`) e a chave `settings.interact` em en/es/pt
+- Tiled: `world.Task` ganhou `Kind` (`hold`/`order`/`carry`) e
+  `Dest` (prop `to_x`/`to_y` do carry) + `Center()`/`Target()`;
+  `spawn.tmx` agora tem 5 curtas (4 milho `hold` + 1 feno `carry`)
+  e 2 longas (celeiro `hold`, ordenha `order`)
 ### Added — Fase 2 (partida e papéis)
 - `game/match/`: máquina de fases (`lobby/jogando/reunião/fim`),
   sorteio de papel (AUTO: 1 impostor até 6 jogadores, 2 a partir

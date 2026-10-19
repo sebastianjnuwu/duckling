@@ -61,8 +61,11 @@ Jogo de dedução social: patos com tarefas, um impostor no meio.
 - Grupo `areas` (retângulos ≥128px) = zonas das teclas 1-5.
 - Objeto `spawn` = nascimento (sem ele, centro visível).
   Vários = um ponto por pato (o host distribui no começar).
-- Grupo `tasks` = pontos de tarefa: prop `long` (bool) e
-  `time` (s); o host dá 4 curtas + 2 longas por tripulante.
+- Grupo `tasks` = pontos de tarefa: prop `long` (bool), `time`
+  (s) e `kind` = `hold` (segurar), `order` (segurar sem soltar,
+  soltar zera) ou `carry` (levar de A até `to_x`/`to_y`);
+  sem `kind` = `hold`. O host dá 4 curtas + 2 longas por
+  tripulante.
 - Props do mapa: `zoom` (gameplay), `maxplayers` (teto da sala).
 - Offset da camada soma na origem do objeto (o código faz).
 - Camada/tile desconhecido é ignorado sem erro.
