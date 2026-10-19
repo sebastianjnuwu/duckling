@@ -1,7 +1,26 @@
 # Changelog — Duckling
 
 ## [Unreleased]
-### Added
+### Added — Fase 2 (partida e papéis)
+- `game/match/`: máquina de fases (`lobby/jogando/reunião/fim`),
+  sorteio de papel (AUTO: 1 impostor até 6 jogadores, 2 a partir
+  de 7; ou override do dono), spawn por pato e 4 curtas + 2 longas
+  por tripulante (`Plan`)
+- `game/session/`: `Start/Reset/Finish`; o `role` vai filtrado por
+  destino (spawn/tarefas/comparsas só pra quem é dono deles), a
+  sala trava depois de começar (`net.started`) e quem cai no meio
+  vira fantasma (`Ghost` no snapshot)
+- `game/screens/play/`: painel do dono (COMEÇAR com contagem e
+  mínimo, ENCERRAR), HUD de fase/vivos/papel (comparsas só pro
+  impostor), fim mínimo com volta ao lobby e pato fantasma
+  translúcido (`ui.Strip.DrawAlpha`)
+- Tiled: 8 objetos `spawn` e grupo `tasks` (4 curtas + 2 longas)
+  em `spawn.tmx`; `world.Map.Spawns()` e `world.Map.Tasks`
+- Lobby: mínimo padrão 4 (piso 2 pra teste) e impostores AUTO (0)
+  com override; `welcome` leva o mínimo da sala
+- Protocolo v2 (`engine/network/msg.go`): `start/role/phase`,
+  `Player.Ghost` e os campos de spawn/tarefas
+### Added — Fase 1 (LAN)
 - LAN jogável (Fase 1): host autoritativo + cliente em `game/session/`
   (join/welcome, snapshot 15/s, input 30/s, timeout 5s, match de
   versão) sobre UDP no `GamePort` 48218 (`engine/network/endpoint.go`);

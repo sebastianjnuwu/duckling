@@ -49,14 +49,14 @@ O que já está pronto: 1 pato com física própria (corre/acelera/pula/voa) na 
 - [ ] Teste com 2 instâncias da GUI na mesma máquina antes de fechar a fase (host+cliente headless já validados)
 
 ### Fase 2 — Partida e papéis
-- [ ] Máquina de estados da partida (ex: `game/match/` novo): `lobby → jogando → reunião → fim`; rede só sincroniza dentro dela
-- [ ] Dono aperta "começar" com no mínimo 4 patos; sala trava pra quem chega no meio (vira espectador ou volta ao menu)
-- [ ] Sorteio pelo host: 1 impostor com 4–6 jogadores, 2 com 7+; impostores se conhecem, tripulante não sabe de nada
-- [ ] Segredo de verdade: o host nunca manda a lista de impostores pro cliente tripulante (mensagens filtradas por destino, não é só esconder na UI)
-- [ ] Contrato novo no Tiled (documentar no `AGENTS.md`): vários objetos `spawn` — um por pato, longe um do outro
-- [ ] Distribuir tarefas por tripulante (ex: 4 curtas + 2 longas, sem repetir o mesmo ponto pra todo mundo)
-- [ ] Morte vira fantasma: anda e vê tudo, mas não fala, não vota, não faz tarefa, não é visto como vivo
-- [ ] Quem cai no meio da partida vira fantasma automático (não some o corpo do jogo)
+- [x] Máquina de estados da partida (`game/match/`): `lobby → jogando → reunião → fim`; o host sincroniza (`start/role/phase`) e a rede só anda dentro dela (reunião ainda sem gatilho: Fase 5)
+- [x] Dono aperta "COMEÇAR" com no mínimo 4 patos (ajustável no lobby, piso 2 pra teste); sala trava pra quem chega no meio (`net.started`)
+- [x] Sorteio pelo host: 1 impostor com 4–6 jogadores, 2 com 7+ (AUTO) ou escolha do dono; impostores se conhecem, tripulante não recebe nada
+- [x] Segredo de verdade: o host manda um `role` por destino, com o spawn e as tarefas de cada um; tripulante nunca vê a lista de impostores
+- [x] Contrato novo no Tiled (documentado no `AGENTS.md`): vários objetos `spawn` — um por pato, longe um do outro (8 no mapa)
+- [x] Distribuir tarefas por tripulante (4 curtas + 2 longas, girando o pool); a interação/minigame é da Fase 3
+- [x] Morte vira fantasma: flag no snapshot, desenho translúcido, sem sombra; hoje vale pra quem cai (kill real na Fase 4)
+- [x] Quem cai no meio da partida vira fantasma automático (o pato não some do mundo)
 
 ### Fase 3 — Tarefas (o trabalho da fazenda)
 - [ ] Contrato Tiled: objetos de tarefa (`nome`, `tipo`, `tempo`) documentados no `AGENTS.md`, um por ponto da fazenda

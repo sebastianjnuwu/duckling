@@ -18,12 +18,17 @@ Jogo de dedução social: patos com tarefas, um impostor no meio.
 - `engine/save/` — config local (`settings.json` em
   UserConfigDir): idioma + áudio. `Load/Apply` no boot,
   `Store` a cada mudança. Sem arquivo = defaults ligados.
-- `engine/network/` — mensagens JSON por UDP (`msg.go`) +
-  descoberta LAN (`discover.go`: anuncia/escuta no 48217) +
-  socket da partida (`endpoint.go`: host/cliente no 48218).
+- `engine/network/` — mensagens JSON por UDP (`msg.go`:
+  `hello/join/deny/welcome/input/state/leave` + `start/role/
+  phase`) + descoberta LAN (`discover.go`: anuncia/escuta no
+  48217) + socket da partida (`endpoint.go`: host/cliente no
+  48218).
 - `game/session/` — partida LAN: host autoritativo (simula todos
   e distribui snapshot 15/s) ou cliente (manda input 30/s e
   interpola). `Set/Get` guarda a sessão atual (nil = solo).
+- `game/match/` — regras da partida: fases (`lobby/jogando/
+  reunião/fim`), papéis (tripulante/impostor) e o plano que o
+  host sorteia (spawn, 4+2 tarefas por tripulante, comparsas).
 - `game/screens/loading|menu|play|shop/` — uma pasta
   por tela (`Update() error` + `Draw(*ebiten.Image)`).
   O curral (salas + novo jogo) é modal do menu.
@@ -55,6 +60,9 @@ Jogo de dedução social: patos com tarefas, um impostor no meio.
   absoluta (H 1000: nem pula, nem voa).
 - Grupo `areas` (retângulos ≥128px) = zonas das teclas 1-5.
 - Objeto `spawn` = nascimento (sem ele, centro visível).
+  Vários = um ponto por pato (o host distribui no começar).
+- Grupo `tasks` = pontos de tarefa: prop `long` (bool) e
+  `time` (s); o host dá 4 curtas + 2 longas por tripulante.
 - Props do mapa: `zoom` (gameplay), `maxplayers` (teto da sala).
 - Offset da camada soma na origem do objeto (o código faz).
 - Camada/tile desconhecido é ignorado sem erro.
