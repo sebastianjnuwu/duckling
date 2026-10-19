@@ -42,6 +42,7 @@ type Play struct {
 	ts               map[int]*task.State
 	done             map[int]bool
 	tids             []int
+	lock             map[int]float64
 }
 
 func (p *Play) Update() error {
@@ -56,12 +57,14 @@ func (p *Play) Update() error {
 		p.d.Load(assets.Images)
 	}
 	x0, y0, x1, y1 := p.bounds()
-	if p.canMove() {
+	p.lockUpdate(1.0 / 60.0)
+	if p.canMove() && p.lock[p.localID()] <= 0 {
 		p.d.Update(x0, y0, x1, y1, p.mp.Solids, actor.LocalIn())
 	}
 	p.netUpdate(x0, y0, x1, y1)
 	if p.phase == match.Playing && p.canMove() {
 		p.taskUpdate(1.0 / 60.0)
+		p.killUpdate()
 	}
 	p.toast.Update()
 	p.puff.Update()

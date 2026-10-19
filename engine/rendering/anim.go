@@ -2,6 +2,7 @@ package ui
 
 import (
 	"image"
+	"math"
 
 	"github.com/hajimehoshi/ebiten/v2"
 )
@@ -71,6 +72,23 @@ func (s *Strip) Step() {
 // Empty diz se a tira não tem frames (imagem ainda não carregou).
 func (s *Strip) Empty() bool {
 	return len(s.frames) == 0
+}
+
+// DrawFallen desenha o frame base deitado (corpo caído) e escuro.
+func (s *Strip) DrawFallen(img *ebiten.Image, x, y, scale float64) {
+	if len(s.frames) == 0 {
+		return
+	}
+	fr := s.frames[0]
+	dw, dh := float64(fr.Bounds().Dx()), float64(fr.Bounds().Dy())
+	op := &ebiten.DrawImageOptions{Filter: ebiten.FilterNearest}
+	op.GeoM.Translate(-dw/2, -dh/2)
+	op.GeoM.Scale(scale, scale)
+	op.GeoM.Rotate(math.Pi / 2)
+	op.GeoM.Translate(0, -dh*scale/4)
+	op.GeoM.Translate(x, y)
+	op.ColorScale.Scale(0.5, 0.42, 0.42, 1)
+	img.DrawImage(fr, op)
 }
 
 // Draw centraliza o frame em (x,y); face -1 espelha.

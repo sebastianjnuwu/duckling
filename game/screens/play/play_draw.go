@@ -22,6 +22,7 @@ func (p *Play) Draw(img *ebiten.Image) {
 		ui.DrawCover(img, bg)
 	}
 	p.mp.Draw(img, p.camX, p.camY, p.zoom)
+	p.deadDraw(img)
 	for _, id := range p.remoteIDs() {
 		d := p.rem[id]
 		x, y := (d.Px-p.camX)*p.zoom, (d.Py-p.camY)*p.zoom
@@ -32,7 +33,11 @@ func (p *Play) Draw(img *ebiten.Image) {
 		}
 		p.nameTag(img, d, p.rname[id])
 	}
-	p.d.Draw(img, (p.d.Px-p.camX)*p.zoom, (p.d.Py-p.camY)*p.zoom, p.zoom)
+	if p.ghost() {
+		p.d.DrawGhost(img, (p.d.Px-p.camX)*p.zoom, (p.d.Py-p.camY)*p.zoom, p.zoom)
+	} else {
+		p.d.Draw(img, (p.d.Px-p.camX)*p.zoom, (p.d.Py-p.camY)*p.zoom, p.zoom)
+	}
 	p.d.DrawFx(img, p.camX, p.camY, p.zoom)
 	p.puff.Draw(img)
 	// Raio-X: sólidos em vermelho, pés do pato em verde.

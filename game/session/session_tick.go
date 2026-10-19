@@ -14,6 +14,7 @@ import (
 func (s *Session) Tick() {
 	s.mu.Lock()
 	now := time.Now()
+	s.tickCooldown(now)
 	lost := false
 	for addr, p := range s.peers {
 		if now.Sub(p.last) > peerTimeout {
@@ -31,6 +32,24 @@ func (s *Session) Tick() {
 	s.mu.Unlock()
 	if lost {
 		s.refreshTasks()
+	}
+}
+
+// tickCooldown corre só jogando: reunião/lobby pausam o relógio.
+func (s *Session) tickCooldown(now time.Time) {
+	if !s.host {
+		return
+	}
+	d := time.Duration(0)
+	if !s.cdAt.IsZero() {
+		d = now.Sub(s.cdAt)
+	}
+	s.cdAt = now
+	if s.phase != match.Playing || s.killCd <= 0 {
+		return
+	}
+	if s.killCd -= d; s.killCd < 0 {
+		s.killCd = 0
 	}
 }
 

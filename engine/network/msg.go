@@ -13,7 +13,7 @@ const (
 	// GamePort é a porta da partida (join/input/state).
 	GamePort = 48218
 	// Version do protocolo: cliente de versão diferente não entra.
-	Version = 3
+	Version = 4
 )
 
 // Player é um pato num snapshot (posição, altitude, pose).
@@ -26,6 +26,13 @@ type Player struct {
 	Dir   int     `json:"d,omitempty"`
 	Fly   bool    `json:"f,omitempty"`
 	Ghost bool    `json:"g,omitempty"`
+}
+
+// Body é um corpo caído no mundo (posição onde morreu).
+type Body struct {
+	ID int     `json:"id"`
+	X  float64 `json:"x"`
+	Y  float64 `json:"y"`
 }
 
 // Msg cobre os dois papéis: hello é a descoberta; join/deny/
@@ -50,6 +57,8 @@ type Msg struct {
 	Task    int      `json:"task,omitempty"`
 	Done    int      `json:"done,omitempty"`
 	Total   int      `json:"total,omitempty"`
+	Cd      int      `json:"cd,omitempty"`
+	Bodies  []Body   `json:"bodies,omitempty"`
 	X       float64  `json:"x,omitempty"`
 	Y       float64  `json:"y,omitempty"`
 	Players []Player `json:"p,omitempty"`

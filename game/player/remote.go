@@ -41,6 +41,13 @@ func (d *Duck) DrawGhost(img *ebiten.Image, x, y, s float64) {
 	}
 }
 
+// DrawDead desenha o corpo caído (deitado, escurecido).
+func (d *Duck) DrawDead(img *ebiten.Image, x, y, s float64) {
+	if d.down != nil {
+		d.down.DrawFallen(img, x, y, s*d.def.Scale)
+	}
+}
+
 // Dir e Flying expõem o estado pra montar o snapshot.
 func (d *Duck) Dir() int     { return d.dir }
 func (d *Duck) Flying() bool { return d.flying }

@@ -71,8 +71,8 @@ O que já está pronto: 1 pato com física própria (corre/acelera/pula/voa) na 
 - [ ] Nova ação MATAR no `engine/input` (remapeável, padrão F): só impostor, alcance ~24px, cooldown 25s com radial no HUD
 - [ ] Kill trava o impostor 0.5s + som + puff de pena da vítima; corpo caído no chão (arte nova: `duck_dead.png` por cor)
 - [ ] 1ª leva de sabotagens (com cooldown próprio): fechar porteiras (tranca as `areas` por 30s) e apagar a lamparina (overlay escuro com raio de visão — controle novo em `engine/rendering`)
-- [ ] Vitória do(s) impostor(es) quando vivos deles == vivos tripulantes (fantasma não conta)
-- [ ] Cooldowns pausam durante a reunião e resetam ao voltar pra fazenda
+- [x] Vitória do(s) impostor(es) quando vivos deles == vivos tripulantes (fantasma não conta)
+- [x] Cooldowns pausam durante a reunião e resetam ao voltar pra fazenda
 
 ### Fase 5 — Reunião: corpo achado, dedo apontado
 - [ ] Nova tela `game/screens/meet/` (padrão da casa: `Update/Draw` + `Add` no `UI()`): motivo no topo (quem achou o corpo e onde / quem apertou o botão do celeiro)

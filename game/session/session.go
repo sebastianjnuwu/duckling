@@ -78,6 +78,11 @@ type Session struct {
 	tasks    map[int]map[int]bool
 	done     int
 	total    int
+	bodies   []network.Body
+	kills    []KillReq
+	killCd   time.Duration
+	cdAt     time.Time
+	cdMS     int
 }
 
 // IsHost diz se esta máquina é a dona da sala.

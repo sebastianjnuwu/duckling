@@ -43,4 +43,5 @@ func (p *Play) resetCast() {
 	p.d.Px, p.d.Py = p.spawnAt(id)
 	p.rem = map[int]*actor.Duck{}
 	p.rghost = map[int]bool{}
+	p.lock = map[int]float64{}
 }

@@ -29,8 +29,12 @@ func (s *Session) DoneTask(id, idx int) bool {
 	s.tasks[id][idx] = true
 	s.recountLocked()
 	m := tasksMsg(s.done, s.total)
+	end := s.total > 0 && s.done >= s.total
 	s.mu.Unlock()
 	s.broadcast(m)
+	if end {
+		s.Finish()
+	}
 	return true
 }
 

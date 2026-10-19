@@ -2,6 +2,7 @@ package session
 
 import (
 	"sort"
+	"time"
 
 	"duckling/engine/network"
 	"duckling/game/match"
@@ -29,6 +30,8 @@ func (s *Session) Start(plan match.Plan) {
 	s.plan, s.phase = plan, match.Playing
 	s.ghosts = map[int]bool{}
 	s.tasks = map[int]map[int]bool{}
+	s.bodies, s.kills = nil, nil
+	s.killCd, s.cdAt = 0, time.Time{}
 	s.recountLocked()
 	done, total := s.done, s.total
 	type target struct {
@@ -73,6 +76,8 @@ func (s *Session) Reset() {
 	s.ghosts = map[int]bool{}
 	s.tasks = map[int]map[int]bool{}
 	s.done, s.total = 0, 0
+	s.bodies, s.kills = nil, nil
+	s.killCd, s.cdAt = 0, time.Time{}
 	s.mu.Unlock()
 	s.broadcast(network.Msg{Ver: network.Version, Kind: "phase", Phase: int(match.Lobby)})
 }

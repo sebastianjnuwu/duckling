@@ -19,8 +19,13 @@ func (s *Session) Publish(ps []network.Player) {
 		return
 	}
 	s.sent = now
+	m := network.Msg{
+		Ver: network.Version, Kind: "state", Players: ps,
+		Cd:     int(s.killCd / time.Millisecond),
+		Bodies: append([]network.Body(nil), s.bodies...),
+	}
 	s.mu.Unlock()
-	s.broadcast(network.Msg{Ver: network.Version, Kind: "state", Players: ps})
+	s.broadcast(m)
 }
 
 // broadcast manda a mesma mensagem pra cada convidado.
@@ -31,6 +36,9 @@ func (s *Session) broadcast(m network.Msg) {
 		addrs = append(addrs, addr)
 	}
 	s.mu.Unlock()
+	if s.ep == nil {
+		return
+	}
 	data := network.Encode(m)
 	for _, addr := range addrs {
 		_ = s.ep.SendTo(addr, data)

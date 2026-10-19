@@ -46,7 +46,11 @@ func (p *Play) netUpdate(x0, y0, x1, y1 int) {
 	}
 	s.Tick()
 	if s.IsHost() {
+		p.hostKills()
 		for id, in := range s.HostInputs() {
+			if p.lock[id] > 0 {
+				in = actor.In{}
+			}
 			p.remote(id).Update(x0, y0, x1, y1, p.mp.Solids, in)
 		}
 		for id := range p.rem {

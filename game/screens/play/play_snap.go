@@ -14,6 +14,7 @@ func (p *Play) snapshot() []network.Player {
 	out = append(out, network.Player{
 		ID: 0, Name: p.sess.Name(), X: p.d.Px, Y: p.d.Py,
 		Z: p.d.Alt(), Dir: p.d.Dir(), Fly: p.d.Flying(),
+		Ghost: p.sess.Ghost(0),
 	})
 	for id, d := range p.rem {
 		out = append(out, network.Player{

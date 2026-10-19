@@ -31,6 +31,7 @@ func NewPlay(font *text.GoTextFace, next func(string)) (*Play, error) {
 		toast:  ui.Toast{Right: true},
 		ts:     map[int]*task.State{},
 		done:   map[int]bool{},
+		lock:   map[int]float64{},
 	}
 	sx, sy := mp.Spawn()
 	p.d = actor.New(assets.Images, sx, sy, actor.Cast["duck"])

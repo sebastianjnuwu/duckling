@@ -49,10 +49,13 @@ func (p *Play) hudText(img *ebiten.Image, s string, x, y float64) {
 	text.Draw(img, s, p.font, op)
 }
 
-// alive conta quem não é fantasma (cliente) ou quem está na sala.
+// alive conta quem não é fantasma (host) ou quem veio no snapshot.
 func (p *Play) alive() int {
 	if p.sess == nil {
 		return 1
+	}
+	if p.sess.IsHost() {
+		return p.sess.AliveCount()
 	}
 	n := 0
 	for _, pl := range p.sess.States() {

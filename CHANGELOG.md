@@ -2,6 +2,15 @@
 
 ## [Unreleased]
 ### Added — Fase 4 (impostor)
+- Núcleo do **MATAR** autoritativo: o convidado pede (`kill`), o
+  host confere fase, papel, alvo vivo, alcance e cooldown (25s)
+- Corpo caído (`network.Body`) e cooldown vão no snapshot; quem
+  mata fica 0,5s travado; o morto vira fantasma translúcido
+- Fim de partida quando os impostores vivos alcançam os
+  tripulantes vivos; 100% das tarefas também encerra
+- Cooldown pausa na reunião/lobby e zera ao voltar pra fazenda;
+  vivos contados pelo host (fantasma sai da conta)
+- Protocolo **v4**
 - Ação **MATAR** (padrão `F`) remapeável e salva, com ícone próprio
   (`IconKill`, content_cut) e a chave `settings.kill` em en/es/pt
 - Ajustes: página de controles com 4 ações; reset e indicadores de

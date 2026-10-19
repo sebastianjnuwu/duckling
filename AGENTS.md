@@ -21,12 +21,13 @@ Jogo de dedução social: patos com tarefas, um impostor no meio.
   ligados.
 - `engine/network/` — mensagens JSON por UDP (`msg.go`:
   `hello/join/deny/welcome/input/state/leave` + `start/role/
-  phase/task/tasks`) + descoberta LAN (`discover.go`: anuncia e
+  phase/task/tasks/kill`) + descoberta LAN (`discover.go`: anuncia e
   escuta no 48217) + socket da partida (`endpoint.go`: host e
   cliente no 48218).
 - `game/session/` — partida LAN: host autoritativo (simula todos
-  e distribui snapshot 15/s) ou cliente (manda input 30/s e
-  interpola). `Set/Get` guarda a sessão atual (nil = solo).
+  e distribui snapshot 15/s com corpos e cooldown) ou cliente
+  (manda input 30/s e interpola). `Set/Get` guarda a sessão atual
+  (nil = solo).
 - `game/match/` — regras da partida: fases (`lobby/jogando/
   reunião/fim`), papéis (tripulante/impostor) e o plano que o
   host sorteia (spawn, 4+2 tarefas por jogador — fake pro
