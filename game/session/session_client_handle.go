@@ -41,6 +41,11 @@ func (s *Session) clientHandle(m network.Msg) {
 	case "start", "phase":
 		s.mu.Lock()
 		s.phase = match.Phase(m.Phase)
+		if m.Meet != "" {
+			s.meetMS, s.meetOpen = m.MeetLeft, m.MeetOpen
+			s.meetReason, s.meetBy, s.meetOf = m.Meet, m.MeetBy, m.MeetOf
+			s.meetAll = m.Votes
+		}
 		if s.phase == match.Lobby {
 			s.plan.Clear()
 			s.done, s.total = 0, 0

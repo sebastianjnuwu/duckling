@@ -81,6 +81,7 @@ O que já está pronto: 1 pato com física própria (corre/acelera/pula/voa) na 
 - [x] Discussão 60s com chat só de frases prontas (12 frases × `en/es/pt.json`, regra do i18n) — sem teclado livre
 - [x] Votação aberta 30s com contagem ao vivo, pular permitido; empate ou maioria skip = ninguém sai
 - [x] Ejetado revela o papel em toast/som, vira fantasma e a sabotagem ativa é desfeita; os corpos somem quando a reunião abre
+- [ ] Teste manual com 2 instâncias da GUI: sino, reportar corpo, votar, ler o chat e ver a ejeção
 
 ### Fase 6 — Fim de jogo
 - [ ] Nova tela `game/screens/over/`: quem venceu + motivo (tarefas 100% / impostores zerados / tripulantes ≤ impostores)

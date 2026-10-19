@@ -30,7 +30,7 @@ func (s *Session) Report(by, of int) bool {
 	}
 	s.startMeetLocked("body", by, of)
 	s.mu.Unlock()
-	s.broadcast(phaseMsg(match.Meeting))
+	s.broadcast(s.meetPhaseMsg())
 	return true
 }
 
@@ -48,7 +48,7 @@ func (s *Session) CallBell(by int) bool {
 	s.calls[by] = true
 	s.startMeetLocked("bell", by, -1)
 	s.mu.Unlock()
-	s.broadcast(phaseMsg(match.Meeting))
+	s.broadcast(s.meetPhaseMsg())
 	return true
 }
 

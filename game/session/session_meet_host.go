@@ -40,3 +40,14 @@ func (s *Session) clearMeetLocked() {
 func phaseMsg(ph match.Phase) network.Msg {
 	return network.Msg{Ver: network.Version, Kind: "phase", Phase: int(ph)}
 }
+
+// meetPhaseMsg anuncia a reunião já com motivo e relógio (o
+// snapshot seguinte só atualiza a contagem).
+func (s *Session) meetPhaseMsg() network.Msg {
+	s.mu.Lock()
+	defer s.mu.Unlock()
+	m := phaseMsg(match.Meeting)
+	m.Meet, m.MeetBy, m.MeetOf = s.meetReason, s.meetBy, s.meetOf
+	m.MeetLeft = int(DiscussTime / time.Millisecond)
+	return m
+}

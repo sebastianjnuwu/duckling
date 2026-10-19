@@ -27,6 +27,9 @@
   tripulante" ou "ninguém saiu")
 - Corpos somem quando a reunião abre, sabotagem ativa cai ao ejetar
   e voto em id inexistente é recusado
+- A mensagem `phase` da reunião já leva motivo, quem chamou e o
+  relógio (a tela não abre vazia); fluxo validado de ponta a ponta
+  com host + 2 clientes no UDP (sino, voto, fala, ejeção e fim)
 ### Added — Fase 1 (cor)
 - Cor do pato como matiz sobre a arte amarela (8 opções, `RotateHue`
   no `Strip`); vale no pato local, remotos, fantasmas e corpo
