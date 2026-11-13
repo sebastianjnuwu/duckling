@@ -56,13 +56,13 @@ func newSettings() Settings {
 			X: 884, Y: 140, W: 44, H: 44,
 		},
 		prev: ui.Btn{
-			X: 380, Y: 525, W: 48, H: 40,
+			X: 380, Y: 534, W: 48, H: 40,
 		},
 		next: ui.Btn{
-			X: 852, Y: 525, W: 48, H: 40,
+			X: 852, Y: 534, W: 48, H: 40,
 		},
 		reset: ui.Btn{
-			X: 510, Y: 518, W: 260, H: 40, Icon: ui.IconRefresh,
+			X: 480, Y: 458, W: 320, H: 54, Icon: ui.IconRefresh,
 		},
 		page: 0,
 		cap:  -1,
@@ -71,9 +71,9 @@ func newSettings() Settings {
 	s.cYes = ui.Btn{X: 380, Y: 390, W: 240, H: 64}
 	s.cNo = ui.Btn{X: 660, Y: 390, W: 240, H: 64}
 	s.cX = ui.Btn{X: 840, Y: 250, W: 44, H: 44}
-	ys := []float64{226, 288, 350, 412, 279, 337, 395, 453}
 	for i := range s.keys {
-		s.keys[i] = ui.Btn{X: 700, Y: ys[i], W: 200, H: 48}
+		y := 214.0 + float64(i%4)*58
+		s.keys[i] = ui.Btn{X: 700, Y: y, W: 200, H: 48}
 	}
 	return s
 }

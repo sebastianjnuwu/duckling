@@ -1,6 +1,17 @@
 # Changelog — Duckling
 
 ## [Unreleased]
+### Changed — Visual do Como Jogar (`help`)
+- Tela `game/screens/help/` redesenhada com 5 cartões escuros de borda
+  dourada, ícones por seção (`IconPlay`, `IconUser`, `IconHand`,
+  `IconGear`, `IconSpk`), cores distintas para Tripulante (verde) e
+  Impostor (vermelho), fontes cacheadas no `NewHelp` e botão `X` no topo
+### Fixed — Controles nas opções
+- Segunda página de controles (ações: pular, voar, interagir e matar)
+  alinhada no mesmo espaçamento da primeira (`y = 214 + i*58`), sem
+  buraco no topo; botão REDEFINIR mais encorpado (`320x54` centralizado
+  em `X: 480, Y: 458`) e quadradinhos de página centralizados
+  horizontalmente (`x = 640`) e verticalmente com as setas `<` / `>` (`Y: 548`)
 ### Added — Agent Customizations (`.agents/`)
 - Estrutura `.agents/` em inglês com regras de workspace e 4 skills:
   `github-workflow` (branch dedicada, lista de arquivos proibidos no commit,
