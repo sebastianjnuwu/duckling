@@ -11,36 +11,32 @@ import (
 	"github.com/hajimehoshi/ebiten/v2"
 )
 
-// help_draw.go — fundo, painel e os blocos na ordem: objetivo,
-// papéis, tarefas, teclas (remapeadas) e dicas.
+// help_draw.go — fundo, painel principal e os 5 cartões internos:
+// objetivo, papéis, tarefas, teclas (remapeadas) e dicas.
 
 func (h *Help) Draw(img *ebiten.Image) {
 	if bg := assets.Images["images/bg"]; bg != nil {
 		ui.DrawCover(img, bg)
 	}
 	ui.Dim(img)
-	ui.Panel(img, 120, 24, 1040, 672)
-	ui.Title(img, ui.IconNote, i18n.T("help.title"), h.big, 44, ui.Gold)
+	ui.Panel(img, 100, 24, 1080, 672)
+	h.x.Draw(img, "X", h.font)
+	ui.Title(img, ui.IconNote, i18n.T("help.title"), h.big, 48, ui.Gold)
 
-	h.sec(img, "help.goal", 120)
-	h.txt(img, i18n.T("help.goal1"), 148)
-	h.txt(img, i18n.T("help.goal2"), 170)
+	h.card(img, 108, ui.IconPlay, "help.goal",
+		i18n.T("help.goal1"), i18n.T("help.goal2"), cream, cream)
 
-	h.sec(img, "help.roles", 214)
-	h.txt(img, i18n.T("help.roles1"), 242)
-	h.txt(img, i18n.T("help.roles2"), 264)
+	h.card(img, 206, ui.IconUser, "help.roles",
+		i18n.T("help.roles1"), i18n.T("help.roles2"), crewCol, impCol)
 
-	h.sec(img, "help.tasks", 308)
-	h.txt(img, i18n.T("help.tasks1"), 336)
-	h.txt(img, i18n.T("help.tasks2"), 358)
+	h.card(img, 304, ui.IconHand, "help.tasks",
+		i18n.T("help.tasks1"), i18n.T("help.tasks2"), cream, cream)
 
-	h.sec(img, "help.keys", 402)
-	h.txt(img, keyLine(0), 430)
-	h.txt(img, keyLine(1), 452)
+	h.card(img, 402, ui.IconGear, "help.keys",
+		keyLine(0), keyLine(1), ui.Gold, cream)
 
-	h.sec(img, "help.tips", 496)
-	h.txt(img, i18n.T("help.tips1"), 524)
-	h.txt(img, i18n.T("help.tips2"), 546)
+	h.card(img, 500, ui.IconSpk, "help.tips",
+		i18n.T("help.tips1"), i18n.T("help.tips2"), cream, cream)
 
 	h.back.Draw(img, i18n.T("help.back"), h.font)
 }

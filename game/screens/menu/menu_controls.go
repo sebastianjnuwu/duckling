@@ -1,6 +1,7 @@
 package menu
 
 import (
+	"duckling/engine/audio"
 	"duckling/engine/input"
 	"duckling/engine/rendering"
 	"duckling/engine/save"
@@ -65,4 +66,20 @@ func (m *Menu) keyName(i int) string {
 		return "?"
 	}
 	return input.Name(input.Key(keyRows[i].act))
+}
+
+// maxPage retorna a última página (controles sempre por último).
+func maxPage() int {
+	if audio.MusicOn() || audio.SfxOn() {
+		return 3
+	}
+	return 2
+}
+
+// movePage: página do movimento (1 sem áudio, 2 com).
+func movePage() int {
+	if audio.MusicOn() || audio.SfxOn() {
+		return 2
+	}
+	return 1
 }
