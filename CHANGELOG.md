@@ -1,6 +1,11 @@
 # Changelog — Duckling
 
 ## [Unreleased]
+### Added — Agent Customizations (`.agents/`)
+- Estrutura `.agents/` em inglês com regras de workspace e 4 skills:
+  `github-workflow` (branch dedicada, PR e merge via `gh`),
+  `new-screen` (criação de tela + i18n), `lan-protocol` (protocolo UDP
+  e sessão autoritativa) e `headless-verify` (validação headless em `tmp/`)
 ### Docs — Fase 8 (balance)
 - Seção ⚖️ Balance inicial no README: velocidade, pulo, voo, kill,
   sabotagem, reunião, voto, tarefas, impostores, vitória, moedas e
