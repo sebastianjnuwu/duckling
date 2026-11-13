@@ -3,7 +3,8 @@ name: github-workflow
 description: >-
   Use this skill whenever committing, pushing, opening pull requests, or merging changes to GitHub.
   Enforces creating a dedicated feature/fix branch, running pre-commit verification and changelog updates,
-  committing with Conventional Commits, opening a Pull Request via GitHub CLI (`gh`), and merging it back into `idle`.
+  forbidding commits of ignored/binary/temp files, committing with Conventional Commits as sebastianjnuwu,
+  opening a Pull Request via GitHub CLI (`gh`), and merging it back into `idle`.
 ---
 
 # GitHub Branch, PR & Merge Workflow
@@ -23,7 +24,18 @@ Before staging or committing any files, verify all project constraints:
 3. **Changelog**: Update `CHANGELOG.md` under `## [Unreleased]` describing the change. Never commit without updating `CHANGELOG.md`.
 4. **Clean up**: Ensure no temporary test binaries or scratch files remain outside `tmp/`.
 
-## 2. Create a Topic Branch
+## 2. Forbidden Files (NEVER Commit These)
+
+Never use `git add .` or `git add -A` blindly. You must **NEVER** stage or commit any of the following files or directories:
+
+- **Temporary & Scratch Files**: Anything inside `tmp/`, `internal/`, `android/`, or standalone headless test scripts/binaries.
+- **Compiled Binaries & Artifacts**: `*.exe`, `*.wasm`, `*.syso` (e.g., `rsrc_windows_*.syso`), `*.dll`, `*.so`, `*.out`, or build outputs.
+- **Local Config & Secrets**: `.env*`, `settings.json`, local save files, credentials, tokens, or IDE/OS junk (`.DS_Store`, `Thumbs.db`).
+- **Agent / Editor Local State**: Any local scratch or cache files not meant for version control.
+
+Always inspect `git status` and stage **only** the specific source, asset, doc, or config files that belong to the task.
+
+## 3. Create a Topic Branch
 
 Sync with the base branch (`idle`) and create a descriptive branch using `<type>/<short-slug>`:
 - `feat/<slug>` — New feature or gameplay mechanic
@@ -38,20 +50,20 @@ git checkout -b <type>/<short-slug>
 
 *(If you are already on `idle` with uncommitted changes, `git checkout -b <type>/<short-slug>` carries your working tree changes onto the new branch.)*
 
-## 3. Stage, Commit & Push
+## 4. Stage, Commit & Push
 
-Always ensure the repository Git author is configured as `sebastianjnuwu` (`sebastianjnuwu@gmail.com`), stage only the relevant files (including `CHANGELOG.md`), and commit using Conventional Commits (`<type>(<scope>): <summary>`):
+Always ensure the repository Git author is configured as `sebastianjnuwu` (`sebastianjnuwu@gmail.com`), stage only the explicit allowed files (plus `CHANGELOG.md`), and commit using Conventional Commits (`<type>(<scope>): <summary>`):
 
 ```powershell
 git config user.name "sebastianjnuwu"
 git config user.email "sebastianjnuwu@gmail.com"
 git status
-git add <files...> CHANGELOG.md
+git add <explicit-files...> CHANGELOG.md
 git commit -m "<type>(<scope>): <concise summary>"
 git push -u origin <type>/<short-slug>
 ```
 
-## 4. Open Pull Request & Merge
+## 5. Open Pull Request & Merge
 
 Use the GitHub CLI (`gh`) to create the Pull Request targeting `idle`, and merge it once verified:
 
